@@ -1,0 +1,43 @@
+stages:
+  - validate
+  - plan
+  - apply
+  - destroy
+
+image: hashicorp/terraform:latest
+
+variables:
+  TF_STATE_BUCKET: "my-terraform-state-bucket"
+  GCP_PROJECT_ID: "my-gcp-project-id"
+
+before_script:
+  - terraform init -backend-config="bucket=$TF_STATE_BUCKET"
+
+validate:
+  stage: validate
+  script:
+    - terraform validate
+
+plan:
+  stage: plan
+  script:
+    - terraform plan -out=tfplan
+  artifacts:
+    paths:
+      - tfplan
+
+apply:
+  stage: apply
+  script:
+    - terraform apply -auto-approve tfplan
+  when: manual
+  only:
+    - main
+
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve
+  when: manual
+  only:
+    - main
