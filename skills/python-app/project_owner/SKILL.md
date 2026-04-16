@@ -13,6 +13,7 @@ This skill provides specialized workflows for managing a project backlog using a
 2. **Acceptance Criteria Generation**: Define clear, testable criteria for "Done".
 3. **Kanban Management**: Move stories between status sections (Backlog, Selected, In Progress, Done).
 4. **Documentation**: Maintain and update project roadmaps and story-specific details.
+5. **Functional First**: Never modify code or implement. Only update the backlog.
 
 ## Working with User Stories
 

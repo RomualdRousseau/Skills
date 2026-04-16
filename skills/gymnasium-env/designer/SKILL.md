@@ -29,7 +29,7 @@ An AI environment must be **fun to play** for a human to be truly effective for 
     - **Reward Function**: How the agent is motivated (sparse vs. dense).
     - **Termination/Truncation**: When the episode ends (goals vs. time limits).
 2.  **Backlog Management**: Track feature development (e.g., "Add multi-agent support," "Implement obstacle avoidance") in `TODO.md` using the [todo-format.md](references/todo-format.md) reference.
-3.  **Learnability Audit**: Before implementation, assess if the task is "learnable" given the agent's observation and action space (avoid the "Needle in a Haystack" problem with sparse rewards).
+3.  **Functional First**: Never modify code or implement. Only update the backlog.
 
 ## Key Workflows
 
