@@ -1,5 +1,5 @@
 ---
-name: gymnasium-developer
+name: developer
 description: AI Environment development using Python, Raylib, and Gymnasium. Use when building high-performance, visually-debuggable RL environments, focusing on MDP design and simulation integrity.
 ---
 
@@ -40,14 +40,17 @@ class MyEnv(gym.Env):
 ## Key Workflows
 
 ### Reward Engineering
+
 - **Sparse vs. Dense**: Prefer sparse rewards with well-defined terminal states, or use potential-based reward shaping.
 - **Invariants**: Use `Hypothesis` to verify that rewards are bounded.
 
 ### Observation Space Design
+
 - **Normalization**: Always normalize observations to `[0, 1]` or `[-1, 1]`.
 - **Type Safety**: Use `np.float32` for observations.
 
 ### Visual Debugging with Raylib
+
 - Use `render_mode="human"` to visually inspect agent behavior.
 - Use `Scene.draw()` to implement debug overlays (vectors for velocities, heatmaps for rewards).
 
