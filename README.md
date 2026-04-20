@@ -10,7 +10,7 @@ This repository contains a suite of **Specialized Skills** designed to guide Gem
 To use these specialized instructions, call the `activate_skill` tool with the name of the skill you need:
 
 ```bash
-/activate_skill gymnasium-developer
+/activate_skill ai-architect
 ```
 
 ### 2. Following the Workflow
@@ -29,9 +29,9 @@ All development follows a strict **Research -> Strategy -> Execution** lifecycle
 - **`devops`**: Handles GCP infrastructure via Terraform and GitLab CI/CD (Workload Identity Federation).
 
 ### Gymnasium & AI Environments (`skills/gymnasium-env/`)
-- **`gymnasium-developer`**: Builds high-performance, visually-debuggable RL environments using **Raylib** and the **Scene Pattern**.
-- **`environment-designer`**: Specializes in MDP formulation, reward shaping, and task learnability audits.
-- **`data-scientist`**: Manages the RL research lifecycle (W&B/MLflow tracking, multi-seed evaluation, and Optuna sweeps).
+- **`developer`**: Builds high-performance, visually-debuggable RL environments using **Raylib** and the **Scene Pattern**.
+- **`designer`**: Environment Designer & Project Owner. Focuses on "The Fun Factor", playable pedagogy, and backlog management (User Stories).
+- **`data-scientist`**: RL Environment Architect & Data Scientist. Manages MDP formulation (states, actions, rewards) and the full research lifecycle.
 
 ### Shared Engineering Standards (`skills/shared/`)
 - **`ai-architect`**: Best practices for RAG patterns, prompt versioning, and LLM evaluation (Ragas/LangSmith).
