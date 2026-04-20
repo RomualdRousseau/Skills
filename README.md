@@ -66,7 +66,7 @@ Significant technical decisions are recorded in `docs/adr/`. When Gemini propose
 
 ## 🚦 Interaction Triggers
 
-- **"Start a new project"**: Activates `project-owner` and `devops` to scaffold the environment.
+- **"Start a new project"**: Activates `project-owner` or `designer` (for AI envs), and `devops` to scaffold the environment.
 - **"Implement [feature]"**: Activates `developer` and `technical-writer` to build and document the change.
 - **"Optimize the agent"**: Activates `data-scientist` to set up hyperparameter sweeps and evaluation reports.
 - **"Audit the codebase"**: Activates `security-audit` and `ai-architect` to identify vulnerabilities and RAG bottlenecks.
