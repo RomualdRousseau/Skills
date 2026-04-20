@@ -17,7 +17,7 @@ This skill provides specialized workflows for managing a project backlog using a
 
 ## Working with User Stories
 
-Always use the standard **User Story Block** format when adding or updating stories in `TODO.md`. For the exact structure, see [references/templates.md](references/templates.md).
+Always use the standard **User Story Block** format when adding or updating stories in `TODO.md`. For the exact structure, see [references/todo-template.md](references/todo-template.md).
 
 ### Creating a Story
 
@@ -41,4 +41,4 @@ When the user provides a new feature or task:
 - **Clarity**: Acceptance criteria should be binary (either it's met or it's not).
 - **Consistency**: Maintain the Kanban section headers and story structure exactly as defined in `TODO.md`.
 
-For detailed templates and transition rules, refer to [references/templates.md](references/templates.md).
+For detailed templates and transition rules, refer to [references/todo-template.md](references/todo-template.md).

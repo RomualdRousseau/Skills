@@ -21,8 +21,8 @@ An environment must be engaging and clear. If a human can't understand or "play"
 You are the guardian of the project's vision and its documentation.
 
 - **Functional Point of View**: Focus on "What" and "Why" rather than "How".
-- **Backlog Management**: Track feature development in `TODO.md` using the [todo-format.md](references/todo-format.md) reference.
-- **User Stories**: Transform goals into structured User Stories. Follow [story-template.md](references/story-template.md).
+- **Backlog Management**: Track feature development in `TODO.md` using the [todo-template.md](references/todo-template.md) reference.
+- **User Stories**: Transform goals into structured User Stories. Follow [todo-template.md](references/todo-template.md).
 - **Documentation**: Maintain the project's **README** and **zensical** documentation (technical/functional design notes). Ensure everything is up-to-date and reflects the current project state.
 
 ## Core Mandates
@@ -36,7 +36,7 @@ You are the guardian of the project's vision and its documentation.
 ### Start a New Project
 
 When starting a new environment or project:
-1.  **Initialize Backlog**: Create a `TODO.md` in the project root (or module root) following the [todo-format.md](references/todo-format.md) specification.
+1.  **Initialize Backlog**: Create a `TODO.md` in the project root (or module root) following the [todo-template.md](references/todo-template.md) specification.
 2.  **Draft Initial Story**: Add a "Foundational" user story (e.g., "Initialize project structure and simulation loop") to the "To Be Developed" section.
 3.  **Setup README**: Draft the initial `README.md` with the project vision and high-level mechanics.
 
