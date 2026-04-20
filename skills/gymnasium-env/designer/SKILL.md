@@ -33,6 +33,13 @@ You are the guardian of the project's vision and its documentation.
 
 ## Key Workflows
 
+### Start a New Project
+
+When starting a new environment or project:
+1.  **Initialize Backlog**: Create a `TODO.md` in the project root (or module root) following the [todo-format.md](references/todo-format.md) specification.
+2.  **Draft Initial Story**: Add a "Foundational" user story (e.g., "Initialize project structure and simulation loop") to the "To Be Developed" section.
+3.  **Setup README**: Draft the initial `README.md` with the project vision and high-level mechanics.
+
 ### Backlog & Story Refinement
 
 1.  **Draft User Story**: Identify the Goal (As a... I want... So that...).
@@ -46,6 +53,7 @@ You are the guardian of the project's vision and its documentation.
 
 ## Project Interaction
 
+- **Trigger**: "Start a new project named [name] for [goal]"
 - **Trigger**: "Draft a user story for [feature]"
 - **Trigger**: "Update the project backlog with [new mechanic]"
 - **Trigger**: "Refine the README with [context/information]"
