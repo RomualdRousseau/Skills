@@ -66,6 +66,8 @@ Significant technical decisions are recorded in `docs/adr/`. When Gemini propose
 
 ## 🚦 Interaction Triggers
 
+Each skill includes a **Project Interaction** section that defines specific natural language triggers. These triggers help Gemini CLI identify the correct workflow. Examples include:
+
 - **"Start a new project"**: Activates `project-owner` or `designer` (for AI envs), and `devops` to scaffold the environment.
 - **"Implement [feature]"**: Activates `developer` and `technical-writer` to build and document the change.
 - **"Optimize the agent"**: Activates `data-scientist` to set up hyperparameter sweeps and evaluation reports.
