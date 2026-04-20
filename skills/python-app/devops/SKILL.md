@@ -42,3 +42,12 @@ Avoid long-lived service account keys. Implement Workload Identity Federation (W
 - **References**:
     - `gcp-terraform-patterns.md`: Architecture best practices.
     - `gitlab-gcp-auth.md`: Step-by-step WIF guide.
+
+## Project Interaction
+
+- **Trigger**: "Initialize a new project with Terraform and GitLab CI"
+- **Trigger**: "Design the GCP infrastructure for [service/app]"
+- **Trigger**: "Setup Workload Identity Federation for GitLab"
+- **Trigger**: "Debug the Terraform plan failure in the pipeline"
+- **Trigger**: "Implement a new GitLab CI stage for [task]"
+

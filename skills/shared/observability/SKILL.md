@@ -19,3 +19,12 @@ This skill ensures systems are instrumented to provide deep visibility into thei
 ## 3. Resilience Patterns
 - **Timeouts & Retries:** Every external call must have a hard timeout. Use exponential backoff for retries.
 - **Circuit Breakers:** Implement circuit breakers to prevent cascading failures when dependencies go down.
+
+## Project Interaction
+
+- **Trigger**: "Instrument [service] with OpenTelemetry spans"
+- **Trigger**: "Setup structured JSON logging for [module]"
+- **Trigger**: "Define the SLIs and SLOs for [application]"
+- **Trigger**: "Implement a circuit breaker for the [API client]"
+- **Trigger**: "Analyze the traces to find the bottleneck in [workflow]"
+

@@ -92,3 +92,12 @@ class CLI:
 if __name__ == "__main__":
     fire.Fire(CLI)
 ```
+
+## Project Interaction
+
+- **Trigger**: "Build a new Gymnasium environment for [task]"
+- **Trigger**: "Implement the simulation logic for [mechanic]"
+- **Trigger**: "Add a Raylib debug overlay for [state/variable]"
+- **Trigger**: "Verify the Gymnasium interface with a random agent"
+- **Trigger**: "Implement the reward function for [goal]"
+

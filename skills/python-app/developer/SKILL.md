@@ -83,3 +83,13 @@ repo/
     ├── property/       # Hypothesis tests
     └── unit/           # Spec-based mocks
 ```
+
+## Project Interaction
+
+- **Trigger**: "Implement the domain model for [entity]"
+- **Trigger**: "Define the Protocols and Ports for [module]"
+- **Trigger**: "Refactor [module] to follow Hexagonal Architecture"
+- **Trigger**: "Audit the code for Power of 10 safety rules"
+- **Trigger**: "Add property-based tests for [logic]"
+- **Trigger**: "Implement the [service/orchestrator] for [workflow]"
+

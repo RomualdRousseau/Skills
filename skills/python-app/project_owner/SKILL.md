@@ -42,3 +42,12 @@ When the user provides a new feature or task:
 - **Consistency**: Maintain the Kanban section headers and story structure exactly as defined in `TODO.md`.
 
 For detailed templates and transition rules, refer to [references/todo-template.md](references/todo-template.md).
+
+## Project Interaction
+
+- **Trigger**: "Start a new project named [name] for [goal]"
+- **Trigger**: "Draft a user story for [feature]"
+- **Trigger**: "Refine the acceptance criteria for [story]"
+- **Trigger**: "Update the project backlog with [new requirement]"
+- **Trigger**: "Move the story [title] to In Progress"
+

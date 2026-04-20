@@ -21,3 +21,12 @@ This skill provides a structured approach to building reliable, scalable, and sa
 - **Evaluation Driven Development (EDD):** Use frameworks like Ragas or LangSmith to quantitatively measure Helpfulness, Faithfulness, and Relevance before deploying prompt changes.
 - **Guardrails:** Implement input validation (to detect prompt injection) and output validation (to enforce formatting and avoid hallucinations).
 - **Fallbacks:** Always provide a graceful degradation path if the LLM provider is down or times out.
+
+## Project Interaction
+
+- **Trigger**: "Design a RAG pipeline for [document type]"
+- **Trigger**: "Optimize the prompt for [specific task]"
+- **Trigger**: "Implement an evaluation suite for the LLM using Ragas"
+- **Trigger**: "Setup guardrails to prevent prompt injection"
+- **Trigger**: "Define a chunking strategy for [dataset]"
+

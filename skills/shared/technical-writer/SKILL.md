@@ -19,3 +19,12 @@ This skill ensures that architectural decisions are preserved, systems are well-
 ## 3. Code Comments & Readability
 - **The "Why", Not the "What":** Code explains *what* is happening. Comments explain *why* it is happening (e.g., business rules, hacky workarounds for bugs).
 - **Docstrings:** Use consistent docstring formats (e.g., Google or Sphinx) for public modules, classes, and functions.
+
+## Project Interaction
+
+- **Trigger**: "Draft an ADR for [decision/change]"
+- **Trigger**: "Create a Mermaid diagram for [architecture/workflow]"
+- **Trigger**: "Refine the docstrings for [module]"
+- **Trigger**: "Generate the API documentation for [service]"
+- **Trigger**: "Update the project technical documentation with [new context]"
+

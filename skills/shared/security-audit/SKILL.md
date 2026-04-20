@@ -19,3 +19,12 @@ This skill integrates security into the development lifecycle, focusing on autom
 ## 3. Threat Modeling & Review
 - **Assume Breach:** Design networks and permissions using the Principle of Least Privilege.
 - **Code Reviews:** Security-sensitive changes (auth, cryptography, payment gateways) require two approvals.
+
+## Project Interaction
+
+- **Trigger**: "Perform a security audit of [module/file]"
+- **Trigger**: "Setup automated secret scanning for the repo"
+- **Trigger**: "Analyze the codebase for OWASP Top 10 vulnerabilities"
+- **Trigger**: "Implement secure secrets management for [service]"
+- **Trigger**: "Threat model the [feature/architecture]"
+
