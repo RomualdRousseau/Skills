@@ -25,7 +25,7 @@ All development follows a strict **Research -> Strategy -> Execution** lifecycle
 
 ### Core Python Development (`skills/python-app/`)
 - **`developer`**: The "Source of Truth" for high-integrity Python. Enforces the **Power of 10** rules, Hexagonal Architecture, and Light CQRS.
-- **`project-owner`**: Manages the `TODO.md` backlog, user stories, and acceptance criteria.
+- **`project_owner`**: Manages the `TODO.md` backlog, user stories, and acceptance criteria.
 - **`devops`**: Handles GCP infrastructure via Terraform and GitLab CI/CD (Workload Identity Federation).
 
 ### Gymnasium & AI Environments (`skills/gymnasium-env/`)
@@ -35,9 +35,11 @@ All development follows a strict **Research -> Strategy -> Execution** lifecycle
 
 ### Shared Engineering Standards (`skills/shared/`)
 - **`ai-architect`**: Best practices for RAG patterns, prompt versioning, and LLM evaluation (Ragas/LangSmith).
+- **`llm-wiki`**: Knowledge management and preprocessing for LLM-ready documentation.
 - **`security-audit`**: Automated SAST/DAST integration and OWASP-aligned coding.
 - **`observability`**: Standards for structured JSON logging and OpenTelemetry (OTel) tracing.
 - **`technical-writer`**: Mandates **Architecture Decision Records (ADR)** and **Mermaid.js** diagrams.
+- **`presentation-generator`**: Automated generation of technical slides and PDF documentation.
 
 ---
 
