@@ -1,0 +1,6 @@
+site_name = "Wiki"
+docs_dir = ".builds/docs"
+site_dir = ".builds/site"
+
+[theme]
+name = "material"

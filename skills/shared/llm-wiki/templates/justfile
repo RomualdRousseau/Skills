@@ -1,0 +1,13 @@
+# Zensical documentation tasks
+
+# Pre-process links and assets
+prepare:
+    python3 ".gemini/skills/llm-wiki/scripts/preprocess_wiki.py" wiki .build/docs
+
+# Serve the wiki locally
+serve: prepare
+    uvx zensical serve
+
+# Build the static site
+build: prepare
+    uvx zensical build
