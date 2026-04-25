@@ -7,10 +7,10 @@ A high-integrity framework for building specialized AI environments and robust P
 This repository contains a suite of **Specialized Skills** designed to guide Gemini through complex engineering, research, and design tasks. These skills enforce the "Power of 10" safety rules, hexagonal architecture, and rigorous Reinforcement Learning (RL) practices.
 
 ### 1. Activating a Skill
-To use these specialized instructions, call the `activate_skill` tool with the name of the skill you need:
+To use these specialized instructions, call `/` with the name of the skill you need:
 
 ```bash
-/activate_skill ai-architect
+/ai-architect
 ```
 
 ### 2. Following the Workflow
