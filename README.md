@@ -77,5 +77,12 @@ Each skill includes a **Project Interaction** section that defines specific natu
 
 ---
 
+## 🤝 Credits
+
+- **`llm-wiki`**: Credits to [Andrej Karpathy's gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) and [lucasastorian/llmwiki](https://github.com/lucasastorian/llmwiki).
+- **`presentation-generator`**: Credits to [Kévin François-Bouaou, PhD](https://fr.linkedin.com/in/kevin-fran%C3%A7ois-bouaou-phd).
+
+---
+
 ## 📄 License
 This repository is private to the **AIInnoLab** ecosystem.
