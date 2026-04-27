@@ -34,11 +34,11 @@ The skill includes a `scripts/generate_pdf.py` tool. It attempts to use (in orde
 2. wkhtmltopdf
 3. Playwright (Python)
 
-## Example Triggers
+## Project Interaction
 
-*   "Create a slide explaining our multi-agent orchestration and save it as PDF."
-*   "Generate a presentation for the new LLMOps pipeline."
-*   "Convert my presentation.html to a PDF slide."
+- **Trigger**: "Create a slide explaining our multi-agent orchestration and save it as PDF."
+- **Trigger**: "Generate a presentation for the new LLMOps pipeline."
+- **Trigger**: "Convert my presentation.html to a PDF slide."
 
 ## Reference Materials
 

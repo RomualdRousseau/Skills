@@ -215,3 +215,11 @@ At the start of every session:
 - Prefer updating existing pages over creating new ones when the content fits
 - Keep page titles consistent with filenames (kebab-case for filenames)
 - The wiki is a git repo of markdown — everything is versioned automatically
+
+## Project Interaction
+
+- **Trigger**: "Ingest [source]"
+- **Trigger**: "Query the wiki about [topic]"
+- **Trigger**: "Lint the wiki for contradictions"
+- **Trigger**: "Setup zensical for this project"
+- **Trigger**: "Publish the wiki to .build/docs/"
