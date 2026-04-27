@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Data
+data/
+*.parquet
+*.csv
+*.jsonl
+*.db
+*.sqlite
+*.duckdb
+*.lock
+
+# Environment
+.env
+.prefect/
+.airflow/
+
+# Logs
+logs/
+*.log
