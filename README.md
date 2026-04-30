@@ -38,6 +38,15 @@ All development follows a strict **Research -> Strategy -> Execution** lifecycle
 - **`designer`**: Environment Designer & Project Owner. Focuses on "The Fun Factor", playable pedagogy, and backlog management (User Stories).
 - **`data-scientist`**: RL Environment Architect & Data Scientist. Manages MDP formulation (states, actions, rewards) and the full research lifecycle.
 
+### Data Engineering (`skills/data-pipeline/`)
+
+- **`data-engineer`**: Builds high-integrity data pipelines using the **Medallion Hexagonal Architecture**, **Polars**, and **Pydantic**.
+
+### Research & Variant Analysis (`skills/research/`)
+
+- **`data-scientist`**: Fast-tracked data exploration and ML using **uv** and **Jupyter Notebooks**.
+- **`variant-analysis`**: Automated genomic variant analysis (VEP) and clinical assessment using the Variant Analysis Multi-Agent System.
+
 ### Shared Engineering Standards (`skills/shared/`)
 
 - **`ai-architect`**: Best practices for RAG patterns, prompt versioning, and LLM evaluation (Ragas/LangSmith).
