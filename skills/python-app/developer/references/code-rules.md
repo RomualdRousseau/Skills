@@ -13,6 +13,17 @@ Infrastructure implements interfaces defined in applications (Dependency Inversi
 
 ---
 
+## Configuration vs. Constants
+
+To maintain the purity of the Hexagonal Core:
+
+1.  **Constants are Shared**: Use `src/shared/constant/` for all values that are immutable across environments. The application layer **may** import these directly.
+2.  **Config is Infrastructure**: Use `src/infrastructure/config/` only for values that vary by environment.
+3.  **No Config in Core**: The `application/` layer **must never** import from `infrastructure/config/`. 
+4.  **Inject Environmentals**: If a business service needs an environment-specific value (e.g., a timeout), it must be passed as a parameter to the service constructor.
+
+---
+
 ## Singular vs Plural Package Names
 
 **Recommendation: Singular**
@@ -225,26 +236,15 @@ handler = getattr(self, f"handle_{action}")()  # Arbitrary method call
 
 ---
 
-### 10. Test the Invariants
+### 10. Test Behavior, Not Implementation
 
-Unit tests **must prove invariants hold under adversarial input**. Use property-based testing. Mocks must use `spec=True`.
+Focus on *what* the system does, not *how*. Use testing as a design tool.
 
-```python
-# ✅ Good — property-based invariant test
-from hypothesis import given, strategies as st
-
-@given(st.text(), st.text())
-def test_unauthorized_cannot_become_authorized(user: str, garbage: str) -> None:
-    """Invariant: invalid input cannot grant access."""
-    result = is_authorized(user, malformed_token=garbage)
-    assert result is False
-
-# ✅ Good — spec-enforced mock
-mock_repo = Mock(spec=OrderRepository)  # Fails if interface mismatches
-
-# ❌ Bad — untyped mock
-mock_repo = Mock()  # Accepts anything, hides bugs
-```
+- **TDD for Logic**: Mandate test-first for the `application/` layer. Write the assertion before the implementation.
+- **Vanilla BDD**: Use `Given/When/Then` structures in `pytest`. Comments or docstrings should clearly demarcate these phases.
+- **Bug Safeguards**: No bug is fixed without a reproduction test. If it was broken once, it must be tested forever.
+- **Invariants**: Use property-based testing for security and data integrity rules.
+- **Mock Integrity**: Always use `spec=True` to prevent mocks from drifting from reality.
 
 ---
 

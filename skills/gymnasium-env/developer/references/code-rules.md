@@ -225,28 +225,28 @@ handler = getattr(self, f"handle_{action}")()  # Arbitrary method call
 
 ---
 
-### 10. Test the Invariants
+### 10. Test Behavior, Not Implementation
 
-Unit tests **must prove invariants hold under adversarial input**. Use property-based testing. Mocks must use `spec=True`.
+Focus on *what* the simulation does, not *how* it's calculated.
 
-```python
-# ✅ Good — property-based invariant test
-from hypothesis import given, strategies as st
-
-@given(st.text(), st.text())
-def test_unauthorized_cannot_become_authorized(user: str, garbage: str) -> None:
-    """Invariant: invalid input cannot grant access."""
-    result = is_authorized(user, malformed_token=garbage)
-    assert result is False
-
-# ✅ Good — spec-enforced mock
-mock_repo = Mock(spec=OrderRepository)  # Fails if interface mismatches
-
-# ❌ Bad — untyped mock
-mock_repo = Mock()  # Accepts anything, hides bugs
-```
+- **TDD for Logic**: Mandate test-first for the `core/` and `game/` layers. Write the state assertion before the math.
+- **Vanilla BDD**: Use `Given/When/Then` for MDP transitions (State + Action → New State + Reward).
+- **Engine Mocks**: Injected engines must use `spec=True` to ensure the logic interacts correctly with the renderer/audio interface without triggering hardware.
+- **Headless Only**: All logic tests must run without a GPU or Window context.
 
 ---
+
+## Configuration vs. Constants
+
+To maintain simulation integrity and architectural flexibility:
+
+1.  **Constants in Core**: Use `src/mygame/core/constant.py` for values like `GRAVITY` or `FRICTION`. This keeps the "Laws of Physics" local to the simulation.
+2.  **Config in Engine**: Use `src/mygame/engine/config.py` for hardware-specific values like `WINDOW_WIDTH` or `FPS`.
+3.  **No Config in Logic**: `core/physics.py` and `game/gameplay.py` **must never** import from `engine/config.py`.
+4.  **Engine Injection**: The `engine/` package is the only place allowed to import `pyray`. The rest of the app receives the engine as a dependency, allowing for a "Headless" vs "Human" rendered environment.
+
+---
+
 
 ### Quick Reference Card
 

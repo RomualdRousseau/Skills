@@ -37,7 +37,47 @@ class MyEnv(gym.Env):
         return self._get_obs(), reward, self.scene.terminated, False, {}
 ```
 
-## Key Workflows
+## 3. Testing & Verification
+
+### Behavioral TDD (Core & Game Layers)
+
+All simulation logic in `core/` (physics) and `game/` (gameplay) must be developed using a **Test-First** approach:
+
+1.  **Red**: Write a failing test for a physics rule or state transition.
+2.  **Green**: Implement the minimum logic to pass the test.
+3.  **Refactor**: Optimize for efficiency while maintaining correctness.
+
+### Vanilla BDD for Scenarios
+
+Use `pytest` to describe environment behaviors using the **Given / When / Then** pattern. This verifies the MDP (Markov Decision Process) transitions:
+
+- **Given**: An agent in a specific state (position, velocity).
+- **When**: A specific action is taken.
+- **Then**: The resulting state, reward, and termination status must match expectations.
+
+### Headless Validation (Engine Injection)
+
+Logic tests **must never require a hardware window**. To achieve this, the `game/` and `core/` layers must receive an `Engine` instance via **Dependency Injection**.
+- During testing, inject a `NullEngine` or `Mock(spec=Engine)`.
+- Verify that logic correctly calls the engine (e.g., `engine.play_sound()`) without needing the actual hardware.
+
+## 4. Configuration & Constants
+
+### Constants (`core/constant.py`)
+
+Constants define the **"Laws of the World."**
+- **Location**: Kept in `core/` to maintain locality with the physics engine.
+- **Examples**: `GRAVITY`, `MAX_SPEED`, `REWARD_TARGET`.
+- **Policy**: Immutable and importable by any layer.
+
+### Configuration (`engine/config.py`)
+
+Configuration represents **Deployment & Hardware Settings.**
+- **Location**: Kept in `engine/` for simplicity, as it primarily concerns rendering and environment setup.
+- **Examples**: `SCREEN_WIDTH`, `FPS`, `ASSET_PATH`.
+- **Injection Policy**: Business logic in `core/` and `game/` **must never** import this. Values are passed in via constructors during the setup of the `env/` or `game/` scenes.
+
+## 5. Key Workflows
 
 ### Reward Engineering
 

@@ -51,9 +51,10 @@ The test: Every changed line should trace directly to the user's request.
 
 Transform tasks into verifiable goals:
 
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
+- **"Add validation"** → "Write tests for invalid inputs, then make them pass"
+- **"Fix the bug"** → "**Mandatory**: Write a test that reproduces the failure first. A fix without a reproduction test is incomplete and will be rejected."
+- **"Refactor X"** → "Ensure tests pass before and after"
+
 
 For multi-step tasks, state a brief plan:
 

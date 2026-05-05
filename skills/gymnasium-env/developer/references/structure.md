@@ -69,7 +69,13 @@ mygame-repo/
 
 ## Modular Design Guidelines
 
-1.  **Scene Isolation**: Each `Scene` in `scene/` coordinates its own `game/logic` and `ui/renderer`.
-2.  **Gym Wrapper**: The `gym.Env` in `env/gym_env.py` manages one or more scenes (e.g., automatically switching from a Loading Scene to the Main Env Scene).
-3.  **Headless-Ready**: Logic in `game/` and `core/` must never depend on `ui/renderer` or `pyray` calls, allowing the simulation to run at maximum speed without a window.
+1.  **Scene Isolation**: Each `Scene` in `game/scene/` coordinates its own logic and receives an `engine` instance for rendering.
+2.  **Engine as Service (Injection)**: 
+    - The `engine/` package is a hardware adapter (Raylib).
+    - `game/` and `env/` receive the `engine` via their `__init__`.
+    - This allows swapping the real `RaylibEngine` with a `HeadlessEngine` for training or testing.
+3.  **Headless-Ready (Strict)**: 
+    - Logic in `game/` and `core/` **must never** import from `engine/` or `pyray`.
+    - Simulation must be 100% functional and testable without a graphics context.
+    - All hardware calls (drawing, audio, input) are abstracted through the injected engine.
 4.  **Absolute Imports**: Maintain absolute paths within each package's `src/` directory for tool compatibility (`uv`, `ruff`, `ty`).
