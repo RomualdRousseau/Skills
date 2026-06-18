@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Servier - HTML5 Technical Slide Templates</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px -3px rgba(29, 35, 102, 0.1);
+        border-color: #ff5a24;
+      }
+      @media print {
+        body {
+          background: white;
+          padding: 0;
+          margin: 0;
+        }
+        .aspect-video {
+          width: 100vw;
+          height: 56.25vw;
+          max-width: none;
+          shadow: none;
+          border: none;
+          border-radius: 0;
+          page-break-after: always;
+        }
+        .no-print {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-slate-100 flex flex-col items-center gap-12 p-8 min-h-screen">
+    <div class="text-center no-print">
+      <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">
+        SERVIER TECHNICAL SLIDE TEMPLATES
+      </h1>
+      <p class="text-slate-500 text-sm mt-1">
+        Unified design system matching the DATA - AI Innovation Lab & Servier
+        Brand Identity
+      </p>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- SLIDE 1: TITLE SLIDE (Dark Blue Theme)                            -->
+    <!-- ================================================================= -->
+    <div
+      class="w-full max-w-7xl aspect-video bg-[#1d2366] rounded-2xl shadow-2xl relative overflow-hidden flex flex-col justify-between p-16 select-none"
+    >
+      <!-- Swept Quarter-Circle Accent Ring (Light Blue, Opacity) -->
+      <div
+        class="absolute -top-[600px] -left-[600px] w-[1200px] h-[1200px] border-[200px] border-[#2c3385]/35 rounded-full pointer-events-none"
+      ></div>
+
+      <!-- Header Row -->
+      <div class="relative z-10 flex justify-end">
+        <span
+          class="px-2 py-1 rounded bg-[#2c3385]/40 text-white border border-[#2c3385]/50 font-mono text-xs uppercase tracking-wider"
+        >
+          CONFIDENTIAL / AI LAB
+        </span>
+      </div>
+
+      <!-- Main Title Content -->
+      <div class="relative z-10 my-auto max-w-3xl">
+        <h1
+          class="text-5xl font-extrabold text-white tracking-tight leading-tight uppercase"
+        >
+          Title of your<br />presentation in
+          <span class="text-[#ff5a24]">few</span> lines
+        </h1>
+        <p class="text-[#e8edf9]/70 text-lg mt-4 font-light">
+          Subtitle introducing the technical scope or presentation objective
+        </p>
+      </div>
+
+      <!-- Footer Row -->
+      <div class="relative z-10 flex justify-between items-end">
+        <!-- Left: Date -->
+        <div class="text-[#e8edf9]/80 font-semibold text-sm">15/06/2026</div>
+
+        <!-- Right: White-Filtered Official Logo Signature -->
+        <div class="flex flex-col items-end">
+          <img
+            src="Servier_Logo_Sign_RVB.png"
+            class="brightness-0 invert h-14 object-contain mr-2"
+            alt="Servier Logo Signature"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- SLIDE 2: CHAPTER SLIDE (White Theme)                              -->
+    <!-- ================================================================= -->
+    <div
+      class="w-full max-w-7xl aspect-video bg-white rounded-2xl shadow-2xl relative overflow-hidden flex flex-col justify-between p-16 select-none border border-slate-200"
+    >
+      <!-- Swept Quarter-Circle Accent Ring (Light Blue/Gray) -->
+      <div
+        class="absolute -top-[600px] -left-[600px] w-[1200px] h-[1200px] border-[200px] border-[#e8edf9] rounded-full pointer-events-none"
+      ></div>
+
+      <!-- Header Row -->
+      <div class="relative z-10 flex justify-end">
+        <span
+          class="px-2 py-1 rounded bg-slate-100 text-[#1d2366] border border-slate-200 font-mono text-xs uppercase tracking-wider font-bold"
+        >
+          CHAPTER 02
+        </span>
+      </div>
+
+      <!-- Main Chapter Content -->
+      <div class="relative z-10 my-auto max-w-3xl">
+        <h1
+          class="text-5xl font-extrabold text-[#1d2366] tracking-tight leading-tight uppercase"
+        >
+          Title of your<br />presentation in
+          <span class="text-[#ff5a24]">few</span> lines
+        </h1>
+        <p class="text-slate-500 text-lg mt-4 font-light">
+          A concise summary of the upcoming presentation phase
+        </p>
+      </div>
+
+      <!-- Footer Row -->
+      <div class="relative z-10 flex justify-between items-end">
+        <!-- Left: Date -->
+        <div class="text-slate-500 font-semibold text-sm">15/06/2026</div>
+
+        <!-- Right: Standard Color Official Logo Signature -->
+        <div class="flex flex-col items-end">
+          <img
+            src="Servier_Logo_Sign_RVB.png"
+            class="h-14 object-contain mr-2"
+            alt="Servier Logo Signature"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- SLIDE 3: CONTENT SLIDE (White & Structured Cards Grid)             -->
+    <!-- ================================================================= -->
+    <div
+      class="w-full max-w-7xl aspect-video bg-white rounded-2xl shadow-2xl relative overflow-hidden flex flex-col justify-between select-none border border-slate-200"
+    >
+      <!-- Standard Content Layout -->
+      <div class="flex-grow p-12 flex flex-col">
+        <!-- Header -->
+        <header class="mb-8 flex justify-between items-start">
+          <div>
+            <h2
+              class="text-3xl font-extrabold text-[#1d2366] tracking-tight uppercase"
+            >
+              Lorem ipsum dolor sit amet,
+              <span class="text-[#ff5a24]">consectetuer</span> adipiscing elit
+            </h2>
+            <p class="text-slate-500 text-sm mt-1">
+              sed do eiusmod tempor incididunt ut labore et dolore magna
+            </p>
+          </div>
+        </header>
+
+        <!-- Main Contents Areas (Cards / Grids) -->
+        <main class="grid grid-cols-1 md:grid-cols-3 gap-6 my-auto">
+          <!-- Content Card 1 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-6 card-hover flex flex-col gap-3"
+          >
+            <div class="flex items-center gap-3">
+              <div class="p-2.5 bg-[#1d2366] rounded-lg text-white">
+                <i data-lucide="layers" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-bold text-[#1d2366] text-base">
+                Lorem ipsum dolor sit
+              </h4>
+            </div>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
+              diam. Ut enim ad minim veniam, quis nostrud exercitation.
+            </p>
+          </div>
+
+          <!-- Content Card 2 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-6 card-hover flex flex-col gap-3"
+          >
+            <div class="flex items-center gap-3">
+              <div class="p-2.5 bg-[#ff5a24] rounded-lg text-white">
+                <i data-lucide="zap" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-bold text-[#1d2366] text-base">
+                Consectetuer adipiscing
+              </h4>
+            </div>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
+              diam. Ut enim ad minim veniam, quis nostrud exercitation.
+            </p>
+          </div>
+
+          <!-- Content Card 3 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-6 card-hover flex flex-col gap-3"
+          >
+            <div class="flex items-center gap-3">
+              <div class="p-2.5 bg-[#1d2366] rounded-lg text-white">
+                <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-bold text-[#1d2366] text-base">
+                Eiusmod tempor incidid
+              </h4>
+            </div>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
+              diam. Ut enim ad minim veniam, quis nostrud exercitation.
+            </p>
+          </div>
+        </main>
+      </div>
+
+      <!-- Footer Strip (Light slate band) -->
+      <footer
+        class="bg-slate-50 border-t border-slate-100 h-16 px-12 flex justify-between items-center text-[#1d2366] text-xs font-semibold relative"
+      >
+        <div class="flex gap-8 items-center">
+          <!-- Slide number -->
+          <span class="text-slate-500">5</span>
+          <!-- Presentation Title -->
+          <span class="text-slate-500 font-normal"
+            >Footer of your presentation</span
+          >
+        </div>
+
+        <!-- Right Standard Color Official Logo -->
+        <div class="flex flex-col items-end">
+          <img
+            src="Servier_Logo_RVB.png"
+            class="h-10 object-contain"
+            alt="Servier Logo"
+          />
+        </div>
+      </footer>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- SLIDE 4: CLOSING SLIDE (Dark Blue Minimalist)                     -->
+    <!-- ================================================================= -->
+    <div
+      class="w-full max-w-7xl aspect-video bg-[#1d2366] rounded-2xl shadow-2xl relative overflow-hidden flex items-center justify-center p-16 select-none"
+    >
+      <!-- White-Filtered Centered Official Symbol -->
+      <div class="relative w-48 h-32 flex items-center justify-center">
+        <img
+          src="Servier_Symbole_RVB.png"
+          class="brightness-0 invert h-28 w-28 object-contain"
+          alt="Servier Symbole"
+        />
+      </div>
+    </div>
+
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

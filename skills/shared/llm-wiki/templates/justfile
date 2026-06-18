@@ -2,7 +2,7 @@
 
 # Pre-process links and assets
 prepare:
-    python3 ".gemini/skills/llm-wiki/scripts/preprocess_wiki.py" wiki .build/docs
+    python3 ".gemini/skills/llm-wiki/preprocess_wiki.py" wiki build_docs
 
 # Serve the wiki locally
 serve: prepare
