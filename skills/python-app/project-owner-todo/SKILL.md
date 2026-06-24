@@ -1,5 +1,5 @@
 ---
-name: project-owner
+name: project-owner-todo
 description: Manage user stories, tasks, and project documentation in Markdown format (typically TODO.md). Use when Gemini CLI needs to draft user stories from raw notes, refine acceptance criteria, or manage a project backlog with a hybrid Kanban and User Story structure.
 ---
 
@@ -50,4 +50,3 @@ For detailed templates and transition rules, refer to [references/todo-template.
 - **Trigger**: "Refine the acceptance criteria for [story]"
 - **Trigger**: "Update the project backlog with [new requirement]"
 - **Trigger**: "Move the story [title] to In Progress"
-
