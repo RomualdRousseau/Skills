@@ -11,20 +11,21 @@ This skill enables the generation of high-fidelity, technical presentation slide
 
 1.  **Analyze Request:** Understand the technical content the user wants to visualize.
 2.  **Reference Design System:** Review `DESIGN.md` for color palettes, typography, and component rules.
-3.  **Generate HTML:** Use the structure provided in `assets/slide-template.html` to create a single-file HTML document.
-4.  **Incorporate Components:**
+3.  **Co-location Mandate:** **ALL** generated/compiled slide formats (including `.html` interactive presentations, `.pdf` widescreen slide sheets, `.pptx` PowerPoint slide decks, and the subfolder of `.png` slide screenshots) **MUST ALWAYS** reside in the exact same directory as the `.md` slide outline page (typically `wiki/analyses/`). Never leave them in temporary folders or separate build directories.
+4.  **Generate HTML:** Use the structure provided in `assets/slide-template.html` to create a single-file HTML document inside the same directory as the `.md` slide outline.
+5.  **Incorporate Components:**
     *   Use `.card-hover` for interactive/grouped content.
     *   Use Lucide icons wrapped in styled containers.
     *   Apply `font-mono` to technical terms and badges.
-5.  **PDF Export (Optional):** If the user requests a PDF, use the provided script to convert the generated HTML.
+6.  **PDF Export (Optional):** If the user requests a PDF, use the provided script to convert the generated HTML, outputting directly in the co-located directory:
     ```bash
     python3 scripts/generate_pdf.py <input.html> <output.pdf>
     ```
-6.  **PNG Slide Export (Optional):** If the user requests individual PNG slides, use the provided Playwright screenshot capture script:
+7.  **PNG Slide Export (Optional):** If the user requests individual PNG slides, use the provided Playwright screenshot capture script, outputting in a subfolder directly in the co-located directory:
     ```bash
     uv run python3 scripts/generate_png.py <input.html> <output_directory>
     ```
-7.  **PDF/PPTX Compilation from Images (Optional):** If the user wants to compile individual PNG slides into standard widescreen PDF or Microsoft PowerPoint (`.pptx`) presentations, use the provided compilation script:
+8.  **PDF/PPTX Compilation from Images (Optional):** If the user wants to compile individual PNG slides into standard widescreen PDF or Microsoft PowerPoint (`.pptx`) presentations, use the provided compilation script, outputting directly in the co-located directory:
     ```bash
     uv run python3 scripts/compile_presentation.py <slides_directory> <output_pdf> <output_pptx>
     ```
