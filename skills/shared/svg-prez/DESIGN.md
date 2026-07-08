@@ -117,3 +117,11 @@ To render the massive background swept ring, use absolute `<ellipse>` geometry:
 ```xml
 <image x="824" y="404" width="272" height="272" href="data:image/png;base64,...[Servier_Symbole_Blanc.png]"/>
 ```
+
+---
+
+## 5. PowerPoint (.pptx) Output Characteristics
+
+When compiling SVG slides to PowerPoint (`.pptx`) format:
+- **Fully Editable Shapes & Text**: SVGs are converted to native PowerPoint shapes and text elements using Office OpenXML vector representations. Users can edit, modify, and adjust the text, positions, colors, and layouts directly within Microsoft PowerPoint.
+- **Non-Pixel-Perfect Layout**: Due to differences in font metrics, text wrap calculations, and vector rendering engines between browsers/PDF tools and PowerPoint, the PPTX layout is not pixel-perfect. Minor variations in positioning, spacing, or text flow should be expected compared to the original SVG design. Use this skill when editability inside PowerPoint is a priority.

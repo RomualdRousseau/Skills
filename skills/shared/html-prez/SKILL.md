@@ -1,6 +1,6 @@
 ---
 name: html-prez
-description: Generates high-fidelity technical presentation slides using HTML5/Tailwind CSS and converts them to PDF. Use when the user needs to visualize technical concepts or export presentations for sharing.
+description: Generates high-fidelity technical presentation slides using HTML5/Tailwind CSS. Compiles widescreen PPTX files as pixel-perfect static images (not editable). Use when exact layout and design fidelity is required.
 ---
 
 # Presentation Generator
@@ -25,7 +25,7 @@ This skill enables the generation of high-fidelity, technical presentation slide
     ```bash
     uv run python3 scripts/generate_png.py <input.html> <output_directory>
     ```
-8.  **PDF/PPTX Compilation from Images (Optional):** If the user wants to compile individual PNG slides into standard widescreen PDF or Microsoft PowerPoint (`.pptx`) presentations, use the provided compilation script, outputting directly in the co-located directory:
+8.  **PDF/PPTX Compilation from Images (Optional):** If the user wants to compile individual PNG slides into standard widescreen PDF or Microsoft PowerPoint (`.pptx`) presentations, use the provided compilation script, outputting directly in the co-located directory. Note that **PowerPoint (.pptx) outputs generated this way are pixel-perfect but not editable**, as they embed the rendered slide PNGs as static full-bleed background images.
     ```bash
     uv run python3 scripts/compile_presentation.py <slides_directory> <output_pdf> <output_pptx>
     ```

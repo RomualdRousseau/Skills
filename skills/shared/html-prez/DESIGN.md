@@ -109,3 +109,11 @@ To render the massive background swept ring without images, use absolute roundin
 ```html
 <img src="Servier_Symbole_RVB.png" class="brightness-0 invert h-28 w-28 object-contain" alt="Servier Symbole">
 ```
+
+---
+
+## 5. PowerPoint (.pptx) Output Characteristics
+
+When compiling HTML slides to PowerPoint (`.pptx`) format via PNG screenshots:
+- **Pixel-Perfect Layout Fidelity**: Preserves 100% of the HTML5/CSS design, including complex layouts, gradients, shadows, and custom font rendering exactly as seen in the browser.
+- **Non-Editable Elements**: Slides are exported as static, full-bleed images embedded in the PowerPoint pages. Individual text blocks, icons, and shapes **cannot be modified** inside PowerPoint. Use this skill when exact visual reproduction is more important than editability.

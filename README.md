@@ -106,8 +106,8 @@ Inside an active interactive Gemini CLI session, you can run:
 - **`observability`**: Standards for structured JSON logging and OpenTelemetry (OTel) tracing.
 - **`technical-writer`**: Mandates **Architecture Decision Records (ADR)** and **Mermaid.js** diagrams.
 - **`presentation-generator`**: Automated generation of technical slides and PDF documentation.
-- **`html-prez`**: Generates high-fidelity, interactive HTML5/Tailwind CSS presentation slides with multi-format widescreen compilation and export scripts (PDF, PPTX, PNG).
-- **`svg-prez`**: High-fidelity, direct vector presentation slide generation with clean SVG coordinates and rapid widescreen compilations (SVG, PPTX, PDF, PNG) bypassing heavy browser screenshotting.
+- **`html-prez`**: Generates high-fidelity, interactive HTML5/Tailwind CSS presentation slides with multi-format widescreen compilation (PDF, PPTX, PNG). Note: **PPTX exports are pixel-perfect but not editable** (compiled from static slide image screenshots).
+- **`svg-prez`**: High-fidelity, direct vector presentation slide generation with clean SVG coordinates and rapid widescreen compilations (SVG, PPTX, PDF, PNG). Note: **PPTX exports are native and fully editable but not pixel-perfect** (compiled directly from vector coordinates).
 
 ---
 

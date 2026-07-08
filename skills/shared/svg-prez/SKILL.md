@@ -1,6 +1,6 @@
 ---
 name: svg-prez
-description: Direct vector slide generation and multi-format widescreen compilations (SVG, PPTX, PDF, PNG). Use when the user needs to create, compile, or render premium presentation slides directly from vector code with 100% layout and shape fidelity.
+description: Direct vector slide generation and multi-format compilations (SVG, PPTX, PDF, PNG). Compiles PowerPoint (PPTX) with native, fully editable shapes and text, though the layout is non-pixel-perfect due to rendering differences. Use when PowerPoint editability is required.
 ---
 
 # SVG Presentation Generator (svg-prez)
@@ -19,7 +19,7 @@ This skill enables the direct, high-fidelity compilation of widescreen presentat
 ```
 
 1.  **Direct SVG Generation**: Create clean, widescreen `1920x1080` pixel-perfect SVG files slide-by-slide using direct coordinates. Include custom inline paths for icons and cards to preserve infinite scaling and visual identity.
-2.  **Native Widescreen PowerPoint**: Convert SVGs slide-by-slide into PowerPoint vector shapes using `svg2pptx`. Use `compile_pptx.py` to merge them into a single widescreen presentation, automatically injecting high-resolution corporate logos natively as brand pictures.
+2.  **Native Widescreen PowerPoint**: Convert SVGs slide-by-slide into PowerPoint vector shapes using `svg2pptx`. Use `compile_pptx.py` to merge them into a single widescreen presentation, automatically injecting high-resolution corporate logos natively as brand pictures. Note that **PowerPoint (.pptx) outputs generated this way are native and fully editable, but not pixel-perfect** due to differences in font metrics, text wrap, and vector rendering engines between browsers/PDF tools and PowerPoint's OpenXML renderer.
 3.  **High-Fidelity Vector PDF**: Merge all slide SVGs into a single, high-fidelity vector PDF using `compile_pdf.py` inside the PyMuPDF environment in milliseconds.
 4.  **Crisp Raster Previews**: Render SVGs into crisp PNG screenshots at 150 DPI (high-resolution previews) using `compile_png.py` inside PyMuPDF with zero external binary dependencies.
 
