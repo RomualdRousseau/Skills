@@ -22,6 +22,56 @@ All development follows a strict **Research -> Strategy -> Execution** lifecycle
 2.  **Strategy:** Gemini proposes a grounded plan based on the research.
 3.  **Execution:** Gemini implements the plan using the iterative **Plan -> Act -> Validate** cycle.
 
+### 3. Installing & Managing Skills
+
+You can install, browse, and manage Agent Skills using the **Agent Skills** standard CLI tool (`npx skills`), the native `gemini skills` CLI, or interactive slash commands during a session.
+
+#### Using `npx skills` (Interoperable CLI)
+The `npx skills` tool allows you to browse, search, and install skills from remote registries directly:
+
+- **Browse and list available remote skills:**
+  ```bash
+  npx skills add romualdrousseau/skills --list
+  ```
+- **Install a specific skill from a registry:**
+  ```bash
+  npx skills add romualdrousseau/skills --skill gemini-live-api-dev
+  ```
+- **Install a skill globally:**
+  ```bash
+  npx skills add romualdrousseau/skills --skill gemini-live-api-dev --global
+  ```
+
+#### Native CLI Management (`gemini skills`)
+Alternatively, you can manage skills using the native Gemini CLI from your terminal:
+
+- **Install a skill from a Git repository or local package:**
+  ```bash
+  # Install globally (default)
+  gemini skills install https://github.com/user/my-awesome-skill
+
+  # Install in local workspace
+  gemini skills install https://github.com/user/my-awesome-skill --scope workspace
+  ```
+- **Link a local skill during development:**
+  ```bash
+  gemini skills link ./path/to/my-skill
+  ```
+- **List installed skills:**
+  ```bash
+  gemini skills list
+  ```
+- **Uninstall an installed/linked skill:**
+  ```bash
+  gemini skills uninstall my-skill
+  ```
+
+#### In-Session Management (Slash Commands)
+Inside an active interactive Gemini CLI session, you can run:
+- `/skills list` — Show all discovered, active skills.
+- `/skills reload` — Reload skills from disk immediately.
+- `/skills enable <name>` / `/skills disable <name>` — Toggle a specific skill.
+
 ---
 
 ## 🛠️ Available Skills
@@ -29,7 +79,8 @@ All development follows a strict **Research -> Strategy -> Execution** lifecycle
 ### Core Python Development (`skills/python-app/`)
 
 - **`developer`**: The "Source of Truth" for high-integrity Python. Enforces the **Power of 10** rules, Hexagonal Architecture, and Light CQRS.
-- **`project_owner`**: Manages the `TODO.md` backlog, user stories, and acceptance criteria.
+- **`project-owner-todo`**: Manages the `TODO.md` backlog, user stories, and acceptance criteria in Markdown format with a hybrid Kanban structure.
+- **`project-owner-glab`**: Manages user stories, tasks, and project backlog using GitLab Issues and the `glab` CLI.
 - **`devops`**: Handles GCP infrastructure via Terraform and GitLab CI/CD (Workload Identity Federation).
 
 ### Gymnasium & AI Environments (`skills/gymnasium-env/`)
@@ -55,6 +106,8 @@ All development follows a strict **Research -> Strategy -> Execution** lifecycle
 - **`observability`**: Standards for structured JSON logging and OpenTelemetry (OTel) tracing.
 - **`technical-writer`**: Mandates **Architecture Decision Records (ADR)** and **Mermaid.js** diagrams.
 - **`presentation-generator`**: Automated generation of technical slides and PDF documentation.
+- **`html-prez`**: Generates high-fidelity, interactive HTML5/Tailwind CSS presentation slides with multi-format widescreen compilation and export scripts (PDF, PPTX, PNG).
+- **`svg-prez`**: High-fidelity, direct vector presentation slide generation with clean SVG coordinates and rapid widescreen compilations (SVG, PPTX, PDF, PNG) bypassing heavy browser screenshotting.
 
 ---
 
