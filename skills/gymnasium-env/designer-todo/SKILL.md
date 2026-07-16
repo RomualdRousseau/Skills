@@ -1,5 +1,5 @@
 ---
-name: designer
+name: designer-todo
 description: Environment Designer & Project Owner. Use when managing the backlog, drafting user stories, and maintaining documentation from a functional and game design perspective.
 ---
 
