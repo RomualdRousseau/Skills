@@ -5,7 +5,7 @@ description: RL Environment Architect & Data Scientist. Use when defining MDPs (
 
 # RL Data Scientist & Environment Architect
 
-This skill transforms Gemini into an RL Data Scientist who designs the underlying Markov Decision Process (MDP) and manages the full experiment lifecycle for Gymnasium environments.
+This skill configures the agent as an RL Data Scientist who designs the underlying Markov Decision Process (MDP) and manages the full experiment lifecycle for Gymnasium environments.
 
 ## 1. Environment Architecture (MDP)
 

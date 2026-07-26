@@ -39,7 +39,7 @@ def exchange_google_for_firebase(google_id_token):
 def get_token():
     # 1. Try to load existing credentials (includes refresh token)
     creds = None
-    cache_dir = os.path.expanduser("~/.cache/gemini-variant-analysis")
+    cache_dir = os.path.expanduser("~/.cache/variant-analysis")
     os.makedirs(cache_dir, exist_ok=True)
     token_cache_path = os.path.join(cache_dir, "google_token_cache.json")
 

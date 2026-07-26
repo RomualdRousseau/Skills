@@ -26,7 +26,7 @@ Before starting, you **MUST** retrieve a valid Firebase token using the project'
 - **Session ID**: Omit for new sessions to allow the server to generate a unique ID. Include the returned `session_id` in subsequent requests (e.g., `analysis-<timestamp>`).
 - **Firebase Token**: Execute the following command to get the token:
   ```bash
-  uv run python .gemini/skills/variant-analysis/scripts/get_firebase_token.py
+  uv run python .agents/skills/research/variant-analysis/scripts/get_firebase_token.py
   ```
   **Procedural Note:** You must capture the stdout of this command and use it as the Bearer token in the `Authorization` header for all subsequent API requests. The script handles refresh logic automatically using a local cache. Do **not** look for a `firebase-id-token` file.
 

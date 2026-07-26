@@ -1,14 +1,14 @@
 # Skills Repository
 
-A high-integrity framework for building specialized AI environments and robust Python applications using **Gemini CLI**.
+A high-integrity framework for building specialized AI environments and robust Python applications using **AI agents**.
 
 ## 🚀 Getting Started
 
-This repository contains a suite of **Specialized Skills** designed to guide Gemini through complex engineering, research, and design tasks. These skills enforce the "Power of 10" safety rules, hexagonal architecture, and rigorous Reinforcement Learning (RL) practices.
+This repository contains a suite of **Specialized Skills** designed to guide AI agents through complex engineering, research, and design tasks. These skills enforce the "Power of 10" safety rules, hexagonal architecture, and rigorous Reinforcement Learning (RL) practices.
 
 ### 1. Activating a Skill
 
-To use these specialized instructions, call `/` with the name of the skill you need:
+To use these specialized instructions, reference the skill by name when working with your agent. The exact activation method depends on your agent framework (e.g., `/skill-name`, `activate skill-name`, or loading the skill file directly).
 
 ```bash
 /ai-architect
@@ -18,9 +18,9 @@ To use these specialized instructions, call `/` with the name of the skill you n
 
 All development follows a strict **Research -> Strategy -> Execution** lifecycle:
 
-1.  **Research:** Gemini maps the codebase and validates all assumptions.
-2.  **Strategy:** Gemini proposes a grounded plan based on the research.
-3.  **Execution:** Gemini implements the plan using the iterative **Plan -> Act -> Validate** cycle.
+1.  **Research:** The agent maps the codebase and validates all assumptions.
+2.  **Strategy:** The agent proposes a grounded plan based on the research.
+3.  **Execution:** The agent implements the plan using the iterative **Plan -> Act -> Validate** cycle.
 
 ### 3. Installing & Managing Skills
 
@@ -130,7 +130,7 @@ All developers (both human and AI) must adhere to these rules:
 
 ### ADR Process
 
-Significant technical decisions are recorded in `docs/adr/`. When Gemini proposes a major change, it will:
+Significant technical decisions are recorded in `docs/adr/`. When the agent proposes a major change, it will:
 
 1.  Draft a new ADR using the `adr-template.md`.
 2.  Seek approval before proceeding.
@@ -140,7 +140,7 @@ Significant technical decisions are recorded in `docs/adr/`. When Gemini propose
 
 ## 🚦 Interaction Triggers
 
-Each skill includes a **Project Interaction** section that defines specific natural language triggers. These triggers help Gemini CLI identify the correct workflow. Examples include:
+Each skill includes a **Project Interaction** section that defines specific natural language triggers. These triggers help the agent identify the correct workflow. Examples include:
 
 - **"Start a new project"**: Activates `project-owner` or `designer` (for AI envs), and `devops` to scaffold the environment.
 - **"Implement [feature]"**: Activates `developer` and `technical-writer` to build and document the change.
