@@ -1,0 +1,19 @@
+# Configuration file for `prek`, a git hook framework written in Rust.
+# See https://prek.j178.dev for more information.
+#:schema https://www.schemastore.org/prek.json
+
+[[repos]]
+repo = "local"
+hooks = [
+    { id = "lint-skills", name = "Skill Homogeneity Linter", entry = "python3 scripts/lint_skills.py", language = "system", files = "^skills/", pass_filenames = false },
+    { id = "scan-secrets", name = "Gitleaks Secret Scanner", entry = "bash -c 'docker run --rm -v \"$(pwd):/code\" zricethezav/gitleaks:latest detect --source=/code -v'", language = "system", pass_filenames = false },
+    { id = "scan-security", name = "Semgrep Security Scanner", entry = "bash -c 'docker run --rm -v \"$(pwd):/src:ro\" semgrep/semgrep semgrep scan --config=auto .'", language = "system", pass_filenames = false }
+]
+
+[[repos]]
+repo = "https://github.com/astral-sh/ruff-pre-commit"
+rev = "v0.5.5"
+hooks = [
+    { id = "ruff", args = ["--fix"] },
+    { id = "ruff-format" }
+]
