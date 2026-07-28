@@ -40,4 +40,4 @@ We will adopt the **Medallion Hexagonal Architecture** for the `data-pipeline/da
 ## Alternatives Considered
 - **Direct Orchestrator Scripts**: Writing transformations directly inside Airflow operators or Prefect tasks. Rejected due to poor testability and tight coupling.
 - **DBT-Only Approach**: Using SQL (DBT) for all transformations. Rejected because it limits the ability to integrate complex Python-based logic, ML models, and high-integrity safety rules (Power of 10).
-- **Generic Python App Structure**: Using the standard `python-app/developer` structure. Rejected as it lacks explicit support for the staged data refinement process (Medallion) essential for data engineering.
+- **Generic Python App Structure**: Using the standard `python-app/python-app-developer` structure. Rejected as it lacks explicit support for the staged data refinement process (Medallion) essential for data engineering.

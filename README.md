@@ -78,36 +78,38 @@ Inside an active interactive Gemini CLI session, you can run:
 
 ### Core Python Development (`skills/python-app/`)
 
-- **`developer`**: The "Source of Truth" for high-integrity Python. Enforces the **Power of 10** rules, Hexagonal Architecture, and Light CQRS.
-- **`project-owner-todo`**: Manages the `TODO.md` backlog, user stories, and acceptance criteria in Markdown format with a hybrid Kanban structure.
-- **`project-owner-glab`**: Manages user stories, tasks, and project backlog using GitLab Issues and the `glab` CLI.
-- **`devops`**: Handles GCP infrastructure via Terraform and GitLab CI/CD (Workload Identity Federation).
+- **`python-app-developer`**: The "Source of Truth" for high-integrity Python. Enforces the **Power of 10** rules, Hexagonal Architecture, and Light CQRS.
+- **`python-app-project-owner-todo`**: Manages the `TODO.md` backlog, user stories, and acceptance criteria in Markdown format with a hybrid Kanban structure.
+- **`python-app-project-owner-glab`**: Manages user stories, tasks, and project backlog using GitLab Issues and the `glab` CLI.
+- **`python-app-devops`**: Handles GCP infrastructure via Terraform and GitLab CI/CD (Workload Identity Federation).
 
 ### Gymnasium & AI Environments (`skills/gymnasium-env/`)
 
-- **`developer`**: Builds high-performance, visually-debuggable RL environments using **Raylib** and the **Scene Pattern**.
-- **`designer`**: Environment Designer & Project Owner. Focuses on "The Fun Factor", playable pedagogy, and backlog management (User Stories).
-- **`data-scientist`**: RL Environment Architect & Data Scientist. Manages MDP formulation (states, actions, rewards) and the full research lifecycle.
+- **`gymnasium-env-developer`**: Builds high-performance, visually-debuggable RL environments using **Raylib** and the **Scene Pattern**.
+- **`gymnasium-env-designer-todo`**: Environment Designer & Project Owner (local backlog). Focuses on "The Fun Factor", playable pedagogy, and backlog management (User Stories).
+- **`gymnasium-env-designer-github`**: Environment Designer & Project Owner (GitHub Issues). Focuses on "The Fun Factor", playable pedagogy, and backlog management (User Stories).
+- **`gymnasium-env-data-scientist`**: RL Environment Architect & Data Scientist. Manages MDP formulation (states, actions, rewards) and the full research lifecycle.
 
 ### Data Engineering (`skills/data-pipeline/`)
 
-- **`data-engineer`**: Builds high-integrity data pipelines using the **Medallion Hexagonal Architecture**, **Polars**, and **Pydantic**.
+- **`data-pipeline-data-engineer`**: Builds high-integrity data pipelines using the **Medallion Hexagonal Architecture**, **Polars**, and **Pydantic**.
 
-### Research & Variant Analysis (`skills/research/`)
+### Science & Exploration (`skills/science/`)
 
-- **`data-scientist`**: Fast-tracked data exploration and ML using **uv** and **Jupyter Notebooks**.
-- **`variant-analysis`**: Automated genomic variant analysis (VEP) and clinical assessment using the Variant Analysis Multi-Agent System.
+- **`science-data-scientist`**: Fast-tracked data exploration and ML using **uv** and **Jupyter Notebooks**.
+- **`science-variant-analysis`**: Automated genomic variant analysis (VEP) and clinical assessment using the Variant Analysis Multi-Agent System.
 
 ### Shared Engineering Standards (`skills/shared/`)
 
-- **`ai-architect`**: Best practices for RAG patterns, prompt versioning, and LLM evaluation (Ragas/LangSmith).
-- **`llm-wiki`**: Knowledge management and preprocessing for LLM-ready documentation.
-- **`security-audit`**: Automated SAST/DAST integration and OWASP-aligned coding.
-- **`observability`**: Standards for structured JSON logging and OpenTelemetry (OTel) tracing.
-- **`technical-writer`**: Mandates **Architecture Decision Records (ADR)** and **Mermaid.js** diagrams.
-- **`presentation-generator`**: Automated generation of technical slides and PDF documentation.
-- **`html-prez`**: Generates high-fidelity, interactive HTML5/Tailwind CSS presentation slides with multi-format widescreen compilation (PDF, PPTX, PNG). Note: **PPTX exports are pixel-perfect but not editable** (compiled from static slide image screenshots).
-- **`svg-prez`**: High-fidelity, direct vector presentation slide generation with clean SVG coordinates and rapid widescreen compilations (SVG, PPTX, PDF, PNG). Note: **PPTX exports are native and fully editable but not pixel-perfect** (compiled directly from vector coordinates).
+- **`shared-ai-architect`**: Best practices for RAG patterns, prompt versioning, and LLM evaluation (Ragas/LangSmith).
+- **`shared-llm-wiki`**: Knowledge management and preprocessing for LLM-ready documentation.
+- **`shared-security-audit`**: Automated SAST/DAST integration and OWASP-aligned coding.
+- **`shared-observability`**: Standards for structured JSON logging and OpenTelemetry (OTel) tracing.
+- **`shared-technical-writer`**: Mandates **Architecture Decision Records (ADR)** and **Mermaid.js** diagrams.
+- **`shared-presentation-generator`**: Automated generation of technical slides and PDF documentation.
+- **`shared-html-prez`**: Generates high-fidelity, interactive HTML5/Tailwind CSS presentation slides with multi-format widescreen compilation (PDF, PPTX, PNG). Note: **PPTX exports are pixel-perfect but not editable** (compiled from static slide image screenshots).
+- **`shared-svg-prez`**: High-fidelity, direct vector presentation slide generation with clean SVG coordinates and rapid widescreen compilations (SVG, PPTX, PDF, PNG). Note: **PPTX exports are native and fully editable but not pixel-perfect** (compiled directly from vector coordinates).
+- **`shared-project-owner-github`**: Backlog & User Story management via GitHub Issues.
 
 ---
 
@@ -142,17 +144,17 @@ Significant technical decisions are recorded in `docs/adr/`. When the agent prop
 
 Each skill includes a **Project Interaction** section that defines specific natural language triggers. These triggers help the agent identify the correct workflow. Examples include:
 
-- **"Start a new project"**: Activates `project-owner` or `designer` (for AI envs), and `devops` to scaffold the environment.
-- **"Implement [feature]"**: Activates `developer` and `technical-writer` to build and document the change.
-- **"Optimize the agent"**: Activates `data-scientist` to set up hyperparameter sweeps and evaluation reports.
-- **"Audit the codebase"**: Activates `security-audit` and `ai-architect` to identify vulnerabilities and RAG bottlenecks.
+- **"Start a new project"**: Activates `python-app-project-owner-todo` or `gymnasium-env-designer-todo` (for AI envs), and `python-app-devops` to scaffold the environment.
+- **"Implement [feature]"**: Activates `python-app-developer` and `shared-technical-writer` to build and document the change.
+- **"Optimize the agent"**: Activates `gymnasium-env-data-scientist` or `science-data-scientist` to set up hyperparameter sweeps and evaluation reports.
+- **"Audit the codebase"**: Activates `shared-security-audit` and `shared-ai-architect` to identify vulnerabilities and RAG bottlenecks.
 
 ---
 
 ## 🤝 Credits
 
-- **`llm-wiki`**: Credits to [Andrej Karpathy's gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) and [lucasastorian/llmwiki](https://github.com/lucasastorian/llmwiki).
-- **`presentation-generator`**: Credits to [Kévin François-Bouaou, PhD](https://fr.linkedin.com/in/kevin-fran%C3%A7ois-bouaou-phd).
+- **`shared-llm-wiki`**: Credits to [Andrej Karpathy's gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) and [lucasastorian/llmwiki](https://github.com/lucasastorian/llmwiki).
+- **`shared-presentation-generator`**: Credits to [Kévin François-Bouaou, PhD](https://fr.linkedin.com/in/kevin-fran%C3%A7ois-bouaou-phd).
 
 ---
 

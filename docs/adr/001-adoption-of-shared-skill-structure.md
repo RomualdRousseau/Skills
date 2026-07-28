@@ -9,7 +9,7 @@ As the AIInnoLab ecosystem grows, we are introducing multiple specialized skill 
 Before this decision, there was a risk of duplicating these core standards within each project-specific directory, leading to inconsistent guidance and maintenance overhead.
 
 ## Decision
-We will introduce a `skills/shared/` directory to house all cross-cutting, high-integrity engineering and architectural standards. Project-specific skills (e.g., `skills/python-app/developer`) should reference these shared skills rather than redefining universal practices.
+We will introduce a `skills/shared/` directory to house all cross-cutting, high-integrity engineering and architectural standards. Project-specific skills (e.g., `skills/python-app/python-app-developer`) should reference these shared skills rather than redefining universal practices.
 
 We will also adopt a formal Architecture Decision Record (ADR) process to document significant technical choices, ensuring project context is preserved over time.
 
@@ -23,5 +23,5 @@ We will also adopt a formal Architecture Decision Record (ADR) process to docume
   - **Cross-Referencing:** Requires agents and developers to check both shared and project-specific skills.
 
 ## Alternatives Considered
-- **Siloed Skills:** Keeping all skills inside project-specific folders (e.g., `skills/python-app/security`). This was rejected due to high maintenance overhead and the risk of standards drifting apart between projects.
+- **Siloed Skills:** Keeping all skills inside project-specific folders (e.g., `skills/python-app/python-app-security`). This was rejected due to high maintenance overhead and the risk of standards drifting apart between projects.
 - **Root-level Skills:** Placing shared skills directly in the root `skills/` folder. This was rejected to keep the top-level directory clean and distinguish between "roles" (Developer, PO) and "specializations" (AI, Security).
