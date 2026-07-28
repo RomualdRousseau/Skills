@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "shared-project-owner-github": {
+      "source": "romualdrousseau/Skills",
+      "sourceType": "github",
+      "skillPath": "skills/shared/shared-project-owner-github/SKILL.md",
+      "computedHash": "718f3786dedd6d2adea4c64f7ab4a4d03d8d7ec9aa422491eda49c893f1c176e"
+    }
+  }
+}
