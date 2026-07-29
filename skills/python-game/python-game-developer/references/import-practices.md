@@ -27,6 +27,7 @@ Always import `pyray` as `pr` to keep drawing calls concise and identifiable.
 ```python
 import pyray as pr
 
+
 def main():
     pr.init_window(800, 450, "My Game")
     # ...

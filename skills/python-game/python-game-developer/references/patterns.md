@@ -73,6 +73,7 @@ SCENES = {
     "playing": LevelOneScene(),
 }
 
+
 def main_loop():
     current_scene = SCENES["menu"]
     while not engine.should_quit():
@@ -87,6 +88,7 @@ Decouple input (keyboard for humans) from the simulation logic.
 ```python
 # core/input.py
 from typing import Protocol
+
 
 class InputEngine(Protocol):
     def is_up(self) -> bool: ...
@@ -104,6 +106,7 @@ Use simple dataclasses with `__slots__` for deterministic memory and high-speed 
 
 ```python
 from dataclasses import dataclass
+
 
 @dataclass(slots=True, frozen=True)
 class Player:

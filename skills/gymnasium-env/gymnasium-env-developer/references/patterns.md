@@ -16,7 +16,7 @@ A Scene object (or module) coordinates three primary components:
 class Scene:
     def __init__(self):
         self.state = init_state()
-        self.status = "running" # State Machine logic
+        self.status = "running"  # State Machine logic
 
     def update(self, dt, actions):
         if self.status == "running":
@@ -37,6 +37,7 @@ SCENES = {
     "menu": MenuScene(),
     "playing": LevelOneScene(),
 }
+
 
 def main_loop():
     current_scene = SCENES["menu"]
@@ -61,9 +62,10 @@ Keep reward logic pure and separate from state transitions.
 def calculate_reward(state, action, next_state):
     reward = 0
     # Sparse: Goal reached
-    if next_state.reached_goal: reward += 10
+    if next_state.reached_goal:
+        reward += 10
     # Dense: Progress toward goal
-    reward += (state.dist_to_goal - next_state.dist_to_goal)
+    reward += state.dist_to_goal - next_state.dist_to_goal
     return reward
 ```
 
@@ -75,9 +77,13 @@ Decouple input (Keyboard for humans, Actions for agents) from the simulation log
 class InputAdapter(Protocol):
     def get_actions(self) -> list[Action]: ...
 
+
 class AgentAdapter:
-    def __init__(self, agent): self.agent = agent
-    def get_actions(self): return [self.agent.predict()]
+    def __init__(self, agent):
+        self.agent = agent
+
+    def get_actions(self):
+        return [self.agent.predict()]
 ```
 
 ## 5. Component-Lite (Dataclasses)

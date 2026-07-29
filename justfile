@@ -6,23 +6,23 @@ default:
 
 # Initialize development tools and pre-commit hooks
 setup:
-    uv run --no-env-file prek install
+    uvx --no-env-file prek install
 
 # Check skills directory for structural and naming homogeneity
 lint-skills:
-    python3 scripts/lint_skills.py
+    uv run python scripts/lint_skills.py
 
 # Lint and check formatting of Python files locally
 lint-code:
-    uv run --no-env-file ruff check .
-    uv run --no-env-file ruff format --check .
+    uvx --no-env-file ruff check .
+    uvx --no-env-file ruff format --check .
 
 # Run all local lints (Code + Skills structure)
 lint: lint-code lint-skills
 
 # Format Python code locally using ruff
 format:
-    uv run --no-env-file ruff format .
+    uvx --no-env-file ruff format .
 
 # Scan for hardcoded credentials/secrets using a containerized Gitleaks instance
 scan-secrets:

@@ -67,6 +67,7 @@ def traverse(root: Node) -> list[Node]:
         stack.extend(node.children)
     return result
 
+
 # ❌ Bad
 def traverse(node: Node) -> list[Node]:
     return [node] + [traverse(c) for c in node.children]
@@ -110,6 +111,7 @@ def create_user(data: dict[str, Any]) -> User:
         raise ValidationError("Invalid input")
     return _create_user_internal(data)  # Trusts input
 
+
 # ❌ Bad — validation scattered everywhere
 def _internal_helper(data: dict) -> None:
     if "name" not in data:  # Redundant
@@ -128,11 +130,13 @@ def calculate_discount(price: Decimal, tier: Tier) -> Decimal:
     """Pure: same input = same output."""
     return price * DISCOUNT_RATES[tier]
 
+
 def apply_discount(order_id: str, repo: OrderRepo) -> None:
     """Impure shell: I/O at edges."""
     order = repo.get(order_id)
     order.discount = calculate_discount(order.price, order.tier)
     repo.save(order)
+
 
 # ❌ Bad — I/O mixed with logic
 def calculate_and_save_discount(order_id: str) -> None:
@@ -154,11 +158,12 @@ class OrderService:
         self._repo = repo
         self._notifier = notifier
 
+
 # ❌ Bad — hidden dependencies
 class OrderService:
     def __init__(self) -> None:
         self._repo = PostgresOrderRepository()  # Hardcoded
-        self._notifier = EmailNotifier()        # Untestable
+        self._notifier = EmailNotifier()  # Untestable
 ```
 
 ---
@@ -174,15 +179,27 @@ class PaymentProcessor:
         self._gateway = gateway
         self._logger = logger
 
+
 # ⚠️ Acceptable — shallow inheritance
 class Animal(ABC): ...
+
+
 class Dog(Animal): ...
+
 
 # ❌ Bad — deep hierarchy
 class Animal: ...
+
+
 class Mammal(Animal): ...
+
+
 class Canine(Mammal): ...
+
+
 class Dog(Canine): ...
+
+
 class Labrador(Dog): ...
 ```
 
@@ -195,11 +212,18 @@ class Labrador(Dog): ...
 ```python
 # ✅ Good — abstract after second impl
 class PostgresRepo: ...
+
+
 class MongoRepo: ...
+
+
 # NOW create Protocol/ABC
+
 
 # ❌ Bad — speculative abstraction
 class Repository(ABC): ...  # Only one impl exists
+
+
 class PostgresRepo(Repository): ...
 ```
 

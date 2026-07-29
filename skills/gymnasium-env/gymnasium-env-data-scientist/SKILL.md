@@ -44,6 +44,7 @@ An RL agent is only as good as its interface with the world. You must define pre
       def sweep(self, config):
           """Run a hyperparameter sweep using Optuna."""
           ...
+
       def report(self, model_path):
           """Generate a comprehensive evaluation report/PDF for a model."""
           ...

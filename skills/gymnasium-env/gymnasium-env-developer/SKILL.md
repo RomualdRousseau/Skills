@@ -23,10 +23,11 @@ import gymnasium as gym
 from gymnasium import spaces
 import pyray as pr
 
+
 class MyEnv(gym.Env):
     def __init__(self, render_mode=None):
         self.render_mode = render_mode
-        self.scene = MainEnvScene() # Coordinates state, logic, and renderer
+        self.scene = MainEnvScene()  # Coordinates state, logic, and renderer
         self.observation_space = spaces.Box(...)
         self.action_space = spaces.Discrete(...)
 
@@ -110,6 +111,7 @@ import pyray as pr
 ```python
 import fire
 
+
 class CLI:
     def play(self):
         """Run the environment with human controls (Raylib)."""
@@ -128,6 +130,7 @@ class CLI:
     def eval(self, model_path):
         """Evaluate a trained agent."""
         ...
+
 
 if __name__ == "__main__":
     fire.Fire(CLI)
