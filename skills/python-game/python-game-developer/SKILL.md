@@ -26,12 +26,12 @@ This skill provides a foundation for building games using Python and `raylib` fo
 See [structure.md](references/structure.md) for the full package layout.
 
 ```text
-spacerace/
+ProjectName/
 ├── pyproject.toml
 ├── justfile
 ├── README.md
 ├── TODO.md
-├── src/spacerace/
+├── src/project_name/
 │   ├── __init__.py
 │   ├── main.py              # Entry point; wires input and graphics adapters into game
 │   ├── core/
@@ -40,13 +40,14 @@ spacerace/
 │   │   ├── math.py          # Vector/wrap helpers
 │   │   ├── physics.py       # Pure state transition functions
 │   │   ├── input.py         # InputEngine protocol
-│   │   ├── graphics.py      # GraphicsEngine protocol
+│   │   ├── render.py        # RenderEngine protocol
 │   │   └── state.py         # Dataclasses with __slots__
 │   ├── game/
-│   │   └── __init__.py      # Module-level gameplay functions
+│   │   ├── __init__.py
+│   │   └── gameplay.py      # Module-level Gameplay functions
 │   └── engine/
 │       ├── raylib_input.py  # Module-level Raylib input implementation
-│       └── raylib_graphics.py # Module-level Raylib graphics implementation
+│       └── raylib_render.py # Module-level Raylib rendering implementation
 └── tests/
 ```
 

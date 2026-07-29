@@ -4,35 +4,56 @@ To maintain consistency across projects, use these templates for task management
 
 ## 1. Justfile Template
 
-Every project should have a minimal `justfile` for the most common tasks. A copyable template is also available at `assets/justfile`.
+Every module or sub-project should have its own `justfile`. Use this template as a starting point.
 
 ```just
-# Default recipe: list all commands
-default:
+# Set default recipe to list all commands
+default: list
+
+# List all available recipes
+list:
     @just --list
 
-# Install dependencies
-sync:
-    uv sync --extra dev
+# Run the application/simulation
+run:
+    uv run -m my_project run
 
-# Run the game
-play:
-    uv run spacerace-play
+# Run all quality checks
+check:
+    uvx prek run --all-files
 
-# Run the test suite
+# Run all tests
 test:
-    uv run pytest
+    uv run --group dev python -m pytest tests/
 
-# Remove Python cache and test artifacts
+# Format the source code
+format:
+    uv run --group dev ruff format .
+
+# Check formatting without making changes
+format-check:
+    uv run --group dev ruff format . --check
+
+# Lint the source code
+lint:
+    uv run --group dev ruff check .
+
+# Auto-fix linting issues where possible
+fix:
+    uv run --group dev ruff check . --fix
+
+# Type check the source code
+typecheck:
+    uv run --group dev ty check .
+
+# Clean up caches
 clean:
     uvx pyclean . -d all
 ```
 
-Add more recipes only when the project actually needs them (e.g., `lint`, `format`, `typecheck`).
+## 2. Pre-commit Configuration
 
-## 2. Optional Pre-commit Configuration (prek)
-
-For larger projects, use `prek` as the pre-commit tool. `prek` wraps the standard `pre-commit` hooks and is configured with the same `.pre-commit-config.yaml` file shown below. Use Astral's tools (`ruff` and `ty`) inside the hooks for fast and reliable checks.
+Use Astral's tools (`ruff` and `ty`) for fast and reliable pre-commit checks.
 
 ```yaml
 repos:
@@ -63,17 +84,29 @@ repos:
         stages: [pre-commit]
 ```
 
-## 3. Modern Git Tooling
+## 3. Prek Integration
 
-Maintain high repository standards with structured commit messages.
+If using `prek` for managing hooks, ensure it runs standard linting and type checking on every commit.
+
+```bash
+# Install hooks
+uv run --no-env-file prek install
+
+# Run hooks manually
+uv run --no-env-file prek run --all-files
+```
+
+## 4. Modern Git Tooling
+
+Maintain high repository standards with structured commit messages and automated validation.
 
 ### Commit Messages
 
 Use clear, concise messages focused on "why" rather than "what". Group related changes into single, logical commits.
 
-- **Feature**: `feat: add wrap-around screen edges`
-- **Fix**: `fix: prevent player from moving off-screen`
-- **Refactor**: `refactor: move renderer logic to engine/raylib_engine.py`
+- **Feature**: `feat: implement A*-based pathfinding for agents`
+- **Fix**: `fix: resolve race condition in physics integration`
+- **Refactor**: `refactor: move renderer logic to ui/renderer.py`
 
 ### Automated Quality Control
 
@@ -87,17 +120,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
+      - run: uv run prek run --all-files
       - run: just test
 ```
 
 ### Git Hooks
 
-For larger projects, use `prek` as the pre-commit tool to ensure that no broken code is ever committed to the repository.
-
-```bash
-# Install hooks
-uv run --no-env-file prek install
-
-# Run hooks manually
-uv run --no-env-file prek run --all-files
-```
+Always use `pre-commit` or `prek` to ensure that no broken code (lint errors, type errors) is ever committed to the repository.
