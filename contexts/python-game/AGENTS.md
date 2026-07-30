@@ -104,6 +104,25 @@ just test
 5. Run `just test` to verify.
 6. Update `README.md` and `AGENTS.md` if the change affects usage or conventions.
 
+## Development Process
+
+Before writing any code:
+
+1. Create the project documentation.
+2. Create the initial backlog.
+3. Break the work into small user stories with clear acceptance criteria.
+4. Present the implementation plan for approval.
+
+After the plan is approved, implement **one user story at a time**.
+
+After each story:
+
+- Explain what was implemented.
+- Run any appropriate verification.
+- Stop and wait for confirmation before continuing to the next story.
+
+Never implement multiple stories in a single step unless explicitly requested.
+
 ## Key Decisions
 
 - **Module-level functions for game and engine**: Classes are reserved for future complexity.
