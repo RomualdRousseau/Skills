@@ -32,7 +32,7 @@ scan-secrets:
 # Analyze Python code for OWASP Top 10 vulnerabilities inside an isolated container
 scan-security path=".":
     @echo "Running Semgrep security static analysis on '{{path}}'..."
-    docker run --rm -v "$(pwd):/src:ro" -v "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt" semgrep/semgrep semgrep scan --config=auto {{path}}
+    docker run --rm -v "$(pwd):/src:ro" -v "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro" -e SSL_CERTS_DIR="/etc/ssl/certs/ca-certificates.crt" -e REQUESTS_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt" semgrep/semgrep semgrep scan --config=auto {{path}}
 
 # Run full local checks + containerized secret and security scans
 verify: lint scan-secrets scan-security
