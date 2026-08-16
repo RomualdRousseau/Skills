@@ -78,7 +78,7 @@ Start with module-level functions. Only introduce classes (e.g., Scene objects) 
 
 ## Testing
 
-All physics and gameplay logic must be testable headlessly.
+All physics and gameplay logic must be testable headlessly. Tests are written **before** the implementation (TDD).
 
 - Tests live in `tests/`.
 - Use mocks or simple objects that satisfy the `InputEngine` protocol.
@@ -99,9 +99,9 @@ just test
 
 1. Check `TODO.md` for existing stories.
 2. If none exists, draft a user story with clear acceptance criteria.
-3. Implement the smallest change that satisfies the story.
-4. Add or update tests in `tests/`.
-5. Run `just test` to verify.
+3. Write failing tests in `tests/` that encode the acceptance criteria (red).
+4. Implement the smallest change that makes the tests pass (green).
+5. Run `just test` to verify the whole suite passes.
 6. Update `README.md` and `AGENTS.md` if the change affects usage or conventions.
 
 ## Development Process
