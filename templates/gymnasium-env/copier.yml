@@ -1,0 +1,36 @@
+_exclude:
+  - "copier.yml"
+
+project_name:
+  type: str
+  help: "What is your gymnasium environment's name?"
+  default: "Gymnasium Env"
+
+package_name:
+  type: str
+  help: "Python package name (snake_case)"
+  default: "{{ project_name|lower|replace(' ', '_')|replace('-', '_') }}"
+
+project_description:
+  type: str
+  help: "Short description of the RL environment"
+  default: "A reinforcement learning environment adhering to Farama Gymnasium API with Raylib rendering and Fire CLI."
+
+author_name:
+  type: str
+  help: "Author name"
+  default: "Developer"
+
+author_email:
+  type: str
+  help: "Author email address"
+  default: "dev@example.com"
+
+backlog_provider:
+  type: str
+  help: "Agile backlog tracking adapter"
+  choices:
+    - todo
+    - github
+    - gitlab
+  default: todo

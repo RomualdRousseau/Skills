@@ -1,0 +1,78 @@
+"""Headless simulation and physics tests.
+
+These tests run completely headlessly without creating any display or window.
+"""
+
+from {{ package_name }}.core.constants import (
+    BALL_RADIUS,
+    PADDLE_WIDTH,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+)
+from {{ package_name }}.core.state import GameState
+from {{ package_name }}.game.scene.play_scene import PlayScene
+from {{ package_name }}.game.simulation import update_simulation
+
+
+class MockInput:
+    """Mock input provider for headless testing."""
+
+    def __init__(self, axis: float = 0.0) -> None:
+        self.axis = axis
+
+    def get_horizontal_axis(self) -> float:
+        return self.axis
+
+
+def test_paddle_movement_bounds() -> None:
+    """Verify that paddle movement is clamped within window boundaries."""
+    # Given: game state with ball frozen vertically to avoid early game over
+    state = GameState.initial(screen_w=float(SCREEN_WIDTH), screen_h=float(SCREEN_HEIGHT))
+    state.ball_vy = 0.0
+
+    # When: moving left extensively
+    for _ in range(50):
+        state = update_simulation(state, move_input=-1.0, dt=0.05)
+    # Then: clamped to left edge
+    assert state.paddle_x == 0.0
+
+    # When: moving right extensively
+    for _ in range(50):
+        state = update_simulation(state, move_input=1.0, dt=0.05)
+    # Then: clamped to right edge
+    max_x = float(SCREEN_WIDTH) - PADDLE_WIDTH
+    assert state.paddle_x == max_x
+
+
+def test_ball_wall_bounces() -> None:
+    """Verify ball bounces when hitting horizontal boundaries."""
+    state = GameState.initial(screen_w=float(SCREEN_WIDTH), screen_h=float(SCREEN_HEIGHT))
+    state.ball_x = 5.0
+    state.ball_vx = -100.0
+
+    # Step simulation
+    state = update_simulation(state, move_input=0.0, dt=0.1)
+
+    # Ball should have bounced rightward and clamped to radius
+    assert state.ball_vx > 0.0
+    assert state.ball_x >= BALL_RADIUS
+
+
+def test_game_over_trigger(initial_state: GameState) -> None:
+    """Verify game over is triggered when ball drops below bottom edge."""
+    state = initial_state
+    state.ball_y = float(SCREEN_HEIGHT) + 50.0
+
+    state = update_simulation(state, move_input=0.0, dt=0.1)
+    assert state.is_game_over is True
+
+
+def test_play_scene_headless_update() -> None:
+    """Verify PlayScene runs with mock input provider headlessly."""
+    mock_input = MockInput(axis=1.0)
+    scene = PlayScene(input_provider=mock_input)
+    initial_x = scene.state.paddle_x
+
+    scene.update(dt=0.1)
+
+    assert scene.state.paddle_x > initial_x

@@ -17,6 +17,10 @@ lint-code:
     uvx --no-env-file ruff check .
     uvx --no-env-file ruff format --check .
 
+# Test all project templates by instantiating and verifying them
+test-templates:
+    uv run python scripts/test_templates.py
+
 # Run all local lints (Code + Skills structure)
 lint: lint-code lint-skills
 

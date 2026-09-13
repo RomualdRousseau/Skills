@@ -1,0 +1,35 @@
+# Justfile for {{ project_name }}
+
+default:
+    @just --list
+
+_ensure_env:
+    @test -f .env || touch .env
+
+# Install recommended AI agent skills
+setup-skills:
+    npx skills add RomualdRousseau/Skills --skill python-developer --skill python-raylib --skill game-designer --skill backlog-{{ backlog_provider }}
+
+# Launch the game with Raylib window
+run: _ensure_env
+    uv run --no-env-file {{ package_name }}
+
+# Run headless test suite (no window opened)
+test: _ensure_env
+    uv run --no-env-file pytest
+
+# Run linting checks
+lint:
+    uvx --no-env-file ruff check .
+    uvx --no-env-file ruff format --check .
+
+# Format code automatically
+format:
+    uvx --no-env-file ruff format .
+
+# Run full checks (lint + test)
+check: lint test
+
+# Clean caches and temporary build files
+clean:
+    rm -rf .ruff_cache .pytest_cache dist build *.egg-info

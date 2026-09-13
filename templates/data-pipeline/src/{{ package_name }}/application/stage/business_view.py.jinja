@@ -1,0 +1,39 @@
+"""Gold / Business View stage performing analytical SQL aggregations using DuckDB."""
+
+import duckdb
+import polars as pl
+
+
+def aggregate_business_metrics(silver_df: pl.DataFrame) -> pl.DataFrame:
+    """Aggregate total volume and transaction count per user from Silver records."""
+    if silver_df.is_empty():
+        return pl.DataFrame(
+            schema={
+                "user_id": pl.Utf8,
+                "total_volume": pl.Float64,
+                "transaction_count": pl.Int64,
+                "avg_transaction": pl.Float64,
+            }
+        )
+
+    # Use DuckDB to execute SQL over in-memory Polars DataFrame directly
+    con = duckdb.connect()
+    # Register Polars DataFrame in DuckDB connection
+    con.register("silver_transactions", silver_df)
+
+    query = """
+    SELECT
+        user_id,
+        ROUND(SUM(amount), 2) AS total_volume,
+        COUNT(transaction_id) AS transaction_count,
+        ROUND(AVG(amount), 2) AS avg_transaction
+    FROM silver_transactions
+    GROUP BY user_id
+    ORDER BY total_volume DESC;
+    """
+
+    gold_arrow = con.execute(query).arrow()
+    gold_df = pl.from_arrow(gold_arrow)
+    con.close()
+
+    return gold_df  # type: ignore[return-value]

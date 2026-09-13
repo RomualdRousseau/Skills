@@ -26,7 +26,48 @@ Skills reside in a flat directory hierarchy directly under `skills/<skill-name>/
 | **Project Owner (GitLab Issues)** | `product-owner` + `backlog-gitlab` |
 | **Project Owner (Local TODO.md)** | `product-owner` + `backlog-todo` |
 
-### 3. Activating a Skill
+### 3. Project Templates (Copier)
+
+This repository provides zero-install project templates powered by [Copier](https://copier.readthedocs.io/) and Astral `uv`. Each template includes an embedded `AGENTS.md` pre-configured with the corresponding skills, Power of 10 safety rules, BDD tests, and `just` commands.
+
+To scaffold a new project directly from this git repository:
+
+```bash
+# Interactive selection (prompts for template type and configuration)
+uvx copier copy gh:RomualdRousseau/Skills my-project
+
+# Or scaffold a specific template non-interactively
+uvx copier copy -d template_type=python-app gh:RomualdRousseau/Skills my-app
+uvx copier copy -d template_type=python-game gh:RomualdRousseau/Skills my-game
+uvx copier copy -d template_type=data-pipeline gh:RomualdRousseau/Skills my-pipeline
+uvx copier copy -d template_type=gymnasium-env gh:RomualdRousseau/Skills my-env
+```
+
+| Template | Embedded Skills & Architecture | Verification |
+|---|---|---|
+| **`python-app`** | `python-developer` + `python-hexagonal` (Ports & Adapters, CQRS) | `just check` |
+| **`python-game`** | `python-developer` + `python-raylib` + `game-designer` (Headless physics & Raylib) | `just check` |
+| **`data-pipeline`** | `python-developer` + `data-engineer` (Medallion Bronze/Silver/Gold, Polars, DuckDB) | `just check` |
+| **`gymnasium-env`** | `python-developer` + `gymnasium-env` (Farama Gym API, Raylib render, Fire CLI) | `just check` |
+
+### 4. Installing Skills into Existing Projects (`npx skills`)
+
+All skills in this repository follow the open [Agent Skills](https://skills.sh/) standard (`SKILL.md`). You can install any skill directly into your existing project or editor using the `npx skills` CLI:
+
+```bash
+# Install a single skill from this repository
+npx skills add RomualdRousseau/Skills --skill python-developer
+
+# Install multiple composable skills together
+npx skills add RomualdRousseau/Skills --skill python-developer --skill python-hexagonal
+
+# Target a specific AI coding agent (e.g. claude-code, cursor)
+npx skills add RomualdRousseau/Skills --skill python-developer -a claude-code
+```
+
+The CLI downloads the selected skills into `.agents/skills/<skill-name>/`, where modern AI coding agents automatically discover and load their instructions and rules.
+
+### 5. Activating a Skill
 
 Reference the skill by name when working with your agent:
 
@@ -35,7 +76,7 @@ Reference the skill by name when working with your agent:
 /gymnasium-env
 ```
 
-### 4. Following the Development Lifecycle
+### 6. Following the Development Lifecycle
 
 All development follows a strict **Research -> Strategy -> Execution** lifecycle:
 

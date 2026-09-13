@@ -1,0 +1,81 @@
+"""CLI interface exposing play, test_env, and eval via Google Fire."""
+
+import time
+
+import fire
+import pyray as pr
+from gymnasium.utils.env_checker import check_env
+
+from .env.gym_env import CustomEnv
+
+
+class EnvironmentCLI:
+    """CLI commands for environment verification, interactive play, and evaluation."""
+
+    def test_env(self) -> None:
+        """Run standard Farama Gymnasium environment API conformance check."""
+        print("Checking environment conformance with Farama Gymnasium API...")
+        env = CustomEnv()
+        check_env(env.unwrapped)
+        print("✅ Environment passed all Farama check_env assertions!")
+
+    def play(self) -> None:
+        """Run interactive human gameplay with Raylib visualization."""
+        print("Launching interactive play mode...")
+        print("Controls: Left Arrow (Accelerate Left), Right Arrow (Accelerate Right), None (Idle)")
+
+        env = CustomEnv(render_mode="human")
+        obs, _ = env.reset()
+
+        try:
+            while True:
+                # Capture keyboard input
+                action = 1  # idle
+                if pr.is_key_down(pr.KeyboardKey.KEY_LEFT):
+                    action = 0
+                elif pr.is_key_down(pr.KeyboardKey.KEY_RIGHT):
+                    action = 2
+
+                obs, reward, terminated, truncated, _ = env.step(action)
+
+                if terminated or truncated:
+                    print("Episode finished. Resetting...")
+                    obs, _ = env.reset()
+
+                time.sleep(0.05)
+        except KeyboardInterrupt:
+            print("\nExiting play mode.")
+        finally:
+            env.close()
+
+    def eval(self, episodes: int = 5) -> None:
+        """Evaluate a random baseline policy over multiple episodes."""
+        print(f"Running evaluation over {episodes} episodes...")
+        env = CustomEnv()
+
+        total_rewards = []
+        for ep in range(episodes):
+            _, _ = env.reset(seed=ep)
+            ep_reward = 0.0
+            done = False
+
+            while not done:
+                action = int(env.action_space.sample())
+                _, reward, terminated, truncated, _ = env.step(action)
+                ep_reward += reward
+                done = terminated or truncated
+
+            total_rewards.append(ep_reward)
+            print(f"Episode {ep + 1}: Total Reward = {ep_reward:.2f}")
+
+        avg_reward = sum(total_rewards) / len(total_rewards)
+        print(f"\nAverage Reward: {avg_reward:.2f}")
+
+
+def main() -> int:
+    """Run CLI dispatch."""
+    fire.Fire(EnvironmentCLI)
+
+
+if __name__ == "__main__":
+    main()

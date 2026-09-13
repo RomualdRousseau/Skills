@@ -1,0 +1,21 @@
+"""Domain and application exceptions adhering to fail-closed principles."""
+
+
+class DomainError(Exception):
+    """Base class for all domain-specific errors."""
+
+
+class UserNotFoundError(DomainError):
+    """Raised when a requested user cannot be located."""
+
+    def __init__(self, user_id: str) -> None:
+        super().__init__(f"User with id '{user_id}' was not found.")
+        self.user_id = user_id
+
+
+class UserAlreadyExistsError(DomainError):
+    """Raised when attempting to create a user that already exists."""
+
+    def __init__(self, user_id: str) -> None:
+        super().__init__(f"User with id '{user_id}' already exists.")
+        self.user_id = user_id

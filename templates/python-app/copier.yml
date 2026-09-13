@@ -1,0 +1,36 @@
+_exclude:
+  - "copier.yml"
+
+project_name:
+  type: str
+  help: "What is your project's name?"
+  default: "Python App"
+
+package_name:
+  type: str
+  help: "Python package name (snake_case)"
+  default: "{{ project_name|lower|replace(' ', '_')|replace('-', '_') }}"
+
+project_description:
+  type: str
+  help: "Short description of the project"
+  default: "A high-integrity Python application using Hexagonal Architecture."
+
+author_name:
+  type: str
+  help: "Author name"
+  default: "Developer"
+
+author_email:
+  type: str
+  help: "Author email address"
+  default: "dev@example.com"
+
+backlog_provider:
+  type: str
+  help: "Agile backlog tracking adapter"
+  choices:
+    - todo
+    - github
+    - gitlab
+  default: todo

@@ -1,0 +1,13 @@
+"""Pipeline fail-closed domain exceptions."""
+
+
+class PipelineError(Exception):
+    """Base exception for all pipeline failures."""
+
+
+class DataContractViolationError(PipelineError):
+    """Raised when incoming records violate required schemas."""
+
+
+class QuarantineThresholdExceededError(PipelineError):
+    """Raised when corrupted record count exceeds safety threshold."""

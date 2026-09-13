@@ -1,0 +1,21 @@
+"""End-to-end integration test of the Medallion pipeline."""
+
+from typing import Any
+
+from {{ package_name }}.infrastructure.orchestration.pipeline_runner import (
+    PipelineRunner,
+)
+
+
+def test_pipeline_end_to_end(sample_valid_records: list[dict[str, Any]]) -> None:
+    """Verify Bronze -> Silver -> Gold execution flow via PipelineRunner."""
+    runner = PipelineRunner()
+    summary = runner.run(sample_valid_records)
+
+    assert summary.raw_count == 2
+    assert summary.quarantine_count == 0
+    assert summary.silver_count == 2
+    assert len(summary.gold_df) == 2
+
+    total_volume = summary.gold_df["total_volume"].sum()
+    assert total_volume == 150.0

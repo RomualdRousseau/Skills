@@ -1,0 +1,20 @@
+"""Unit tests for state initialization and slots invariants."""
+
+from {{ package_name }}.core.constants import SCREEN_HEIGHT, SCREEN_WIDTH
+from {{ package_name }}.core.state import GameState
+
+
+def test_initial_state_geometry() -> None:
+    """Verify initial coordinates and default values."""
+    state = GameState.initial(screen_w=float(SCREEN_WIDTH), screen_h=float(SCREEN_HEIGHT))
+
+    assert state.score == 0
+    assert state.is_game_over is False
+    assert state.paddle_y == float(SCREEN_HEIGHT) - 40.0
+    assert state.ball_x == float(SCREEN_WIDTH) / 2.0
+    assert state.ball_y == float(SCREEN_HEIGHT) / 2.0
+
+
+def test_state_slots_invariant(initial_state: GameState) -> None:
+    """Verify that GameState uses slots to enforce memory discipline."""
+    assert hasattr(initial_state, "__slots__")

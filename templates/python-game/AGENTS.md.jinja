@@ -1,0 +1,103 @@
+# Agent Guidance: {{ project_name }}
+
+This document provides mandatory operational instructions for AI agents working on this game codebase.
+
+## Project Overview
+
+- **Project Name:** `{{ project_name }}`
+- **Package:** `{{ package_name }}`
+- **Engine / Architecture:** Decoupled 2D Game Architecture with Raylib Rendering and Headless Simulation
+- **Tooling:** Python 3.11+, `uv`, `ruff`, `pytest`, `just`, `raylib`
+
+## Active Skills & Standards
+
+When operating in this repository, adopt and enforce the rules of:
+1. **`python-developer`**: Power of 10 safety rules, Behavioral TDD, Pytest Given/When/Then, Hypothesis testing.
+2. **`python-raylib`**: Decoupled game loop, protocol-driven rendering, strict separation between simulation and drawing.
+3. **`game-designer`**: Game feel, juiciness, visual feedback within 16ms, clear state transitions.
+{% if backlog_provider == 'todo' %}
+4. **`backlog-todo`**: Track tasks, user stories, and acceptance criteria in `TODO.md`.
+{% elif backlog_provider == 'github' %}
+4. **`backlog-github`**: Track user stories and acceptance criteria via GitHub Issues (`gh issue`).
+{% elif backlog_provider == 'gitlab' %}
+4. **`backlog-gitlab`**: Track user stories and acceptance criteria via GitLab Issues (`glab issue`).
+{% endif %}
+
+### Installing Recommended Skills
+To install or update the recommended skills in your environment, run:
+```bash
+just setup-skills
+# Or directly via npx skills:
+npx skills add RomualdRousseau/Skills --skill python-developer --skill python-raylib --skill game-designer --skill backlog-{{ backlog_provider }}
+```
+
+---
+
+## Architectural Principles: Decoupled Simulation & Rendering
+
+All game code resides under `src/{{ package_name }}/` adhering to `skills/python-raylib`:
+
+```
+src/{{ package_name }}/
+├── core/                  # Fundamental math, constants, and state models
+│   ├── constants.py       # Screen dimensions, frame rates, physics constants
+│   └── state.py           # Game state representation with __slots__
+├── game/                  # Game mechanics, simulation, and scene coordination
+│   ├── simulation.py      # Pure headless simulation step (ZERO Raylib imports)
+│   └── scene/             # Scene protocols and coordinator
+│       ├── base.py
+│       └── play_scene.py
+├── engine/                # Raylib hardware interfacing (drawing, input, audio)
+│   ├── input_handler.py   # Keyboard/gamepad polling
+│   └── renderer.py        # Raylib drawing logic using `import pyray as pr`
+└── main.py                # Main game loop coordinating engine and scene
+```
+
+### Critical Invariants
+1. **Headless Testability:**
+   - The simulation logic (`game/simulation.py`) and state models (`core/state.py`) must **never** call Raylib window functions (`init_window`, `begin_drawing`, etc.).
+   - All tests must run headlessly in CI without an X11 or Wayland display server.
+2. **Import Convention:**
+   - Always alias `pyray` as `pr`: `import pyray as pr`.
+3. **Renderer Purity:**
+   - The renderer takes the current `GameState` as read-only input and executes draw commands. It must **never** mutate physics or game state.
+4. **Deterministic Timestep:**
+   - Simulation updates take `dt: float` and can be stepped deterministically.
+
+---
+
+## Testing & Quality Discipline
+
+### 1. Headless Unit & Physics Testing
+Simulate game physics and state transitions at maximum CPU speed without graphics:
+
+```python
+def test_paddle_movement_bounds() -> None:
+    """Verify paddle movement is clamped within window boundaries."""
+    state = GameState.initial(screen_w=800.0, screen_h=450.0)
+    for _ in range(50):
+        state = update_simulation(state, move_input=-1.0, dt=0.05)
+    assert state.paddle_x == 0.0
+```
+
+### 2. Verification Commands
+Always verify changes locally using `just`:
+```bash
+# Install agent skills
+just setup-skills
+
+# Run headless test suite
+just test
+
+# Check formatting and linting
+just lint
+
+# Format code automatically
+just format
+
+# Full validation (lint + test)
+just check
+
+# Run the game interactively
+just run
+```

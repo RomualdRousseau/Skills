@@ -1,0 +1,18 @@
+"""Scene interface adhering to Power of 10 Rule 8 (protocols)."""
+
+from typing import Protocol
+
+from ...core.state import GameState
+
+
+class Scene(Protocol):
+    """Protocol for game scenes coordinating logic and rendering."""
+
+    def update(self, dt: float) -> None:
+        """Advance scene logic."""
+        ...
+
+    @property
+    def state(self) -> GameState:
+        """Retrieve current scene game state."""
+        ...

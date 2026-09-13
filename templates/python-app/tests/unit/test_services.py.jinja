@@ -1,0 +1,49 @@
+"""Unit tests for application services."""
+
+import pytest
+
+from {{ package_name }}.application.service.user_service import UserService
+from {{ package_name }}.infrastructure.adapter.in_memory_user_repository import (
+    InMemoryUserRepository,
+)
+from {{ package_name }}.shared.exception.errors import (
+    UserAlreadyExistsError,
+    UserNotFoundError,
+)
+
+
+class TestUserService:
+    """BDD style unit tests for UserService."""
+
+    def test_create_user_success(self, empty_user_repository: InMemoryUserRepository) -> None:
+        """Verify that a valid user creation command persists and returns the user."""
+        # Given: an empty repository and an initialized service
+        service = UserService(repository=empty_user_repository)
+
+        # When: the user is created
+        user = service.create_user(user_id="u-1", email="bob@example.com", name="Bob")
+
+        # Then: the user is returned and persisted in the repository
+        assert user.id == "u-1"
+        assert user.name == "Bob"
+        assert len(empty_user_repository.list_all()) == 1
+
+    def test_create_duplicate_user_raises_error(
+        self, empty_user_repository: InMemoryUserRepository
+    ) -> None:
+        """Verify that creating an existing user ID raises UserAlreadyExistsError."""
+        # Given: an existing user in repository
+        service = UserService(repository=empty_user_repository)
+        service.create_user(user_id="u-1", email="bob@example.com", name="Bob")
+
+        # When / Then: duplicate creation raises error
+        with pytest.raises(UserAlreadyExistsError):
+            service.create_user(user_id="u-1", email="bob2@example.com", name="Bob Two")
+
+    def test_get_nonexistent_user_raises_error(
+        self, empty_user_repository: InMemoryUserRepository
+    ) -> None:
+        """Verify that requesting an unknown user ID raises UserNotFoundError."""
+        service = UserService(repository=empty_user_repository)
+        with pytest.raises(UserNotFoundError):
+            service.get_user(user_id="nonexistent")

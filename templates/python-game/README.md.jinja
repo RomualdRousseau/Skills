@@ -1,0 +1,40 @@
+# {{ project_name }}
+
+{{ project_description }}
+
+## 🚀 Quickstart
+
+Ensure you have [Astral `uv`](https://docs.astral.sh/uv/) and [`just`](https://github.com/casey/just) installed.
+
+```bash
+# Install recommended AI agent skills
+just setup-skills
+
+# Launch the game
+just run
+
+# Run headless tests (zero graphics dependencies in test run)
+just test
+
+# Check code formatting and linting
+just check
+```
+
+## 🤖 AI Agent Setup
+
+This repository is optimized for AI coding agents adhering to [`AGENTS.md`](file:///home/romuald/Projects/Perso/Skills/AGENTS.md). You can install or update the recommended skills using the open [Agent Skills](https://skills.sh/) standard via `npx skills`:
+
+```bash
+just setup-skills
+# Or directly:
+npx skills add RomualdRousseau/Skills --skill python-developer --skill python-raylib --skill game-designer --skill backlog-{{ backlog_provider }}
+```
+
+## 🎮 Architecture
+
+This game utilizes a **Decoupled 2D Architecture** adhering to `skills/python-raylib`:
+- `src/{{ package_name }}/core/`: State definition with `__slots__` and constants.
+- `src/{{ package_name }}/game/`: Headless simulation step and scene management.
+- `src/{{ package_name }}/engine/`: Raylib hardware interfacing (drawing with `import pyray as pr`, input polling).
+
+AI agents working in this repository should refer to [`AGENTS.md`](file:///home/romuald/Projects/Perso/Skills/AGENTS.md) for architectural guidelines and rules.

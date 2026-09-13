@@ -1,0 +1,56 @@
+"""Unit and property tests for domain models.
+
+Adheres to Power of 10 Rule 10 (Property-based testing with Hypothesis).
+"""
+
+import pytest
+from hypothesis import given
+from hypothesis import strategies as st
+
+from {{ package_name }}.application.model.user import User
+
+
+class TestUserDomainModel:
+    """Validate User entity invariants and validation behavior."""
+
+    def test_create_valid_user(self) -> None:
+        # Given: valid user parameters
+        user_id = "user-123"
+        email = "user@example.com"
+        name = "Valid User"
+
+        # When: user entity is created
+        user = User(id=user_id, email=email, name=name)
+
+        # Then: attributes are set properly
+        assert user.id == user_id
+        assert user.email == email
+        assert user.name == name
+
+    def test_empty_user_id_raises_value_error(self) -> None:
+        with pytest.raises(ValueError, match="User ID cannot be empty"):
+            User(id="  ", email="user@example.com", name="User")
+
+    def test_empty_name_raises_value_error(self) -> None:
+        with pytest.raises(ValueError, match="User name cannot be empty"):
+            User(id="id-1", email="user@example.com", name="   ")
+
+    def test_invalid_email_format_raises_value_error(self) -> None:
+        with pytest.raises(ValueError, match="Invalid email address"):
+            User(id="id-1", email="invalid_email", name="User")
+
+    @given(
+        name=st.text(min_size=1, max_size=50).filter(lambda s: bool(s.strip())),
+        domain=st.text(
+            alphabet=st.characters(categories=["Ll", "Nd"]),
+            min_size=2,
+            max_size=15,
+        ),
+    )
+    def test_user_creation_invariant(self, name: str, domain: str) -> None:
+        """Hypothesis property test verifying valid name and email invariant."""
+        email = f"user@{domain}.com"
+        user = User(id="hypo-id", email=email, name=name)
+        assert user.id == "hypo-id"
+        assert user.name == name
+        assert user.email == email

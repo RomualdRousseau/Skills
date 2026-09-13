@@ -1,0 +1,45 @@
+"""Silver / Core Model stage performing Polars deduplication and normalization."""
+
+import polars as pl
+
+from ..model.schemas import RawTransaction
+
+
+def transform_to_core_model(records: list[RawTransaction]) -> pl.DataFrame:
+    """Transform valid Bronze records into cleaned and deduplicated Silver DataFrame."""
+    if not records:
+        return pl.DataFrame(
+            schema={
+                "transaction_id": pl.Utf8,
+                "user_id": pl.Utf8,
+                "amount": pl.Float64,
+                "currency": pl.Utf8,
+                "timestamp": pl.Datetime,
+            }
+        )
+
+    # Convert Pydantic records to dictionary list
+    data = [rec.model_dump() for rec in records]
+
+    # Build Polars DataFrame
+    df = pl.DataFrame(data)
+
+    # Perform Silver transformations:
+    # 1. Deduplicate by transaction_id keeping the latest timestamp
+    # 2. Normalize currency to uppercase
+    # 3. Trim whitespace from strings
+    cleaned_df = (
+        df.lazy()
+        .with_columns(
+            [
+                pl.col("transaction_id").str.strip_chars(),
+                pl.col("user_id").str.strip_chars(),
+                pl.col("currency").str.to_uppercase().str.strip_chars(),
+            ]
+        )
+        .sort("timestamp", descending=True)
+        .unique(subset=["transaction_id"], keep="first")
+        .collect()
+    )
+
+    return cleaned_df

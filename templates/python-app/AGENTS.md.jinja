@@ -1,0 +1,142 @@
+# Agent Guidance: {{ project_name }}
+
+This document provides mandatory operational instructions for AI agents working in this codebase.
+
+## Project Overview
+
+- **Project Name:** `{{ project_name }}`
+- **Package:** `{{ package_name }}`
+- **Architecture:** Hexagonal Architecture (Ports and Adapters) with CQRS separation
+- **Tooling:** Python 3.11+, `uv`, `ruff`, `pytest`, `just`
+
+## Active Skills & Standards
+
+When operating in this repository, adopt and enforce the rules of:
+1. **`python-developer`**: Power of 10 safety rules, Behavioral TDD, Vanilla BDD Pytest, Hypothesis testing.
+2. **`python-hexagonal`**: Strict architectural layer separation, pure application core, protocol-driven adapters.
+{% if backlog_provider == 'todo' %}
+3. **`backlog-todo`**: Track tasks, user stories, and acceptance criteria in `TODO.md`.
+{% elif backlog_provider == 'github' %}
+3. **`backlog-github`**: Track user stories and acceptance criteria via GitHub Issues (`gh issue`).
+{% elif backlog_provider == 'gitlab' %}
+3. **`backlog-gitlab`**: Track user stories and acceptance criteria via GitLab Issues (`glab issue`).
+{% endif %}
+
+### Installing Recommended Skills
+To install or update the recommended skills in your environment, run:
+```bash
+just setup-skills
+# Or directly via npx skills:
+npx skills add RomualdRousseau/Skills --skill python-developer --skill python-hexagonal --skill backlog-{{ backlog_provider }}
+```
+
+---
+
+## Architectural Layers (Hexagonal Architecture)
+
+All application code resides under `src/{{ package_name }}/`:
+
+```
+src/{{ package_name }}/
+├── application/       # Pure domain logic, use cases & orchestration (Singular naming)
+│   ├── model/         # Immutable entities and value objects (using @dataclass(slots=True, frozen=True))
+│   │   └── user.py
+│   ├── port/          # Protocol interfaces (typing.Protocol)
+│   │   └── user_repository.py
+│   └── service/       # Application services orchestrating CQRS workflows
+│       └── user_service.py
+├── infrastructure/    # Concrete adapters implementing application ports
+│   └── adapter/
+│       └── in_memory_user_repository.py
+├── presentation/      # Delivery mechanisms and composition root
+│   └── cli/
+│       └── app.py
+├── shared/            # Cross-cutting fail-closed primitives
+│   └── exception/
+│       └── errors.py
+└── main.py            # Entry point calling presentation CLI
+```
+
+### Dependency Inversion Rule
+- Dependencies flow **inward only**:
+  `presentation` / `infrastructure` -> `application`.
+- The `application` layer must **never** import from `infrastructure` or `presentation`, nor from external I/O libraries (databases, HTTP clients, UI frameworks).
+- Decouple all external systems using `typing.Protocol` interfaces defined in `application/port/`.
+
+---
+
+## Shared Engineering Standards: The "Power of 10"
+
+1. **No Recursion:** Use iterative loops with explicit stacks.
+2. **Hard Loop Bounds:** Every `while` loop must be bounded by an explicit `MAX_ITERATIONS` constant.
+3. **Memory Discipline:** Use `__slots__` or `@dataclass(slots=True, frozen=True)` on domain entities.
+4. **Boundary Validation:** Validate inputs at adapter entry points using Pydantic or `TypeGuard`.
+5. **Pure Functions:** Domain logic must be side-effect free and deterministic.
+6. **Dependency Injection:** Pass collaborators into constructors; never instantiate concrete dependencies inside services.
+7. **No Dynamic Magic:** Prohibit `eval()`, `exec()`, or dynamic `getattr()` for sensitive logic.
+8. **Protocol Interfaces:** Define collaborators using `typing.Protocol`.
+9. **Fail-Closed:** Default to abortion/rejection on ambiguous input.
+10. **Test the Invariants:** Test domain invariants using property-based testing (`hypothesis`).
+
+---
+
+## Testing & Quality Discipline
+
+### 1. Behavioral TDD (Red-Green-Refactor)
+- Write the failing behavioral test first.
+- Implement the minimal viable code to turn the test green.
+- Refactor for cleanliness and modularity while keeping tests passing.
+
+### 2. Vanilla Pytest BDD Format
+All tests must structure behavior explicitly using Given/When/Then:
+
+```python
+def test_create_user_service() -> None:
+    """Verify that creating a user successfully persists and returns the entity."""
+    # Given: an empty repository and an active user service
+    repo = InMemoryUserRepository()
+    service = UserService(repository=repo)
+
+    # When: the user creation command is handled
+    user = service.create_user(user_id="u-1", email="alice@example.com", name="Alice")
+
+    # Then: the user is persisted and returned with expected attributes
+    assert user.id == "u-1"
+    assert user.name == "Alice"
+    assert repo.get_by_id("u-1") == user
+```
+
+### 3. Verification Commands
+Always verify changes locally using `just`:
+```bash
+# Install agent skills
+just setup-skills
+
+# Run all unit and integration tests
+just test
+
+# Check formatting and linting
+just lint
+
+# Format code automatically
+just format
+
+# Full validation (lint + test)
+just check
+```
+
+---
+
+## Backlog & Story Management
+
+{% if backlog_provider == 'todo' %}
+- All work items and user stories are tracked in [`TODO.md`](file:///home/romuald/Projects/Perso/Skills/TODO.md).
+- Follow the INVEST criteria for user stories.
+- Update checklist items `- [ ]` to `- [x]` upon completing and verifying acceptance criteria.
+{% elif backlog_provider == 'github' %}
+- Create a User Story issue on GitHub before modifying code: `gh issue create --title "..." --body "### Acceptance Criteria\n- [ ] ..."`.
+- Close the issue once verified with `just check`: `gh issue close <id> --comment "Verified against all acceptance criteria."`.
+{% elif backlog_provider == 'gitlab' %}
+- Create a User Story issue on GitLab before modifying code: `glab issue create --title "..." --description "### Acceptance Criteria\n- [ ] ..."`.
+- Close the issue once verified with `just check`: `glab issue close <id>`.
+{% endif %}

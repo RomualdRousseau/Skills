@@ -1,0 +1,53 @@
+# Root Copier configuration for the Skills repository.
+# Enables interactive template selection or direct instantiation via:
+#   uvx copier copy gh:RomualdRousseau/Skills my-project
+#   uvx copier copy -d template_type=python-app gh:RomualdRousseau/Skills my-app
+
+_subdirectory: "templates/{{ template_type }}"
+_answers_file: ".copier-answers.{{ template_type }}.yaml"
+_exclude:
+  - "copier.yml"
+
+template_type:
+  type: str
+  help: "Which project template would you like to instantiate?"
+  choices:
+    - python-app
+    - python-game
+    - data-pipeline
+    - gymnasium-env
+  default: python-app
+
+project_name:
+  type: str
+  help: "What is your project's name?"
+  default: "My Project"
+
+package_name:
+  type: str
+  help: "Python package name (snake_case)"
+  default: "{{ project_name|lower|replace(' ', '_')|replace('-', '_') }}"
+
+project_description:
+  type: str
+  help: "Short description of the project"
+  default: "A high-integrity Python project."
+
+author_name:
+  type: str
+  help: "Author name"
+  default: "Developer"
+
+author_email:
+  type: str
+  help: "Author email address"
+  default: "dev@example.com"
+
+backlog_provider:
+  type: str
+  help: "Agile backlog tracking adapter"
+  choices:
+    - todo
+    - github
+    - gitlab
+  default: todo

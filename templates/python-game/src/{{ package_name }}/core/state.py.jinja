@@ -1,0 +1,31 @@
+"""Game state representation adhering to Power of 10 Rule 3 (slots)."""
+
+from dataclasses import dataclass
+
+
+@dataclass(slots=True)
+class GameState:
+    """Represents the mutable state of the game loop."""
+
+    paddle_x: float
+    paddle_y: float
+    ball_x: float
+    ball_y: float
+    ball_vx: float
+    ball_vy: float
+    score: int
+    is_game_over: bool
+
+    @classmethod
+    def initial(cls, screen_w: float, screen_h: float) -> "GameState":
+        """Construct the starting game state."""
+        return cls(
+            paddle_x=(screen_w - 100.0) / 2.0,
+            paddle_y=screen_h - 40.0,
+            ball_x=screen_w / 2.0,
+            ball_y=screen_h / 2.0,
+            ball_vx=200.0,
+            ball_vy=-200.0,
+            score=0,
+            is_game_over=False,
+        )

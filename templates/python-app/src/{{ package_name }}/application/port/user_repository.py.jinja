@@ -1,0 +1,21 @@
+"""Repository port protocol adhering to Power of 10 Rule 8 (protocols)."""
+
+from typing import Protocol
+
+from ..model.user import User
+
+
+class UserRepositoryPort(Protocol):
+    """Port for user persistence operations."""
+
+    def save(self, user: User) -> None:
+        """Persist a user domain entity."""
+        ...
+
+    def get_by_id(self, user_id: str) -> User | None:
+        """Retrieve a user domain entity by its unique ID."""
+        ...
+
+    def list_all(self) -> list[User]:
+        """Retrieve all persisted user entities."""
+        ...

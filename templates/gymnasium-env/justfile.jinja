@@ -1,0 +1,43 @@
+# Justfile for {{ project_name }}
+
+default:
+    @just --list
+
+_ensure_env:
+    @test -f .env || touch .env
+
+# Install recommended AI agent skills
+setup-skills:
+    npx skills add RomualdRousseau/Skills --skill python-developer --skill gymnasium-env --skill python-raylib --skill backlog-{{ backlog_provider }}
+
+# Interactive human play
+play: _ensure_env
+    uv run --no-env-file {{ package_name }} play
+
+# Run Gymnasium environment conformance check
+test-env: _ensure_env
+    uv run --no-env-file {{ package_name }} test_env
+
+# Run baseline policy evaluation
+eval: _ensure_env
+    uv run --no-env-file {{ package_name }} eval --episodes=5
+
+# Run tests
+test: _ensure_env
+    uv run --no-env-file pytest
+
+# Run linting checks
+lint:
+    uvx --no-env-file ruff check .
+    uvx --no-env-file ruff format --check .
+
+# Format code automatically
+format:
+    uvx --no-env-file ruff format .
+
+# Full validation (lint + test)
+check: lint test
+
+# Clean caches and temporary build files
+clean:
+    rm -rf .ruff_cache .pytest_cache dist build *.egg-info

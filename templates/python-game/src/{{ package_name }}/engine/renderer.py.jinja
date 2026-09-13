@@ -1,0 +1,79 @@
+"""Hardware rendering adapter using Raylib with aliased pr import."""
+
+import pyray as pr
+
+from ..core.constants import (
+    BALL_RADIUS,
+    PADDLE_HEIGHT,
+    PADDLE_WIDTH,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+    TARGET_FPS,
+)
+from ..core.state import GameState
+
+
+class RaylibRenderer:
+    """Encapsulates Raylib windowing and drawing logic."""
+
+    def __init__(self, title: str = "{{ project_name }}") -> None:
+        self.title = title
+        self._initialized = False
+
+    def init_window(self) -> None:
+        """Initialize Raylib window and frame rate."""
+        pr.init_window(SCREEN_WIDTH, SCREEN_HEIGHT, self.title)
+        pr.set_target_fps(TARGET_FPS)
+        self._initialized = True
+
+    def window_should_close(self) -> bool:
+        """Query if window close event was triggered."""
+        return bool(pr.window_should_close())
+
+    def begin_frame(self) -> None:
+        """Begin 2D rendering buffer."""
+        pr.begin_drawing()
+        pr.clear_background(pr.Color(20, 24, 30, 255))
+
+    def render(self, state: GameState) -> None:
+        """Draw current game state to active frame buffer."""
+        # Paddle
+        pr.draw_rectangle(
+            int(state.paddle_x),
+            int(state.paddle_y),
+            int(PADDLE_WIDTH),
+            int(PADDLE_HEIGHT),
+            pr.Color(80, 180, 255, 255),
+        )
+
+        # Ball
+        pr.draw_circle(
+            int(state.ball_x),
+            int(state.ball_y),
+            BALL_RADIUS,
+            pr.Color(255, 200, 50, 255),
+        )
+
+        # Score & Overlay
+        pr.draw_text(f"Score: {state.score}", 20, 20, 20, pr.WHITE)
+
+        if state.is_game_over:
+            text = "GAME OVER - Press R to Restart"
+            w = pr.measure_text(text, 24)
+            pr.draw_text(
+                text,
+                (SCREEN_WIDTH - w) // 2,
+                SCREEN_HEIGHT // 2,
+                24,
+                pr.Color(255, 80, 80, 255),
+            )
+
+    def end_frame(self) -> None:
+        """End 2D rendering buffer."""
+        pr.end_drawing()
+
+    def close(self) -> None:
+        """Close window and release graphics resources."""
+        if self._initialized:
+            pr.close_window()
+            self._initialized = False

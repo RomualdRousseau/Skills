@@ -1,0 +1,54 @@
+"""Pipeline orchestrator running Bronze -> Silver -> Gold stages."""
+
+from dataclasses import dataclass
+from typing import Any
+
+import polars as pl
+
+from ...application.stage.business_view import aggregate_business_metrics
+from ...application.stage.core_model import transform_to_core_model
+from ...application.stage.raw import ingest_raw_transactions
+from ...shared.exception.errors import QuarantineThresholdExceededError
+
+
+@dataclass(slots=True, frozen=True)
+class PipelineRunSummary:
+    """Summary metrics of an executed pipeline run."""
+
+    raw_count: int
+    quarantine_count: int
+    silver_count: int
+    gold_df: pl.DataFrame
+
+
+class PipelineRunner:
+    """Executes the full Medallion pipeline stages."""
+
+    def __init__(self, max_quarantine_ratio: float = 0.5) -> None:
+        self.max_quarantine_ratio = max_quarantine_ratio
+
+    def run(self, raw_data: list[dict[str, Any]]) -> PipelineRunSummary:
+        """Execute Bronze Ingestion -> Silver Cleaning -> Gold Aggregations."""
+        # 1. Bronze Stage
+        ingest_res = ingest_raw_transactions(raw_data)
+        quarantine_len = len(ingest_res.quarantine)
+        total_len = len(raw_data)
+
+        if total_len > 0 and (quarantine_len / total_len) > self.max_quarantine_ratio:
+            ratio_str = f"({quarantine_len}/{total_len})"
+            raise QuarantineThresholdExceededError(
+                f"Quarantine ratio {ratio_str} exceeds threshold {self.max_quarantine_ratio}."
+            )
+
+        # 2. Silver Stage
+        silver_df = transform_to_core_model(ingest_res.valid_records)
+
+        # 3. Gold Stage
+        gold_df = aggregate_business_metrics(silver_df)
+
+        return PipelineRunSummary(
+            raw_count=total_len,
+            quarantine_count=quarantine_len,
+            silver_count=len(silver_df),
+            gold_df=gold_df,
+        )

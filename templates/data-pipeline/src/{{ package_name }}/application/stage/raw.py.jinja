@@ -1,0 +1,33 @@
+"""Bronze / Raw ingestion stage with corrupt record quarantine."""
+
+from dataclasses import dataclass
+from typing import Any
+
+from pydantic import ValidationError
+
+from ..model.schemas import RawTransaction
+
+
+@dataclass(slots=True, frozen=True)
+class IngestionResult:
+    """Result of raw ingestion separating valid records from quarantined records."""
+
+    valid_records: list[RawTransaction]
+    quarantine: list[dict[str, Any]]
+
+
+def ingest_raw_transactions(raw_inputs: list[dict[str, Any]]) -> IngestionResult:
+    """Ingest raw transaction payloads, enforcing contract boundary validation."""
+    valid: list[RawTransaction] = []
+    quarantine: list[dict[str, Any]] = []
+
+    for item in raw_inputs:
+        try:
+            record = RawTransaction.model_validate(item)
+            valid.append(record)
+        except (ValidationError, TypeError, ValueError) as exc:
+            quarantined_item = dict(item)
+            quarantined_item["_error"] = str(exc)
+            quarantine.append(quarantined_item)
+
+    return IngestionResult(valid_records=valid, quarantine=quarantine)

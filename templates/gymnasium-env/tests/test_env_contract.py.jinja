@@ -1,0 +1,27 @@
+"""Compliance and contract tests for Gymnasium environment."""
+
+from gymnasium.utils.env_checker import check_env
+
+from {{ package_name }}.env.gym_env import CustomEnv
+
+
+def test_gymnasium_env_checker_compliance(env: CustomEnv) -> None:
+    """Run Farama Gymnasium official environment checker."""
+    check_env(env.unwrapped)
+
+
+def test_observation_space_bounds(env: CustomEnv) -> None:
+    """Verify observations remain strictly inside observation space."""
+    obs, info = env.reset(seed=42)
+    assert env.observation_space.contains(obs)
+
+    for _ in range(50):
+        action = int(env.action_space.sample())
+        obs, reward, terminated, truncated, info = env.step(action)
+        assert env.observation_space.contains(obs)
+        assert isinstance(reward, (float, int))
+        assert isinstance(terminated, bool)
+        assert isinstance(truncated, bool)
+        assert isinstance(info, dict)
+        if terminated or truncated:
+            break

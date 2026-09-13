@@ -1,0 +1,12 @@
+"""Pytest fixtures for headless game tests."""
+
+import pytest
+
+from {{ package_name }}.core.constants import SCREEN_HEIGHT, SCREEN_WIDTH
+from {{ package_name }}.core.state import GameState
+
+
+@pytest.fixture
+def initial_state() -> GameState:
+    """Fixture providing standard starting game state."""
+    return GameState.initial(screen_w=float(SCREEN_WIDTH), screen_h=float(SCREEN_HEIGHT))

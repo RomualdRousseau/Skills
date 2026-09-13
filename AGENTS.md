@@ -56,6 +56,23 @@ If your framework supports command-based skill activation, use the skill name as
 /backlog-github
 ```
 
+## Project Scaffolding via Templates (Copier)
+
+To scaffold a new high-integrity project with an embedded `AGENTS.md` and complete testing harness:
+
+```bash
+# Interactive template wizard
+uvx copier copy gh:RomualdRousseau/Skills <destination>
+
+# Direct template instantiation
+uvx copier copy -d template_type=python-app gh:RomualdRousseau/Skills <destination>
+uvx copier copy -d template_type=python-game gh:RomualdRousseau/Skills <destination>
+uvx copier copy -d template_type=data-pipeline gh:RomualdRousseau/Skills <destination>
+uvx copier copy -d template_type=gymnasium-env gh:RomualdRousseau/Skills <destination>
+```
+
+Each generated project contains an embedded `AGENTS.md` tailored specifically to that project's architecture and active skills. After scaffolding, developers and agents can install recommended skills using `just setup-skills` (which runs `npx skills add RomualdRousseau/Skills --skill ...`).
+
 ## Standard Development Lifecycle
 
 All skills follow this lifecycle:

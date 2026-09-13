@@ -1,0 +1,36 @@
+"""Application service orchestrating user workflows."""
+
+from ...shared.exception.errors import UserAlreadyExistsError, UserNotFoundError
+from ..model.user import User
+from ..port.user_repository import UserRepositoryPort
+
+
+class UserService:
+    """Orchestrates user management commands and queries with Dependency Injection."""
+
+    def __init__(self, repository: UserRepositoryPort) -> None:
+        self._repository = repository
+
+    # Command
+    def create_user(self, user_id: str, email: str, name: str) -> User:
+        """Command to register a new user in the system."""
+        existing = self._repository.get_by_id(user_id)
+        if existing is not None:
+            raise UserAlreadyExistsError(user_id)
+
+        user = User(id=user_id, email=email, name=name)
+        self._repository.save(user)
+        return user
+
+    # Query
+    def get_user(self, user_id: str) -> User:
+        """Query to retrieve a user by ID."""
+        user = self._repository.get_by_id(user_id)
+        if user is None:
+            raise UserNotFoundError(user_id)
+        return user
+
+    # Query
+    def list_users(self) -> list[User]:
+        """Query to list all registered users."""
+        return self._repository.list_all()

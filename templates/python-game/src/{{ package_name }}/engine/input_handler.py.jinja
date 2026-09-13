@@ -1,0 +1,16 @@
+"""Hardware input polling adapter using Raylib."""
+
+import pyray as pr
+
+
+class RaylibInputHandler:
+    """Raylib hardware keyboard polling adhering to InputProvider protocol."""
+
+    def get_horizontal_axis(self) -> float:
+        """Poll keyboard left/right or A/D keys."""
+        move = 0.0
+        if pr.is_key_down(pr.KeyboardKey.KEY_RIGHT) or pr.is_key_down(pr.KeyboardKey.KEY_D):
+            move += 1.0
+        if pr.is_key_down(pr.KeyboardKey.KEY_LEFT) or pr.is_key_down(pr.KeyboardKey.KEY_A):
+            move -= 1.0
+        return move

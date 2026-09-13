@@ -1,0 +1,44 @@
+# {{ project_name }}
+
+{{ project_description }}
+
+## 🚀 Quickstart
+
+Ensure you have [Astral `uv`](https://docs.astral.sh/uv/) and [`just`](https://github.com/casey/just) installed.
+
+```bash
+# Install recommended AI agent skills
+just setup-skills
+
+# Run the pipeline
+just run
+
+# Run tests
+just test
+
+# Check code formatting & linting
+just check
+```
+
+## 🤖 AI Agent Setup
+
+This repository is optimized for AI coding agents adhering to [`AGENTS.md`](file:///home/romuald/Projects/Perso/Skills/AGENTS.md). You can install or update the recommended skills using the open [Agent Skills](https://skills.sh/) standard via `npx skills`:
+
+```bash
+just setup-skills
+# Or directly:
+npx skills add RomualdRousseau/Skills --skill python-developer --skill data-engineer --skill backlog-{{ backlog_provider }}
+```
+
+## 📊 Medallion Architecture
+
+This data pipeline adheres to the Medallion Hexagonal architecture in `skills/data-engineer`:
+
+- `src/{{ package_name }}/application/model/`: Pydantic data contracts for boundary validation.
+- `src/{{ package_name }}/application/stage/raw.py`: Bronze ingestion and quarantined corrupt records.
+- `src/{{ package_name }}/application/stage/core_model.py`: Silver cleaning, typing, and deduplication with Polars.
+- `src/{{ package_name }}/application/stage/business_view.py`: Gold analytical aggregations and KPIs via DuckDB SQL.
+- `src/{{ package_name }}/infrastructure/orchestration/`: End-to-end pipeline orchestration.
+- `src/{{ package_name }}/shared/exception/`: Fail-closed pipeline exceptions.
+
+AI agents working in this repository should refer to [`AGENTS.md`](file:///home/romuald/Projects/Perso/Skills/AGENTS.md) for architectural rules and invariants.

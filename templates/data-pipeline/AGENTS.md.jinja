@@ -1,0 +1,102 @@
+# Agent Guidance: {{ project_name }}
+
+This document provides mandatory operational instructions for AI agents working in this data engineering repository.
+
+## Project Overview
+
+- **Project Name:** `{{ project_name }}`
+- **Package:** `{{ package_name }}`
+- **Architecture:** Medallion Architecture (Bronze -> Silver -> Gold)
+- **Engine & Tools:** Python 3.11+, `uv`, `polars`, `duckdb`, `pydantic`, `pytest`, `just`
+
+## Active Skills & Standards
+
+When operating in this repository, adopt and enforce the rules of:
+1. **`python-developer`**: Power of 10 safety rules, Behavioral TDD, Pytest Given/When/Then, Hypothesis testing.
+2. **`data-engineer`**: Medallion Hexagonal structure, strict data contracts, idempotent processing, zero silent record drops.
+{% if backlog_provider == 'todo' %}
+3. **`backlog-todo`**: Track tasks, user stories, and acceptance criteria in `TODO.md`.
+{% elif backlog_provider == 'github' %}
+3. **`backlog-github`**: Track user stories and acceptance criteria via GitHub Issues (`gh issue`).
+{% elif backlog_provider == 'gitlab' %}
+3. **`backlog-gitlab`**: Track user stories and acceptance criteria via GitLab Issues (`glab issue`).
+{% endif %}
+
+### Installing Recommended Skills
+To install or update the recommended skills in your environment, run:
+```bash
+just setup-skills
+# Or directly via npx skills:
+npx skills add RomualdRousseau/Skills --skill python-developer --skill data-engineer --skill backlog-{{ backlog_provider }}
+```
+
+---
+
+## Architecture: Medallion Pipeline Layers
+
+All pipeline code resides under `src/{{ package_name }}/` adhering to `skills/data-engineer`:
+
+```
+src/{{ package_name }}/
+├── application/
+│   ├── model/         # Data contracts & Pydantic schemas (RawTransaction)
+│   │   └── schemas.py
+│   └── stage/         # Medallion stages
+│       ├── raw.py             # Bronze: Boundary validation, quarantine, zero silent drops
+│       ├── core_model.py      # Silver: Polars deduplication, cleaning, normalization
+│       └── business_view.py   # Gold: DuckDB analytical aggregations and KPIs
+├── infrastructure/
+│   └── orchestration/ # Pipeline runners and coordinators
+│       └── pipeline_runner.py
+├── shared/
+│   └── exception/     # Fail-closed domain exceptions
+│       └── errors.py
+└── main.py            # CLI entry point executing pipeline
+```
+
+### Core Invariants
+1. **Zero Silent Drops:**
+   - Raw records violating contracts must be captured into a quarantine partition or error structure. Never use `dropna()` or silent `except: pass`.
+2. **Contract Boundary Validation:**
+   - Enforce Pydantic validation on incoming data payloads at the Bronze ingestion boundary.
+3. **Vectorized Operations:**
+   - Use Polars lazy expressions (`col(...)`, `filter(...)`, `with_columns(...)`) for transformations. Never iterate rows using Python `for` loops.
+4. **Zero-Copy Analytical Queries:**
+   - Use DuckDB querying directly over Polars DataFrames for SQL aggregations.
+
+---
+
+## Testing & Quality Discipline
+
+### 1. Schema & Property Testing
+Use Hypothesis to test data contracts and edge cases (NaNs, empty strings, boundary numbers):
+
+```python
+def test_silver_deduplication() -> None:
+    """Verify silver layer correctly deduplicates records by primary key."""
+    # Given: records with duplicate IDs
+    # When: running silver transformation
+    # Then: output dataframe has distinct records with latest timestamp preserved
+```
+
+### 2. Verification Commands
+Always verify changes locally using `just`:
+```bash
+# Install agent skills
+just setup-skills
+
+# Run pipeline test suite
+just test
+
+# Check formatting and linting
+just lint
+
+# Format code automatically
+just format
+
+# Full validation (lint + test)
+just check
+
+# Run the pipeline
+just run
+```

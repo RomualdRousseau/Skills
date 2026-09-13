@@ -1,0 +1,36 @@
+"""Main game loop coordinating hardware adapters and scene simulation."""
+
+import pyray as pr
+
+from .engine.input_handler import RaylibInputHandler
+from .engine.renderer import RaylibRenderer
+from .game.scene.play_scene import PlayScene
+
+
+def main() -> int:
+    """Run the primary game loop."""
+    renderer = RaylibRenderer()
+    renderer.init_window()
+
+    input_handler = RaylibInputHandler()
+    scene = PlayScene(input_provider=input_handler)
+
+    try:
+        while not renderer.window_should_close():
+            dt = pr.get_frame_time()
+
+            # Update scene logic
+            scene.update(dt)
+
+            # Render frame
+            renderer.begin_frame()
+            renderer.render(scene.state)
+            renderer.end_frame()
+    finally:
+        renderer.close()
+
+    return 0
+
+
+if __name__ == "__main__":
+    main()

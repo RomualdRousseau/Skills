@@ -1,0 +1,20 @@
+"""Pytest configuration and shared fixtures for {{ project_name }}."""
+
+import pytest
+
+from {{ package_name }}.application.model.user import User
+from {{ package_name }}.infrastructure.adapter.in_memory_user_repository import (
+    InMemoryUserRepository,
+)
+
+
+@pytest.fixture
+def empty_user_repository() -> InMemoryUserRepository:
+    """Fixture providing a clean in-memory repository."""
+    return InMemoryUserRepository()
+
+
+@pytest.fixture
+def sample_user() -> User:
+    """Fixture providing a standard domain user."""
+    return User(id="user-1", email="alice@example.com", name="Alice")

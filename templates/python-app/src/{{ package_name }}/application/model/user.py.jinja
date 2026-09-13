@@ -1,0 +1,24 @@
+"""Domain entities adhering to Power of 10 Rule 3 (slots) and Rule 4 (validation)."""
+
+import re
+from dataclasses import dataclass
+
+EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
+
+@dataclass(slots=True, frozen=True)
+class User:
+    """User domain entity."""
+
+    id: str
+    email: str
+    name: str
+
+    def __post_init__(self) -> None:
+        """Validate domain invariants at construction boundary."""
+        if not self.id or not self.id.strip():
+            raise ValueError("User ID cannot be empty.")
+        if not self.email or not EMAIL_REGEX.match(self.email):
+            raise ValueError(f"Invalid email address: '{self.email}'.")
+        if not self.name or not self.name.strip():
+            raise ValueError("User name cannot be empty.")

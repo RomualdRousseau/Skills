@@ -1,0 +1,49 @@
+# {{ project_name }}
+
+{{ project_description }}
+
+## 🚀 Quickstart
+
+Ensure you have [Astral `uv`](https://docs.astral.sh/uv/) and [`just`](https://github.com/casey/just) installed.
+
+```bash
+# Install recommended AI agent skills
+just setup-skills
+
+# Conformance check with Farama Gymnasium API
+just test-env
+
+# Baseline policy evaluation
+just eval
+
+# Interactive human play via Raylib
+just play
+
+# Run tests
+just test
+
+# Check formatting and linting
+just check
+```
+
+## 🤖 AI Agent Setup
+
+This repository is optimized for AI coding agents adhering to [`AGENTS.md`](file:///home/romuald/Projects/Perso/Skills/AGENTS.md). You can install or update the recommended skills using the open [Agent Skills](https://skills.sh/) standard via `npx skills`:
+
+```bash
+just setup-skills
+# Or directly:
+npx skills add RomualdRousseau/Skills --skill python-developer --skill gymnasium-env --skill python-raylib --skill backlog-{{ backlog_provider }}
+```
+
+## 🏗️ Architecture
+
+This repository adheres to `skills/gymnasium-env`:
+
+- `src/{{ package_name }}/core/physics.py`: Headless deterministic physics transitions with `__slots__`.
+- `src/{{ package_name }}/env/gym_env.py`: Farama Gymnasium `Env` subclass (`reset`, `step`, `render`, `close`).
+- `src/{{ package_name }}/engine/renderer.py`: Raylib visual rendering using `import pyray as pr` for human observation mode.
+- `src/{{ package_name }}/cli.py`: Google Fire CLI (`play`, `test_env`, `eval`).
+- `src/{{ package_name }}/__init__.py`: Automatic Gymnasium environment registration.
+
+AI agents working in this repository should refer to [`AGENTS.md`](file:///home/romuald/Projects/Perso/Skills/AGENTS.md) for architectural rules and Farama Gymnasium standards.

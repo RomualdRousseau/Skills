@@ -1,0 +1,23 @@
+"""Integration tests validating the InMemoryUserRepository adapter."""
+
+from {{ package_name }}.application.model.user import User
+from {{ package_name }}.infrastructure.adapter.in_memory_user_repository import (
+    InMemoryUserRepository,
+)
+
+
+def test_in_memory_repository_lifecycle() -> None:
+    """Verify save, get_by_id, and list_all operations on the adapter."""
+    # Given: an empty repository and two users
+    repo = InMemoryUserRepository()
+    user1 = User(id="u-1", email="user1@example.com", name="User 1")
+    user2 = User(id="u-2", email="user2@example.com", name="User 2")
+
+    # When: saving both users
+    repo.save(user1)
+    repo.save(user2)
+
+    # Then: users can be retrieved by id and listed
+    assert repo.get_by_id(user1.id) == user1
+    assert repo.get_by_id(user2.id) == user2
+    assert len(repo.list_all()) == 2

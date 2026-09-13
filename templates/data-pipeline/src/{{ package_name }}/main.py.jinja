@@ -1,0 +1,47 @@
+"""CLI entry point executing sample Medallion pipeline run."""
+
+import sys
+from datetime import UTC, datetime
+
+from .infrastructure.orchestration.pipeline_runner import PipelineRunner
+
+
+def main() -> int:
+    """Run an example end-to-end data pipeline processing."""
+    sample_records = [
+        {
+            "transaction_id": "tx-001",
+            "user_id": "usr-alice",
+            "amount": 150.0,
+            "currency": "usd",
+            "timestamp": datetime.now(UTC).isoformat(),
+        },
+        {
+            "transaction_id": "tx-002",
+            "user_id": "usr-bob",
+            "amount": 200.5,
+            "currency": "EUR",
+            "timestamp": datetime.now(UTC).isoformat(),
+        },
+        {
+            "transaction_id": "tx-003",
+            "user_id": "usr-alice",
+            "amount": 50.0,
+            "currency": "USD",
+            "timestamp": datetime.now(UTC).isoformat(),
+        },
+    ]
+
+    runner = PipelineRunner()
+    summary = runner.run(sample_records)
+
+    print(f"Ingested raw: {summary.raw_count}")
+    print(f"Quarantined: {summary.quarantine_count}")
+    print(f"Silver count: {summary.silver_count}")
+    print("\nGold Analytical Aggregation:")
+    print(summary.gold_df)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

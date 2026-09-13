@@ -1,0 +1,17 @@
+"""Strict data contracts and Pydantic schemas adhering to Power of 10 Rule 4."""
+
+from datetime import datetime
+
+from pydantic import BaseModel, ConfigDict, Field
+
+
+class RawTransaction(BaseModel):
+    """Pydantic data contract for incoming transaction events."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    transaction_id: str = Field(..., min_length=1)
+    user_id: str = Field(..., min_length=1)
+    amount: float = Field(..., gt=0.0)
+    currency: str = Field(..., min_length=3, max_length=3)
+    timestamp: datetime

@@ -1,0 +1,70 @@
+"""Pure deterministic simulation engine with zero Raylib dependencies."""
+
+from ..core.constants import (
+    BALL_RADIUS,
+    PADDLE_HEIGHT,
+    PADDLE_WIDTH,
+    PLAYER_SPEED,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+)
+from ..core.state import GameState
+
+
+def update_simulation(state: GameState, move_input: float, dt: float) -> GameState:
+    """Advance the game simulation by dt seconds given move_input in [-1.0, 1.0]."""
+    if state.is_game_over:
+        return state
+
+    # 1. Update paddle
+    new_paddle_x = state.paddle_x + move_input * PLAYER_SPEED * dt
+    # Clamp paddle within screen
+    new_paddle_x = max(0.0, min(new_paddle_x, SCREEN_WIDTH - PADDLE_WIDTH))
+
+    # 2. Update ball position
+    new_ball_x = state.ball_x + state.ball_vx * dt
+    new_ball_y = state.ball_y + state.ball_vy * dt
+    new_ball_vx = state.ball_vx
+    new_ball_vy = state.ball_vy
+
+    # Screen boundary collisions
+    if new_ball_x - BALL_RADIUS <= 0.0:
+        new_ball_x = BALL_RADIUS
+        new_ball_vx = abs(new_ball_vx)
+    elif new_ball_x + BALL_RADIUS >= SCREEN_WIDTH:
+        new_ball_x = SCREEN_WIDTH - BALL_RADIUS
+        new_ball_vx = -abs(new_ball_vx)
+
+    if new_ball_y - BALL_RADIUS <= 0.0:
+        new_ball_y = BALL_RADIUS
+        new_ball_vy = abs(new_ball_vy)
+
+    # Paddle collision
+    paddle_top = state.paddle_y
+    paddle_left = new_paddle_x
+    paddle_right = new_paddle_x + PADDLE_WIDTH
+
+    new_score = state.score
+    if (
+        new_ball_y + BALL_RADIUS >= paddle_top
+        and new_ball_y - BALL_RADIUS <= paddle_top + PADDLE_HEIGHT
+        and paddle_left <= new_ball_x <= paddle_right
+        and new_ball_vy > 0.0
+    ):
+        new_ball_vy = -abs(new_ball_vy)
+        new_score += 1
+
+    # Bottom out of bounds (Game Over)
+    game_over = state.is_game_over
+    if new_ball_y - BALL_RADIUS > SCREEN_HEIGHT:
+        game_over = True
+
+    state.paddle_x = new_paddle_x
+    state.ball_x = new_ball_x
+    state.ball_y = new_ball_y
+    state.ball_vx = new_ball_vx
+    state.ball_vy = new_ball_vy
+    state.score = new_score
+    state.is_game_over = game_over
+
+    return state

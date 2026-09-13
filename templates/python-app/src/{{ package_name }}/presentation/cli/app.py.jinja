@@ -1,0 +1,61 @@
+"""CLI presentation adapter and composition root."""
+
+import argparse
+import sys
+
+from ...application.service.user_service import UserService
+from ...infrastructure.adapter.in_memory_user_repository import InMemoryUserRepository
+from ...shared.exception.errors import DomainError
+
+
+def build_service() -> UserService:
+    """Composition root: instantiate adapters and inject into application services."""
+    repository = InMemoryUserRepository()
+    return UserService(repository=repository)
+
+
+def main(args: list[str] | None = None) -> int:
+    """CLI entry point for user management."""
+    parser = argparse.ArgumentParser(description="{{ project_name }} - Hexagonal CLI")
+    subparsers = parser.add_subparsers(dest="command")
+
+    # create
+    create_parser = subparsers.add_parser("create", help="Create a new user")
+    create_parser.add_argument("--id", required=True, help="User ID")
+    create_parser.add_argument("--email", required=True, help="User Email")
+    create_parser.add_argument("--name", required=True, help="User Name")
+
+    # list
+    subparsers.add_parser("list", help="List all users")
+
+    # get
+    get_parser = subparsers.add_parser("get", help="Get a user by ID")
+    get_parser.add_argument("--id", required=True, help="User ID")
+
+    parsed = parser.parse_args(args)
+    service = build_service()
+
+    try:
+        if parsed.command == "create":
+            user = service.create_user(parsed.id, parsed.email, parsed.name)
+            print(f"Created user: {user.name} ({user.email})")
+            return 0
+        elif parsed.command == "get":
+            user = service.get_user(parsed.id)
+            print(f"Found user: {user.id} - {user.name} ({user.email})")
+            return 0
+        elif parsed.command == "list":
+            users = service.list_users()
+            print(f"Total users: {len(users)}")
+            for u in users:
+                print(f" - {u.id}: {u.name} <{u.email}>")
+            return 0
+        else:
+            parser.print_help()
+            return 1
+    except DomainError as err:
+        print(f"Domain error: {err}", file=sys.stderr)
+        return 1
+    except ValueError as err:
+        print(f"Validation error: {err}", file=sys.stderr)
+        return 1

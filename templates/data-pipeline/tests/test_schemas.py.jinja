@@ -1,0 +1,50 @@
+"""Tests for Pydantic schema validation and contract invariants."""
+
+from datetime import UTC, datetime
+
+import pytest
+from hypothesis import given
+from hypothesis import strategies as st
+
+from {{ package_name }}.application.model.schemas import RawTransaction
+
+
+def test_valid_raw_transaction() -> None:
+    """Verify standard valid transaction succeeds."""
+    tx = RawTransaction(
+        transaction_id="TX1",
+        user_id="USER1",
+        amount=19.99,
+        currency="USD",
+        timestamp=datetime(2026, 1, 1, tzinfo=UTC),
+    )
+    assert tx.amount == 19.99
+    assert tx.transaction_id == "TX1"
+    assert tx.currency == "USD"
+
+
+def test_negative_or_zero_amount_fails() -> None:
+    """Verify non-positive amounts raise validation error."""
+    with pytest.raises(ValueError):
+        RawTransaction(
+            transaction_id="TX1",
+            user_id="USER1",
+            amount=-5.0,
+            currency="USD",
+            timestamp=datetime(2026, 1, 1, tzinfo=UTC),
+        )
+
+
+@given(
+    amount=st.floats(min_value=0.01, max_value=1_000_000.0, allow_nan=False),
+)
+def test_positive_amount_property(amount: float) -> None:
+    """Hypothesis test verifying valid positive amounts are stored correctly."""
+    tx = RawTransaction(
+        transaction_id="TX",
+        user_id="CU",
+        amount=amount,
+        currency="EUR",
+        timestamp=datetime(2026, 1, 1, tzinfo=UTC),
+    )
+    assert tx.amount > 0.0

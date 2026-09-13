@@ -1,0 +1,44 @@
+# {{ project_name }}
+
+{{ project_description }}
+
+## 🚀 Quickstart
+
+Ensure you have [Astral `uv`](https://docs.astral.sh/uv/) and [`just`](https://github.com/casey/just) installed.
+
+```bash
+# Install recommended AI agent skills
+just setup-skills
+
+# Run application
+just run
+
+# Run tests
+just test
+
+# Check code formatting & linting
+just check
+```
+
+## 🤖 AI Agent Setup
+
+This repository is optimized for AI coding agents adhering to [`AGENTS.md`](file:///home/romuald/Projects/Perso/Skills/AGENTS.md). You can install or update the recommended skills using the open [Agent Skills](https://skills.sh/) standard via `npx skills`:
+
+```bash
+just setup-skills
+# Or directly:
+npx skills add RomualdRousseau/Skills --skill python-developer --skill python-hexagonal --skill backlog-{{ backlog_provider }}
+```
+
+## 🏗️ Architecture
+
+This project is built using **Hexagonal Architecture (Ports & Adapters)** adhering to `skills/python-hexagonal`:
+
+- `src/{{ package_name }}/application/model/`: Domain entities and value objects (using `@dataclass(slots=True, frozen=True)`).
+- `src/{{ package_name }}/application/port/`: Inbound and outbound protocol interfaces (`typing.Protocol`).
+- `src/{{ package_name }}/application/service/`: Application services orchestrating CQRS workflows.
+- `src/{{ package_name }}/infrastructure/adapter/`: Adapters implementing application ports.
+- `src/{{ package_name }}/presentation/cli/`: Delivery mechanisms and composition root.
+- `src/{{ package_name }}/shared/exception/`: Fail-closed domain exceptions.
+
+AI agents working in this repository should refer to [`AGENTS.md`](file:///home/romuald/Projects/Perso/Skills/AGENTS.md) for architectural rules and engineering constraints.
