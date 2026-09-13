@@ -1,0 +1,30 @@
+{
+  "skill_name": "powershell-developer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create an enterprise PowerShell advanced function in a module to install enterprise certificates with parameter validation attributes.",
+      "expected_output": "An advanced function decorated with [CmdletBinding()], typed parameters with [ValidateNotNullOrEmpty()], parameter splatting, and Export-ModuleMember.",
+      "files": [],
+      "assertions": [
+        "Function is decorated with [CmdletBinding()]",
+        "Parameters are explicitly typed in param(...) block",
+        "Uses validation attributes like [ValidateNotNullOrEmpty()] or [ValidateSet()]",
+        "Employs hashtable parameter splatting (@params) instead of Invoke-Expression",
+        "Passes PSScriptAnalyzer checks without hardcoded credentials"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write a Pester 5 unit test suite for a PowerShell certificate installation module without modifying host stores.",
+      "expected_output": "A Pester 5 test file with Describe/Context/It blocks, mock configurations, and isolated cleanup in BeforeAll/AfterAll.",
+      "files": [],
+      "assertions": [
+        "Adheres to Pester 5 syntax with Describe and It blocks",
+        "Tests are non-mutating on host system using isolated temporary paths",
+        "Includes cleanup in AfterAll block to prevent side effects",
+        "Tests mock external command invocations"
+      ]
+    }
+  ]
+}

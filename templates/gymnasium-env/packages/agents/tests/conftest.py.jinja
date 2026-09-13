@@ -1,0 +1,18 @@
+"""Pytest fixtures for agents testing."""
+
+import pytest
+
+from {{ package_name }}_agents.agent.heuristic_agent import HeuristicAgent
+from {{ package_name }}_agents.agent.random_agent import RandomAgent
+
+
+@pytest.fixture
+def random_agent() -> RandomAgent:
+    """Fixture providing seeded random agent."""
+    return RandomAgent(action_space_size=3, seed=42)
+
+
+@pytest.fixture
+def heuristic_agent() -> HeuristicAgent:
+    """Fixture providing heuristic agent."""
+    return HeuristicAgent(target=5.0)

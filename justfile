@@ -12,6 +12,22 @@ setup:
 lint-skills:
     uv run python scripts/lint_skills.py
 
+# Validate skill evaluations against agentskills.io schema
+lint-evals:
+    uv run python scripts/eval_skill.py validate --all
+
+# Scaffold starter evals.json for a skill
+scaffold-evals skill:
+    uv run python scripts/eval_skill.py scaffold {{skill}}
+
+# Benchmark an evaluation iteration directory
+benchmark-evals dir:
+    uv run python scripts/eval_skill.py benchmark --iteration-dir {{dir}}
+
+# Render a benchmark uplift report table
+report-evals dir:
+    uv run python scripts/eval_skill.py report --iteration-dir {{dir}}
+
 # Lint and check formatting of Python files locally
 lint-code:
     uvx --no-env-file ruff check .
@@ -21,8 +37,15 @@ lint-code:
 test-templates:
     uv run python scripts/test_templates.py
 
-# Run all local lints (Code + Skills structure)
-lint: lint-code lint-skills
+# Run unit tests
+test-units:
+    uv run pytest tests/
+
+# Run all test suites
+test: test-units test-templates
+
+# Run all local lints (Code + Skills structure + Skill Evals)
+lint: lint-code lint-skills lint-evals
 
 # Format Python code locally using ruff
 format:

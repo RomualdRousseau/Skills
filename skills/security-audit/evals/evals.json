@@ -1,0 +1,29 @@
+{
+  "skill_name": "security-audit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit a user registration endpoint against OWASP Top 10 vulnerabilities (SQL injection, weak password hashing, missing rate limits).",
+      "expected_output": "A security audit report identifying vulnerabilities and providing hardened remediations (parameterized queries, Argon2/bcrypt hashing, rate-limiting).",
+      "files": [],
+      "assertions": [
+        "Identifies potential injection vulnerabilities and enforces parameterized queries or ORM safe bindings",
+        "Mandates secure cryptographic password hashing algorithms (e.g. Argon2, bcrypt) instead of MD5/SHA-1",
+        "Recommends rate-limiting or anti-abuse protection against brute-force attacks",
+        "Validates input sanitization and boundary checks"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Configure an automated pre-commit and CI pipeline secret scanning workflow to prevent hardcoded credentials.",
+      "expected_output": "Configuration files for Gitleaks or Trufflehog in pre-commit and CI pipelines with strict exit code on findings.",
+      "files": [],
+      "assertions": [
+        "Configures secret scanning tool (e.g. gitleaks or trufflehog)",
+        "Integrates check into git pre-commit hooks and CI pipeline",
+        "Blocks commit or fails build on detection of high-confidence secrets",
+        "Documents using environment variables or a Secret Manager instead of hardcoding credentials"
+      ]
+    }
+  ]
+}

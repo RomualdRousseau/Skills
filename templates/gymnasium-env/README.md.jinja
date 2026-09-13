@@ -16,10 +16,13 @@ just test-env
 # Baseline policy evaluation
 just eval
 
+# Train RL agent
+just train
+
 # Interactive human play via Raylib
 just play
 
-# Run tests
+# Run all test suites across packages
 just test
 
 # Check formatting and linting
@@ -33,17 +36,23 @@ This repository is optimized for AI coding agents adhering to [`AGENTS.md`](file
 ```bash
 just setup-skills
 # Or directly:
-npx skills add RomualdRousseau/Skills --skill python-developer --skill gymnasium-env --skill python-raylib --skill backlog-{{ backlog_provider }}
+npx skills add RomualdRousseau/Skills --skill python-developer --skill gymnasium-env --skill rl-data-scientist --skill python-raylib --skill backlog-{{ backlog_provider }}
 ```
 
-## 🏗️ Architecture
+## 🏗️ Architecture: Monorepo Workspace
 
-This repository adheres to `skills/gymnasium-env`:
+This repository adheres to `skills/gymnasium-env/references/structure.md`, splitting the simulation environment from RL algorithms and evaluation:
 
-- `src/{{ package_name }}/core/physics.py`: Headless deterministic physics transitions with `__slots__`.
-- `src/{{ package_name }}/env/gym_env.py`: Farama Gymnasium `Env` subclass (`reset`, `step`, `render`, `close`).
-- `src/{{ package_name }}/engine/renderer.py`: Raylib visual rendering using `import pyray as pr` for human observation mode.
-- `src/{{ package_name }}/cli.py`: Google Fire CLI (`play`, `test_env`, `eval`).
-- `src/{{ package_name }}/__init__.py`: Automatic Gymnasium environment registration.
+- `packages/env` (`{{ package_name }}-env`):
+  - `core/physics.py`: Headless deterministic physics transitions with `__slots__`.
+  - `env/gym_env.py`: Farama Gymnasium `Env` subclass (`reset`, `step`, `render`, `close`).
+  - `env/reward.py`: Pure bounded reward shaping functions.
+  - `engine/renderer.py`: Raylib visual rendering using `import pyray as pr` for human observation mode.
+  - `cli.py`: Google Fire CLI (`play`, `test_env`).
+- `packages/agents` (`{{ package_name }}-agents`):
+  - `agent/`: Protocol definitions, Random and Heuristic baseline policies.
+  - `eval/`: Multi-seed evaluation runner producing statistical reports (`mean`, `std`, `success_rate`).
+  - `training/`: Training loops and hyperparameter sweep harnesses.
+  - `cli.py`: Fire CLI (`eval`, `train`).
 
 AI agents working in this repository should refer to [`AGENTS.md`](file:///home/romuald/Projects/Perso/Skills/AGENTS.md) for architectural rules and Farama Gymnasium standards.

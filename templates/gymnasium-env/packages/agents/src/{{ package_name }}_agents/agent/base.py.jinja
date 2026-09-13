@@ -1,0 +1,13 @@
+"""Abstract protocol definition for RL agents adhering to Power of 10 Rule 8."""
+
+from typing import Protocol
+
+import numpy as np
+
+
+class Agent(Protocol):
+    """Protocol representing a policy agent that maps observations to actions."""
+
+    def act(self, observation: np.ndarray) -> int:
+        """Select an action given an environment observation."""
+        ...

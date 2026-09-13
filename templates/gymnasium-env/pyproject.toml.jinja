@@ -1,7 +1,3 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
 name = "{{ package_name }}"
 version = "0.1.0"
@@ -12,14 +8,19 @@ authors = [
     { name = "{{ author_name }}", email = "{{ author_email }}" }
 ]
 dependencies = [
-    "gymnasium>=0.29.0",
-    "numpy>=1.26.0",
-    "fire>=0.6.0",
-    "raylib>=5.0.0.post0",
+    "{{ package_name }}-env",
+    "{{ package_name }}-agents",
 ]
 
-[project.scripts]
-{{ package_name }} = "{{ package_name }}.cli:main"
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+{{ package_name }}-env = { workspace = true }
+{{ package_name }}-agents = { workspace = true }
+
+[tool.uv.workspace]
+members = ["packages/*"]
 
 [dependency-groups]
 dev = [
@@ -44,7 +45,10 @@ select = [
     "SIM",
 ]
 
+[tool.ruff.lint.isort]
+known-first-party = ["{{ package_name }}_env", "{{ package_name }}_agents"]
+
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["packages/*/tests"]
 python_files = ["test_*.py"]
-addopts = "-ra --strict-markers"
+addopts = "-ra --strict-markers --import-mode=importlib"

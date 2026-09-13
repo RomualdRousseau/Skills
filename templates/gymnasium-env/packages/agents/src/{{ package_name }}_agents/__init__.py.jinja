@@ -1,0 +1,14 @@
+"""RL Agents and Evaluation for {{ project_name }}."""
+
+from {{ package_name }}_agents.agent.base import Agent
+from {{ package_name }}_agents.agent.heuristic_agent import HeuristicAgent
+from {{ package_name }}_agents.agent.random_agent import RandomAgent
+from {{ package_name }}_agents.eval.evaluator import EvaluationReport, evaluate_policy
+
+__all__ = [
+    "Agent",
+    "EvaluationReport",
+    "HeuristicAgent",
+    "RandomAgent",
+    "evaluate_policy",
+]

@@ -1,0 +1,30 @@
+{
+  "skill_name": "python-hexagonal",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Implement the domain model and application service for registering a new user in our hexagonal architecture system.",
+      "expected_output": "Domain entity with __slots__, a protocol-based repository port in application/ports, and a UserService receiving the repository via dependency injection.",
+      "files": [],
+      "assertions": [
+        "The User domain model defines __slots__ or uses @dataclass(slots=True)",
+        "The repository port is defined in the application layer using typing.Protocol",
+        "The UserService receives the repository port via constructor dependency injection",
+        "Domain models and logic contain zero infrastructure or framework imports",
+        "Specific domain exceptions are defined and raised on validation errors"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Implement an order fulfillment service with a payment gateway adapter in hexagonal architecture.",
+      "expected_output": "An Order domain entity, a PaymentGatewayPort protocol, an OrderFulfillmentService, and an external StripePaymentAdapter in infrastructure.",
+      "files": [],
+      "assertions": [
+        "The PaymentGatewayPort is defined as a typing.Protocol in application/ports",
+        "The StripePaymentAdapter resides in infrastructure/adapters",
+        "The domain entity contains pure business logic and transition invariants",
+        "The service depends only on ports, not on concrete infrastructure adapters"
+      ]
+    }
+  ]
+}

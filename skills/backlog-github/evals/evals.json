@@ -1,0 +1,29 @@
+{
+  "skill_name": "backlog-github",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a new user story issue on GitHub for adding dark mode toggle using the gh CLI with acceptance criteria and labels.",
+      "expected_output": "A gh issue create CLI invocation containing title, body with user story and checkbox criteria, and label flag.",
+      "files": [],
+      "assertions": [
+        "Uses gh issue create CLI command",
+        "Sets title clearly prefixed or labeled as a user story",
+        "Includes body with As a / I want / So that user story structure",
+        "Includes verifiable acceptance criteria formatted as markdown checkboxes",
+        "Applies appropriate label flags (e.g. --label enhancement)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Close GitHub issue #42 after completing work, adding a closing comment confirming verification.",
+      "expected_output": "A gh issue close CLI call specifying issue number 42 with a descriptive --comment flag.",
+      "files": [],
+      "assertions": [
+        "Uses gh issue close 42 CLI command",
+        "Includes an explanatory verification comment via --comment flag",
+        "Confirms that acceptance criteria were satisfied"
+      ]
+    }
+  ]
+}

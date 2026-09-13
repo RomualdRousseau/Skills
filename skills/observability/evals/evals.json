@@ -1,0 +1,29 @@
+{
+  "skill_name": "observability",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Set up structured JSON logging with OpenTelemetry trace context propagation for a Python FastAPI service.",
+      "expected_output": "A logging configuration module emitting structured JSON log lines with trace_id, span_id, timestamp, and severity levels.",
+      "files": [],
+      "assertions": [
+        "Emits logs strictly in structured JSON format instead of plaintext print statements",
+        "Includes trace_id and span_id correlation fields extracted from active OpenTelemetry context",
+        "Captures contextual metadata (service name, timestamp, environment, severity)",
+        "Configures standard log handlers safely"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Implement a resilient HTTP client adapter with hard timeouts, exponential backoff retries, and an OpenTelemetry span.",
+      "expected_output": "An HTTP client class wrapping requests or httpx with explicit timeout, tenacity retry with exponential backoff, and otel tracing spans.",
+      "files": [],
+      "assertions": [
+        "Enforces hard timeout on every outgoing HTTP request",
+        "Implements retry with exponential backoff and maximum retry bound",
+        "Creates OpenTelemetry span around the external call capturing HTTP status and error tags",
+        "Fails closed without unhandled exceptions crashing the service"
+      ]
+    }
+  ]
+}

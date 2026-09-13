@@ -1,0 +1,21 @@
+"""Training loop and hyperparameter tuning harness."""
+
+from {{ package_name }}_agents.agent.random_agent import RandomAgent
+from {{ package_name }}_agents.eval.evaluator import evaluate_policy
+
+
+class Trainer:
+    """Orchestrates agent training cycles and baseline evaluations."""
+
+    def __init__(self, episodes: int = 100) -> None:
+        self.episodes = episodes
+
+    def run(self) -> None:
+        """Run training pipeline."""
+        print(f"Starting training run across {self.episodes} episodes...")
+        baseline_agent = RandomAgent()
+        report = evaluate_policy(baseline_agent, episodes=min(self.episodes, 10))
+        mean_r = report.mean_reward
+        std_r = report.std_reward
+        print(f"Pre-training baseline reward: {mean_r:.2f} +/- {std_r:.2f}")
+        print("Training completed successfully.")

@@ -1,0 +1,29 @@
+{
+  "skill_name": "data-scientist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create an exploratory data analysis Jupyter Notebook for customer churn dataset with structured sections and visualizations.",
+      "expected_output": "A valid .ipynb notebook structured with Ingestion, Cleaning, EDA, Visualizations with Seaborn/Matplotlib, and Conclusions.",
+      "files": [],
+      "assertions": [
+        "Produces a valid Jupyter Notebook (.ipynb) with structured markdown headers",
+        "Includes data ingestion and cleaning without mutating raw data inplace",
+        "Visualizations configure explicit titles, axis labels, and legends",
+        "Uses reproducible environment workflows (uv pip/uv run)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Build and evaluate a baseline machine learning classification model on feature matrix X and target y with reproducible train/test split and metrics.",
+      "expected_output": "A reproducible script or notebook establishing a random seed, train/test split, cross-validation, and confusion matrix/classification report.",
+      "files": [],
+      "assertions": [
+        "Sets explicit random state/seed for reproducible splitting and training",
+        "Reports standard evaluation metrics (accuracy, precision, recall, F1-score or ROC-AUC)",
+        "Prevents data leakage by fitting transformations solely on the training split",
+        "Includes baseline comparison against a dummy or simple classifier"
+      ]
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+from pathlib import Path
 from typing import Any
 
 
@@ -141,6 +142,16 @@ def lint_skills(skills_root: str = "skills") -> bool:
                 violations.append(
                     f"Broken reference inside '{rel_skill_path}/SKILL.md': '{link}' (File not found on disk)."
                 )
+
+        # Check evals/evals.json if present
+        evals_json_path = os.path.join(skill_path, "evals", "evals.json")
+        if os.path.isfile(evals_json_path):
+            from eval_skill import validate_eval_file
+
+            res = validate_eval_file(Path(evals_json_path), expected_skill=skill_name)
+            if not res.valid:
+                for err in res.errors:
+                    violations.append(f"Invalid 'evals/evals.json' in '{rel_skill_path}': {err}")
 
     # Print Report
     print("==================================================")

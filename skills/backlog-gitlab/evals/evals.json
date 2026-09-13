@@ -1,0 +1,28 @@
+{
+  "skill_name": "backlog-gitlab",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a new user story issue on GitLab for automated backup retention using the glab CLI.",
+      "expected_output": "A glab issue create CLI call with title, description containing user story and checkbox criteria, and labels.",
+      "files": [],
+      "assertions": [
+        "Uses glab issue create CLI command",
+        "Sets title clearly identifying the story",
+        "Includes description with As a / I want / So that user story structure",
+        "Includes acceptance criteria formatted as markdown checkboxes",
+        "Specifies GitLab labels via --label"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Close GitLab issue #15 after verifying all acceptance criteria.",
+      "expected_output": "A glab issue close CLI command targeting issue 15.",
+      "files": [],
+      "assertions": [
+        "Uses glab issue close 15 command",
+        "Confirms that acceptance criteria were verified before closure"
+      ]
+    }
+  ]
+}

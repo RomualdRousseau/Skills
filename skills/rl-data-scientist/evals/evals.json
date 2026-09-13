@@ -1,0 +1,29 @@
+{
+  "skill_name": "rl-data-scientist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design the MDP formulation and reward shaping for an inverted pendulum balance task, ensuring normalized observations and separating termination from truncation.",
+      "expected_output": "An MDP design specification and pure reward calculation function with normalized Box observation spaces and distinct terminated/truncated logic.",
+      "files": [],
+      "assertions": [
+        "Defines normalized continuous observation space bounds in [-1, 1] or [0, 1]",
+        "Separates natural physical failure (terminated) from time-limit episode ending (truncated)",
+        "Includes reward shaping designed to prevent reward hacking or cyclical exploitation",
+        "Reward calculations are bounded and deterministic"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Set up an Optuna hyperparameter sweep for a PPO agent training on a custom Gymnasium environment across multiple evaluation seeds.",
+      "expected_output": "A Python module configuring an Optuna study to optimize learning rate and gamma, evaluating each trial over multiple random seeds.",
+      "files": [],
+      "assertions": [
+        "Configures an Optuna objective function with parameter sampling (e.g. learning_rate, gamma)",
+        "Evaluates policy rollouts across multiple seeds to avoid overfitting to a single initial condition",
+        "Tracks and logs trials (e.g. mean episode return and standard deviation)",
+        "Exposes sweep execution via Fire CLI or clean function interface"
+      ]
+    }
+  ]
+}

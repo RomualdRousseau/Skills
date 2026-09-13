@@ -1,0 +1,29 @@
+{
+  "skill_name": "technical-writer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Draft an Architecture Decision Record (ADR) for introducing Redis as an asynchronous caching and session layer.",
+      "expected_output": "A markdown ADR adhering to standard sections: Title, Date, Status, Context, Decision, Consequences, and Alternatives Considered.",
+      "files": [],
+      "assertions": [
+        "Follows the canonical ADR structure (Title, Date, Status, Context, Decision, Consequences, Alternatives Considered)",
+        "Clearly separates positive and negative consequences",
+        "Includes evaluated alternatives with explicit justification for rejection",
+        "Focuses on architectural rationale rather than ephemeral implementation details"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Create a Mermaid sequence diagram illustrating the OAuth2 authorization code grant flow between Client, Auth Server, and Resource API.",
+      "expected_output": "A valid fenced Mermaid sequenceDiagram block depicting the complete authentication redirect and token exchange flow.",
+      "files": [],
+      "assertions": [
+        "Uses valid Mermaid syntax within a fenced ```mermaid code block",
+        "Starts with sequenceDiagram definition",
+        "Accurately maps interactions between User/Client, Authorization Server, and Resource Server",
+        "Avoids unsupported markdown or HTML tags inside node labels"
+      ]
+    }
+  ]
+}

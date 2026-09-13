@@ -1,0 +1,29 @@
+{
+  "skill_name": "presentation-svg",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Generate a 1920x1080 semantic vector SVG slide layout with a 3-column card grid and proper text baseline math.",
+      "expected_output": "A valid SVG slide document with viewBox='0 0 1920 1080', 3-card column coordinates, and text elements with correct baseline math.",
+      "files": [],
+      "assertions": [
+        "Defines viewBox='0 0 1920 1080' for 16:9 widescreen proportions",
+        "Uses calculated absolute coordinates for columns and cards (e.g. 568px width)",
+        "Applies typesetting baseline positioning (top + height * 0.78) to prevent text cutoff",
+        "Contains valid semantic SVG tags without HTML artifacts"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Compile a folder of SVG slides into editable PowerPoint (.pptx) shapes and vector PDF exports.",
+      "expected_output": "Invocation or instructions for compile_pptx.py and compile_pdf.py producing widescreen 16:9 presentations.",
+      "files": [],
+      "assertions": [
+        "Uses compile_pptx.py to generate native editable OpenXML shapes",
+        "Uses compile_pdf.py to merge slides into a widescreen vector PDF",
+        "Co-locates output presentation files neatly with source slides",
+        "Sets 16:9 proportions (13.333\" x 7.5\" for PPTX)"
+      ]
+    }
+  ]
+}

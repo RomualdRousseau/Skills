@@ -26,3 +26,12 @@ ignore = []
 "**/*.test.py" = ["S101", "E501"]
 "skills/**/*.py" = ["E501", "S", "B007", "F841"]  # Prevent noise from pre-existing assets and inline SVGs
 "scripts/*.py" = ["E501"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

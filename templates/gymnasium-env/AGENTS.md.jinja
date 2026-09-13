@@ -1,12 +1,14 @@
 # Agent Guidance: {{ project_name }}
 
-This document provides mandatory operational instructions for AI agents working in this RL environment codebase.
+This document provides mandatory operational instructions for AI agents working in this RL environment and agent monorepo codebase.
 
 ## Project Overview
 
 - **Project Name:** `{{ project_name }}`
-- **Package:** `{{ package_name }}`
-- **Standard:** Farama Foundation Gymnasium API (`gymnasium.Env`)
+- **Architecture:** `uv` Workspace Monorepo
+  - **Simulation Package:** `packages/env` (`{{ package_name }}-env`)
+  - **RL Agents Package:** `packages/agents` (`{{ package_name }}-agents`)
+- **Standard:** Farama Foundation Gymnasium API (`gymnasium.Env`) & `skills/rl-data-scientist`
 - **Rendering & CLI:** Raylib (human visualization) + Google Fire CLI
 - **Tooling:** Python 3.11+, `uv`, `gymnasium`, `numpy`, `pytest`, `just`
 
@@ -14,14 +16,15 @@ This document provides mandatory operational instructions for AI agents working 
 
 When operating in this repository, adopt and enforce the rules of:
 1. **`python-developer`**: Power of 10 safety rules, Behavioral TDD, Pytest Given/When/Then, Hypothesis testing.
-2. **`gymnasium-env`**: Farama Gymnasium API compliance, observation/action normalization, seed determinism, reward bounds.
-3. **`python-raylib`**: Decoupled rendering procedures using `import pyray as pr` (only invoked in `human` render mode; never in headless training).
+2. **`gymnasium-env`**: Farama Gymnasium API compliance, observation/action normalization, seed determinism, reward bounds, and package structure (`skills/gymnasium-env/references/structure.md`).
+3. **`rl-data-scientist`**: Multi-seed evaluation, MDP formulation, reward surface analysis, and experiment tracking.
+4. **`python-raylib`**: Decoupled rendering procedures using `import pyray as pr` (only invoked in `human` render mode; never during training or testing).
 {% if backlog_provider == 'todo' %}
-4. **`backlog-todo`**: Track tasks, user stories, and acceptance criteria in `TODO.md`.
+5. **`backlog-todo`**: Track tasks, user stories, and acceptance criteria in `TODO.md`.
 {% elif backlog_provider == 'github' %}
-4. **`backlog-github`**: Track user stories and acceptance criteria via GitHub Issues (`gh issue`).
+5. **`backlog-github`**: Track user stories and acceptance criteria via GitHub Issues (`gh issue`).
 {% elif backlog_provider == 'gitlab' %}
-4. **`backlog-gitlab`**: Track user stories and acceptance criteria via GitLab Issues (`glab issue`).
+5. **`backlog-gitlab`**: Track user stories and acceptance criteria via GitLab Issues (`glab issue`).
 {% endif %}
 
 ### Installing Recommended Skills
@@ -29,83 +32,90 @@ To install or update the recommended skills in your environment, run:
 ```bash
 just setup-skills
 # Or directly via npx skills:
-npx skills add RomualdRousseau/Skills --skill python-developer --skill gymnasium-env --skill python-raylib --skill backlog-{{ backlog_provider }}
+npx skills add RomualdRousseau/Skills --skill python-developer --skill gymnasium-env --skill rl-data-scientist --skill python-raylib --skill backlog-{{ backlog_provider }}
 ```
 
 ---
 
-## Architectural Principles: Gymnasium Environment Contract
+## Monorepo Layout: Simulation & RL Agent Separation
 
-All environment code resides under `src/{{ package_name }}/` adhering to `skills/gymnasium-env`:
+The codebase follows the monorepo architecture described in `skills/gymnasium-env/references/structure.md`:
 
 ```
-src/{{ package_name }}/
-├── core/
-│   └── physics.py         # Pure physical state & transitions with __slots__ (ZERO Gym/Raylib dependencies)
-├── env/
-│   └── gym_env.py         # Farama gymnasium.Env implementation (reset, step, render, close)
-├── engine/
-│   └── renderer.py        # Raylib human visualization using `import pyray as pr`
-├── cli.py                 # Google Fire CLI (play, test_env, eval)
-├── __main__.py            # CLI entry point
-└── __init__.py            # Environment registration (gymnasium.envs.registration.register)
+{{ project_name }}/
+├── pyproject.toml         # Root workspace manifest (members = ["packages/*"])
+├── justfile               # Monorepo tasks orchestrator
+├── AGENTS.md              # Agent operational guidance
+├── assets/                # Centralized assets (fonts, textures, audio)
+├── packages/
+│   ├── env/               # 👈 Simulation environment package ({{ package_name }}-env)
+│   │   ├── pyproject.toml
+│   │   ├── src/{{ package_name }}_env/
+│   │   │   ├── core/      # PhysicsState with __slots__, deterministic transitions
+│   │   │   ├── env/       # CustomEnv (gym.Env) and reward shaping
+│   │   │   ├── engine/    # RaylibRenderer (isolated hardware drawing)
+│   │   │   └── cli.py     # Fire CLI (play, test_env)
+│   │   └── tests/         # Physics properties, reward invariants, Farama check_env
+│   └── agents/            # 👈 RL training and evaluation package ({{ package_name }}-agents)
+│       ├── pyproject.toml # Depends on {{ package_name }}-env via { workspace = true }
+│       ├── src/{{ package_name }}_agents/
+│       │   ├── agent/     # Agent Protocol, RandomAgent, HeuristicAgent
+│       │   ├── eval/      # Multi-seed evaluator and metrics report
+│       │   ├── training/  # Training loop & sweep harness
+│       │   └── cli.py     # Fire CLI (eval, train)
+│       └── tests/         # Policy decisions and evaluation tests
 ```
 
-### Critical Gymnasium API Invariants
-1. **Reset Signature & Determinism:**
+### Critical Architectural Invariants
+
+1. **Strict Decoupling of Simulation & Agents:**
+   - The simulation package (`packages/env`) **never** imports from the agents package (`packages/agents`).
+   - The agents package interacts with the simulation purely via standard Gymnasium interfaces (`gym.Env`).
+2. **Headless Execution:**
+   - Simulation logic (`core/`, `env/`) and training loops **must never** import Raylib or open graphical windows.
+   - All visual rendering in `engine/renderer.py` is isolated and only triggered when `render_mode="human"`.
+3. **Reset Signature & Determinism:**
    - `reset(seed=None, options=None) -> tuple[ObsType, dict[str, Any]]`
    - Must call `super().reset(seed=seed)` to initialize `self.np_random`.
    - Identical seeds must produce identical initial states and trajectories.
-2. **Step Signature:**
+4. **Step Signature:**
    - `step(action) -> tuple[ObsType, float, bool, bool, dict[str, Any]]`
    - Returning `(observation, reward, terminated, truncated, info)`.
    - Never combine `terminated` and `truncated`.
-3. **Observation & Action Space Invariants:**
-   - Observations returned by `reset` and `step` must strictly satisfy `self.observation_space.contains(obs)`.
-   - Keep actions and observation spaces tightly bounded.
-4. **Headless Execution:**
-   - Training loops and test suites must run headlessly without initializing a Raylib window (`render_mode=None`).
-5. **Registration Convention:**
-   - The environment must be registered in `src/{{ package_name }}/__init__.py` using `register(id="{{ package_name }}-v0", entry_point="{{ package_name }}.env:CustomEnv")`.
+5. **Reward Engineering:**
+   - Reward calculations live in pure functions in `packages/env/src/{{ package_name }}_env/env/reward.py`.
+   - Rewards must be provably bounded.
 
 ---
 
 ## Testing & Quality Discipline
 
-### 1. Compliance & Invariant Testing
-Always validate environments against Gymnasium compliance tests:
-```python
-from gymnasium.utils.env_checker import check_env
-
-
-def test_gym_compliance(env: CustomEnv) -> None:
-    """Verify compliance with official Farama Gymnasium standards."""
-    check_env(env.unwrapped)
-```
-
-### 2. Verification Commands
+### Verification Commands
 Always verify changes locally using `just`:
 ```bash
 # Install agent skills
 just setup-skills
 
-# Run environment test suite
+# Run all test suites across packages
 just test
 
 # Check formatting and linting
 just lint
 
-# Format code automatically
-just format
+# Auto-fix lint errors and format code
+just fix
 
 # Full validation (lint + test)
 just check
 
-# Run Farama Gymnasium conformance check via CLI
+# Run Farama Gymnasium API conformance check
 just test-env
 
-# Baseline policy evaluation
+# Multi-seed baseline policy evaluation
 just eval
+
+# Train RL agent
+just train
 
 # Interactive human play (Raylib window)
 just play

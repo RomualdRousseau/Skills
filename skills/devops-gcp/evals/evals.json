@@ -1,0 +1,29 @@
+{
+  "skill_name": "devops-gcp",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Setup Workload Identity Federation (WIF) between GitLab CI/CD and GCP to eliminate long-lived service account keys in Terraform.",
+      "expected_output": "Terraform configuration declaring google_iam_workload_identity_pool and provider for GitLab, binding an IAM service account, and a .gitlab-ci.yml using id_tokens.",
+      "files": [],
+      "assertions": [
+        "Eliminates static JSON service account keys in favor of short-lived OIDC tokens",
+        "Configures google_iam_workload_identity_pool and pool provider for GitLab",
+        "Binds the workload identity pool to the target GCP service account",
+        "Includes GitLab CI job configuration specifying id_tokens with audience"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Create a modular Terraform configuration and GitLab CI pipeline to deploy a containerized service to Google Cloud Run.",
+      "expected_output": "Terraform files (main.tf, variables.tf) for google_cloud_run_v2_service and a .gitlab-ci.yml with validate, plan, and apply stages.",
+      "files": [],
+      "assertions": [
+        "Defines Cloud Run service resource with parameterized image and environment variables",
+        "Configures GCS remote backend for Terraform state",
+        "Defines standard CI/CD stages (validate, plan, apply)",
+        "Applies strict IAM least-privilege principles"
+      ]
+    }
+  ]
+}

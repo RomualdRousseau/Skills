@@ -1,0 +1,19 @@
+"""Pure reward shaping functions adhering to skills/gymnasium-env."""
+
+from {{ package_name }}_env.core.physics import PhysicsState
+
+TARGET_THRESHOLD: float = 0.5
+TARGET_BONUS: float = 10.0
+
+
+def calculate_reward(state: PhysicsState, action: int, next_state: PhysicsState) -> float:
+    """Calculate bounded reward for a state transition.
+
+    Dense reward based on proximity to target plus terminal bonus upon reaching the goal.
+    """
+    del action  # Unused in basic potential shaping
+    dist = abs(next_state.position - next_state.target)
+    reward = -float(dist)
+    if dist < TARGET_THRESHOLD:
+        reward += TARGET_BONUS
+    return reward

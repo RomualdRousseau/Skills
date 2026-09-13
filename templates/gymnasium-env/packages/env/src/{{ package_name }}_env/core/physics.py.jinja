@@ -1,0 +1,54 @@
+"""Pure simulation physics engine adhering to Power of 10 Rule 3 (slots)."""
+
+from dataclasses import dataclass
+
+from {{ package_name }}_env.core.constants import (
+    ACTION_ACCELERATION,
+    DELTA_T,
+    MAX_POSITION,
+    MAX_VELOCITY,
+    MIN_POSITION,
+)
+
+
+@dataclass(slots=True)
+class PhysicsState:
+    """Represents the simulation state."""
+
+    position: float
+    velocity: float
+    target: float
+    step_count: int
+
+    @classmethod
+    def initial(cls, target: float = 0.0) -> "PhysicsState":
+        """Construct starting simulation state."""
+        return cls(position=0.0, velocity=0.0, target=target, step_count=0)
+
+
+def step_physics(state: PhysicsState, action: int) -> PhysicsState:
+    """Advance physics simulation by one discrete timestep.
+
+    Action:
+        0: Accelerate Left (-ACTION_ACCELERATION)
+        1: Idle (0.0)
+        2: Accelerate Right (+ACTION_ACCELERATION)
+    """
+    accel = 0.0
+    if action == 0:
+        accel = -ACTION_ACCELERATION
+    elif action == 2:
+        accel = ACTION_ACCELERATION
+
+    # Update velocity with clamping
+    new_velocity = state.velocity + accel * DELTA_T
+    new_velocity = max(-MAX_VELOCITY, min(MAX_VELOCITY, new_velocity))
+
+    # Update position with boundary bounds
+    new_position = state.position + new_velocity * DELTA_T
+    new_position = max(MIN_POSITION, min(MAX_POSITION, new_position))
+
+    state.position = new_position
+    state.velocity = new_velocity
+    state.step_count += 1
+    return state

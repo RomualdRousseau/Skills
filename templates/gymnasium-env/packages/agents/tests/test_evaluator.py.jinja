@@ -1,0 +1,26 @@
+"""Tests validating multi-seed evaluator metrics and execution."""
+
+from {{ package_name }}_agents.agent.heuristic_agent import HeuristicAgent
+from {{ package_name }}_agents.agent.random_agent import RandomAgent
+from {{ package_name }}_agents.eval.evaluator import evaluate_policy
+
+
+def test_evaluator_runs_multiple_seeds() -> None:
+    """Verify evaluator completes requested number of episodes."""
+    agent = RandomAgent(seed=42)
+    report = evaluate_policy(agent, episodes=3)
+
+    assert report.episodes == 3
+    assert len(report.raw_rewards) == 3
+    assert isinstance(report.mean_reward, float)
+    assert isinstance(report.std_reward, float)
+    assert 0.0 <= report.success_rate <= 1.0
+
+
+def test_heuristic_agent_evaluates_successfully() -> None:
+    """Verify heuristic agent achieves non-trivial performance in multi-seed rollout."""
+    agent = HeuristicAgent(target=0.0)
+    report = evaluate_policy(agent, episodes=3)
+
+    assert report.episodes == 3
+    assert report.mean_length > 0

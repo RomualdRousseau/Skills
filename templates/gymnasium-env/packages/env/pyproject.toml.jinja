@@ -1,0 +1,19 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "{{ package_name }}-env"
+version = "0.1.0"
+description = "Simulation environment for {{ project_name }}"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "gymnasium>=0.29.0",
+    "numpy>=1.26.0",
+    "fire>=0.6.0",
+    "raylib>=5.0.0.post0",
+]
+
+[project.scripts]
+{{ package_name }}-env = "{{ package_name }}_env.cli:main"

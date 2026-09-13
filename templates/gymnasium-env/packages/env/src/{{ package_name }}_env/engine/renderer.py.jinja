@@ -1,0 +1,60 @@
+"""Visual renderer using Raylib aliased as pr."""
+
+import pyray as pr
+
+from {{ package_name }}_env.core.constants import MAX_POSITION, MIN_POSITION
+from {{ package_name }}_env.core.physics import PhysicsState
+
+
+class RaylibRenderer:
+    """Renders environment state in a Raylib window."""
+
+    def __init__(self, width: int = 800, height: int = 400, title: str = "{{ project_name }}") -> None:
+        self.width = width
+        self.height = height
+        self.title = title
+        self._initialized = False
+
+    def init_window(self) -> None:
+        """Initialize Raylib window."""
+        pr.init_window(self.width, self.height, self.title)
+        pr.set_target_fps(20)
+        self._initialized = True
+
+    def render(self, state: PhysicsState) -> None:
+        """Render a single frame of the environment."""
+        if not self._initialized:
+            return
+
+        pr.begin_drawing()
+        pr.clear_background(pr.Color(24, 28, 36, 255))
+
+        # Ground line
+        ground_y = self.height // 2 + 50
+        pr.draw_line(50, ground_y, self.width - 50, ground_y, pr.GRAY)
+
+        # Coordinate transform from physics pos [-10, 10] to screen pixels
+        pos_norm = (state.position - MIN_POSITION) / (MAX_POSITION - MIN_POSITION)
+        screen_x = int(50 + pos_norm * (self.width - 100))
+
+        target_norm = (state.target - MIN_POSITION) / (MAX_POSITION - MIN_POSITION)
+        target_x = int(50 + target_norm * (self.width - 100))
+
+        # Target marker
+        pr.draw_circle(target_x, ground_y, 14, pr.Color(80, 220, 100, 200))
+
+        # Agent marker
+        pr.draw_rectangle(screen_x - 15, ground_y - 20, 30, 20, pr.Color(70, 150, 255, 255))
+
+        # Info HUD
+        pr.draw_text(f"Step: {state.step_count}", 20, 20, 18, pr.WHITE)
+        pr.draw_text(f"Pos: {state.position:.2f}", 20, 45, 18, pr.WHITE)
+        pr.draw_text(f"Vel: {state.velocity:.2f}", 20, 70, 18, pr.WHITE)
+
+        pr.end_drawing()
+
+    def close(self) -> None:
+        """Close window and free resources."""
+        if self._initialized:
+            pr.close_window()
+            self._initialized = False

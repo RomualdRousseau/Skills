@@ -8,25 +8,13 @@ _ensure_env:
 
 # Install recommended AI agent skills
 setup-skills:
-    npx skills add RomualdRousseau/Skills --skill python-developer --skill gymnasium-env --skill python-raylib --skill backlog-{{ backlog_provider }}
+    npx skills add RomualdRousseau/Skills --skill python-developer --skill gymnasium-env --skill rl-data-scientist --skill python-raylib --skill backlog-{{ backlog_provider }}
 
-# Interactive human play
-play: _ensure_env
-    uv run --no-env-file {{ package_name }} play
-
-# Run Gymnasium environment conformance check
-test-env: _ensure_env
-    uv run --no-env-file {{ package_name }} test_env
-
-# Run baseline policy evaluation
-eval: _ensure_env
-    uv run --no-env-file {{ package_name }} eval --episodes=5
-
-# Run tests
+# Run all test suites across workspace packages
 test: _ensure_env
     uv run --no-env-file pytest
 
-# Run linting checks
+# Run linting checks across all packages
 lint:
     uvx --no-env-file ruff check .
     uvx --no-env-file ruff format --check .
@@ -35,9 +23,30 @@ lint:
 format:
     uvx --no-env-file ruff format .
 
+# Auto-fix lint errors and format code
+fix:
+    uvx --no-env-file ruff check --fix .
+    uvx --no-env-file ruff format .
+
 # Full validation (lint + test)
 check: lint test
 
+# Farama Gymnasium API conformance check
+test-env: _ensure_env
+    uv run --no-env-file python -m {{ package_name }}_env test_env
+
+# Interactive human play with Raylib visualization
+play: _ensure_env
+    uv run --no-env-file python -m {{ package_name }}_env play
+
+# Run multi-seed RL agent policy evaluation
+eval: _ensure_env
+    uv run --no-env-file python -m {{ package_name }}_agents eval --episodes=5
+
+# Train RL agent
+train: _ensure_env
+    uv run --no-env-file python -m {{ package_name }}_agents train --episodes=100
+
 # Clean caches and temporary build files
 clean:
-    rm -rf .ruff_cache .pytest_cache dist build *.egg-info
+    rm -rf .ruff_cache .pytest_cache dist build *.egg-info packages/*/.ruff_cache packages/*/.pytest_cache packages/*/dist packages/*/build packages/*/*.egg-info

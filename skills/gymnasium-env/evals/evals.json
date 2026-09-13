@@ -1,0 +1,31 @@
+{
+  "skill_name": "gymnasium-env",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build a new Gymnasium RL environment for a 1D target tracking agent with discrete actions and continuous observation space.",
+      "expected_output": "A Gymnasium Env class implementing reset, step, render, and close, with bounded Box observation and Discrete action spaces.",
+      "files": [],
+      "assertions": [
+        "The environment class inherits from gymnasium.Env",
+        "The reset method accepts seed and calls super().reset(seed=seed)",
+        "Observations are returned as np.float32 arrays within observation_space bounds",
+        "The step method returns a 5-tuple (obs, reward, terminated, truncated, info)",
+        "Physics state uses a dataclass with slots=True",
+        "Simulation logic runs headlessly without initializing a graphics window"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Implement the reward shaping function and Farama contract tests for an obstacle avoidance RL environment.",
+      "expected_output": "Pure reward shaping function in env/reward.py and contract tests verifying check_env compliance.",
+      "files": [],
+      "assertions": [
+        "Reward shaping is implemented as a pure function isolated from the environment class",
+        "Rewards are provably bounded and finite across all state transitions",
+        "Terminated and truncated flags are maintained separately in step()",
+        "Includes a test running gymnasium.utils.env_checker.check_env"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "skill_name": "presentation-html",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a 16:9 widescreen HTML presentation using Tailwind CSS explaining a multi-agent orchestration architecture.",
+      "expected_output": "A single-file HTML document formatted in 16:9 aspect ratio using Tailwind CSS, Inter/JetBrains Mono fonts, and technical cards.",
+      "files": [],
+      "assertions": [
+        "Enforces 16:9 widescreen layout (e.g. aspect-video or 1920x1080 dimensions)",
+        "Includes Tailwind CSS styling with Slate base and Indigo accents",
+        "Uses Inter font for typography and JetBrains Mono for code or technical badges",
+        "Slide outputs are co-located in the target presentation directory"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Convert a slide presentation HTML document into high-resolution PNG slides and compile them into PDF/PPTX decks.",
+      "expected_output": "Execution plan or command invocation using scripts/generate_png.py and scripts/compile_presentation.py.",
+      "files": [],
+      "assertions": [
+        "Invokes Playwright-based screenshot renderer for pixel-perfect capture",
+        "Uses compile_presentation.py to generate both PDF and 16:9 widescreen PPTX outputs",
+        "Co-locates all compiled presentation artifacts alongside the outline source"
+      ]
+    }
+  ]
+}

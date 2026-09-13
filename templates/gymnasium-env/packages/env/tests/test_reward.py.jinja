@@ -1,0 +1,24 @@
+"""Tests verifying pure reward shaping properties and bounds."""
+
+from {{ package_name }}_env.core.physics import PhysicsState
+from {{ package_name }}_env.env.reward import TARGET_BONUS, TARGET_THRESHOLD, calculate_reward
+
+
+def test_reward_reaches_bonus_near_target() -> None:
+    """Verify reward awards bonus when within target threshold."""
+    old_state = PhysicsState(position=0.0, velocity=0.0, target=5.0, step_count=0)
+    near_state = PhysicsState(position=4.8, velocity=0.0, target=5.0, step_count=1)
+
+    reward = calculate_reward(old_state, 2, near_state)
+    dist = abs(near_state.position - near_state.target)
+    assert dist < TARGET_THRESHOLD
+    assert reward == -dist + TARGET_BONUS
+
+
+def test_reward_penalizes_distance() -> None:
+    """Verify reward without bonus is strictly negative distance."""
+    old_state = PhysicsState(position=0.0, velocity=0.0, target=5.0, step_count=0)
+    far_state = PhysicsState(position=2.0, velocity=0.0, target=5.0, step_count=1)
+
+    reward = calculate_reward(old_state, 2, far_state)
+    assert reward == -3.0

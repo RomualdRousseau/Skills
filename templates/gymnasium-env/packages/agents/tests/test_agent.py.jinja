@@ -1,0 +1,26 @@
+"""Tests validating RL agent decision logic and bounds."""
+
+import numpy as np
+
+from {{ package_name }}_agents.agent.heuristic_agent import HeuristicAgent
+from {{ package_name }}_agents.agent.random_agent import RandomAgent
+
+
+def test_random_agent_action_bounds(random_agent: RandomAgent) -> None:
+    """Verify random agent produces discrete actions within bounds."""
+    obs = np.array([0.0, 0.0], dtype=np.float32)
+    for _ in range(50):
+        action = random_agent.act(obs)
+        assert action in (0, 1, 2)
+
+
+def test_heuristic_agent_navigates_towards_target() -> None:
+    """Verify heuristic agent accelerates toward positive target."""
+    agent = HeuristicAgent(target=5.0)
+    # When behind target and stopped, should accelerate right (2)
+    obs = np.array([0.0, 0.0], dtype=np.float32)
+    assert agent.act(obs) == 2
+
+    # When ahead of target and stopped, should accelerate left (0)
+    obs = np.array([6.0, 0.0], dtype=np.float32)
+    assert agent.act(obs) == 0

@@ -1,0 +1,34 @@
+"""Deterministic heuristic baseline policy solving the 1D target problem."""
+
+import numpy as np
+
+
+class HeuristicAgent:
+    """Proportional feedback controller navigating towards target."""
+
+    def __init__(self, target: float = 0.0) -> None:
+        self.target = target
+
+    def set_target(self, target: float) -> None:
+        """Update target setpoint."""
+        self.target = target
+
+    def act(self, observation: np.ndarray) -> int:
+        """Select discrete action based on position error.
+
+        Action:
+            0: Accelerate Left
+            1: Idle
+            2: Accelerate Right
+        """
+        pos = float(observation[0])
+        vel = float(observation[1])
+        error = self.target - pos
+
+        # Apply simple PD logic
+        desired_force = error * 1.2 - vel * 0.8
+        if desired_force > 0.1:
+            return 2  # Right
+        if desired_force < -0.1:
+            return 0  # Left
+        return 1  # Idle

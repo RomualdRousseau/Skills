@@ -1,0 +1,30 @@
+{
+  "skill_name": "bash-developer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a defensive bash script to provision system directories with root privilege validation and ShellCheck compliance.",
+      "expected_output": "A POSIX-compliant bash script with proper shebang, set -e, root check, quoted variables, and zero ShellCheck violations.",
+      "files": [],
+      "assertions": [
+        "Starts with #!/bin/bash shebang",
+        "Enforces strict error handling via set -e",
+        "Validates root privileges using [ \"$(id -u)\" -ne 0 ] with stderr notice and non-zero exit",
+        "Variables are quoted to prevent SC2086 word splitting",
+        "Separates local declarations from assignment to prevent masking exit codes (SC2155)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write a bash utility to install a multi-bundle PEM certificate into Ubuntu trust store without c_rehash warnings.",
+      "expected_output": "A script that splits multi-certificate PEM files into individual .crt files in /usr/local/share/ca-certificates/ and runs update-ca-certificates --fresh.",
+      "files": [],
+      "assertions": [
+        "Splits multi-certificate bundle into individual single-cert files in /usr/local/share/ca-certificates/",
+        "Invokes update-ca-certificates with --fresh flag",
+        "Uses portable file existence checks avoiding parsing ls output",
+        "Execution is safe and idempotent"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+"""Farama Gymnasium Simulation Environment for {{ project_name }}."""
+
+import gymnasium as gym
+
+from {{ package_name }}_env.core.physics import PhysicsState, step_physics
+from {{ package_name }}_env.env.gym_env import CustomEnv
+from {{ package_name }}_env.env.reward import calculate_reward
+
+gym.register(
+    id="{{ package_name }}-v0",
+    entry_point="{{ package_name }}_env.env.gym_env:CustomEnv",
+    max_episode_steps=100,
+)
+
+__all__ = [
+    "CustomEnv",
+    "PhysicsState",
+    "calculate_reward",
+    "step_physics",
+]

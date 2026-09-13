@@ -155,8 +155,18 @@ python scripts/catalog_skills.py --skill rl-data-scientist
 
 - **SKILL.md**: The primary skill definition with YAML frontmatter (`name`, `description`, `tags`, `depends_on`).
 - **references/**: Supporting documents, standards, and templates.
+- **evals/**: Evaluation test suites and assertions (`evals.json`) adhering to `agentskills.io`.
 - **scripts/**: Automation and helper scripts.
 - **assets/**: Reusable boilerplate files (`.gitignore`, `pre-commit-config.yaml`, `justfile`).
+
+## Skill Quality & Evaluation (agentskills.io)
+
+Skills in this repository support automated evaluation based on the open [agentskills.io specification](https://agentskills.io/skill-creation/evaluating-skills.md):
+- **Evaluation Suites:** Stored in `skills/<skill-name>/evals/evals.json` containing test cases (`id`, `prompt`, `expected_output`) and objective `assertions`.
+- **Validation:** Run `just lint-evals` to validate all evaluation suites against the specification.
+- **Scaffolding:** Run `just scaffold-evals <skill-name>` to generate starter test cases.
+- **Benchmarking & Uplift:** Run `just benchmark-evals <dir>` and `just report-evals <dir>` to calculate empirical uplifts (`pass_rate`, execution time, tokens).
+- See [`docs/skill-evaluation.md`](file:///home/romuald/Projects/Perso/Skills/docs/skill-evaluation.md) for complete guidelines.
 
 ## Agent Rules
 

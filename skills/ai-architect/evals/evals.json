@@ -1,0 +1,29 @@
+{
+  "skill_name": "ai-architect",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design a hybrid RAG retrieval pipeline for internal technical documentation with re-ranking and source citations.",
+      "expected_output": "An architecture design and implementation plan combining keyword (BM25) and dense vector search with cross-encoder re-ranking and explicit chunk citation.",
+      "files": [],
+      "assertions": [
+        "Specifies a hybrid retrieval strategy combining sparse/keyword (e.g. BM25) and dense vector embeddings",
+        "Includes a re-ranking stage (e.g. Cohere or Cross-Encoder) to improve precision",
+        "Mandates source citation tracking in the generation response schema",
+        "Defines explicit chunking strategy with overlap parameters"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Implement an evaluation suite for the LLM using Ragas to measure Faithfulness and Answer Relevance.",
+      "expected_output": "An Evaluation Driven Development (EDD) script or test module using Ragas metrics to benchmark retrieval and generation quality.",
+      "files": [],
+      "assertions": [
+        "Configures Ragas metrics specifically including Faithfulness and Answer Relevance",
+        "Separates system prompts from user input test data",
+        "Includes input and output guardrails or validation",
+        "Provides a fallback or degradation path for provider timeouts"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "skill_name": "data-engineer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Implement the core_model (Silver) stage transformation from raw Bronze event data with Pydantic boundary validation using Polars.",
+      "expected_output": "A pure, deterministic transformation function that cleans and deduplicates raw events into a typed Pydantic core model using Polars lazy evaluation.",
+      "files": [],
+      "assertions": [
+        "Separates transformation logic from orchestration and I/O adapters",
+        "Uses Pydantic models for explicit schema validation at layer boundaries",
+        "Employs Polars or DuckDB with lazy execution before sink writing",
+        "Transformation is pure, deterministic, and idempotent",
+        "Raw source records are treated as immutable"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Implement an idempotent data writer port and DuckDB adapter for business_view datasets with chunk size limits.",
+      "expected_output": "A protocol-based DataWriterPort in application/port and an idempotent DuckDB writer adapter in infrastructure/adapter.",
+      "files": [],
+      "assertions": [
+        "Defines DataWriterPort using typing.Protocol in the application layer",
+        "Infrastructure adapter implements atomic or idempotent writes to prevent duplicates on retry",
+        "Applies hard compute bounds (CHUNK_SIZE or LIMIT) during reads or writes",
+        "Adapter is injected via dependency injection rather than instantiated within the stage"
+      ]
+    }
+  ]
+}

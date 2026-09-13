@@ -1,0 +1,8 @@
+"""Evaluation runners and metric reporting."""
+
+from {{ package_name }}_agents.eval.evaluator import EvaluationReport, evaluate_policy
+
+__all__ = [
+    "EvaluationReport",
+    "evaluate_policy",
+]

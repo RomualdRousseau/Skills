@@ -1,0 +1,11 @@
+"""Gymnasium environment definitions and reward logic."""
+
+from {{ package_name }}_env.env.gym_env import CustomEnv
+from {{ package_name }}_env.env.reward import TARGET_BONUS, TARGET_THRESHOLD, calculate_reward
+
+__all__ = [
+    "CustomEnv",
+    "TARGET_BONUS",
+    "TARGET_THRESHOLD",
+    "calculate_reward",
+]

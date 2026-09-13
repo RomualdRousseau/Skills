@@ -1,0 +1,16 @@
+"""Random action baseline policy."""
+
+import numpy as np
+
+
+class RandomAgent:
+    """Agent that selects uniform random actions from a discrete space."""
+
+    def __init__(self, action_space_size: int = 3, seed: int | None = None) -> None:
+        self.action_space_size = action_space_size
+        self._rng = np.random.default_rng(seed)
+
+    def act(self, observation: np.ndarray) -> int:
+        """Sample random discrete action."""
+        del observation
+        return int(self._rng.integers(0, self.action_space_size))

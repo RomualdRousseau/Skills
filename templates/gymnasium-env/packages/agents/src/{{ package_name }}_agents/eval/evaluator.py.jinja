@@ -1,0 +1,70 @@
+"""Multi-seed evaluation runner adhering to skills/rl-data-scientist."""
+
+from dataclasses import dataclass
+
+import numpy as np
+
+from {{ package_name }}_agents.agent.base import Agent
+from {{ package_name }}_env.env.gym_env import CustomEnv
+
+
+@dataclass(slots=True)
+class EvaluationReport:
+    """Summary metrics of an evaluation run across multiple seeds."""
+
+    episodes: int
+    mean_reward: float
+    std_reward: float
+    mean_length: float
+    success_rate: float
+    raw_rewards: list[float]
+
+
+def evaluate_policy(
+    agent: Agent,
+    episodes: int = 10,
+    render_mode: str | None = None,
+) -> EvaluationReport:
+    """Evaluate an agent policy across multiple deterministic seeds."""
+    env = CustomEnv(render_mode=render_mode)
+    rewards: list[float] = []
+    lengths: list[int] = []
+    successes: int = 0
+
+    for ep in range(episodes):
+        obs, info = env.reset(seed=ep)
+        # If heuristic agent, synchronize target from info
+        if hasattr(agent, "set_target") and "_state" in dir(env) and env._state is not None:
+            agent.set_target(env._state.target)
+
+        ep_reward = 0.0
+        steps = 0
+        done = False
+
+        while not done:
+            action = agent.act(obs)
+            obs, reward, terminated, truncated, info = env.step(action)
+            ep_reward += float(reward)
+            steps += 1
+            done = terminated or truncated
+
+        rewards.append(ep_reward)
+        lengths.append(steps)
+        if info.get("distance_to_target", 999.0) < 0.5:
+            successes += 1
+
+    env.close()
+
+    mean_r = float(np.mean(rewards)) if rewards else 0.0
+    std_r = float(np.std(rewards)) if rewards else 0.0
+    mean_l = float(np.mean(lengths)) if lengths else 0.0
+    succ_rate = (successes / episodes) if episodes > 0 else 0.0
+
+    return EvaluationReport(
+        episodes=episodes,
+        mean_reward=mean_r,
+        std_reward=std_r,
+        mean_length=mean_l,
+        success_rate=succ_rate,
+        raw_rewards=rewards,
+    )

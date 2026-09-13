@@ -1,0 +1,36 @@
+"""CLI interface for RL policy evaluation and training."""
+
+import fire
+
+from {{ package_name }}_agents.agent.base import Agent
+from {{ package_name }}_agents.agent.heuristic_agent import HeuristicAgent
+from {{ package_name }}_agents.agent.random_agent import RandomAgent
+from {{ package_name }}_agents.eval.evaluator import evaluate_policy
+from {{ package_name }}_agents.training.trainer import Trainer
+
+
+class AgentsCLI:
+    """CLI commands for RL agent evaluation and training."""
+
+    def eval(self, episodes: int = 5, agent_type: str = "heuristic") -> None:
+        """Evaluate policy performance across multiple random seeds."""
+        print(f"Evaluating {agent_type} agent over {episodes} episodes...")
+        agent: Agent = RandomAgent() if agent_type == "random" else HeuristicAgent()
+        report = evaluate_policy(agent, episodes=episodes)
+        print(f"Mean Reward:   {report.mean_reward:.2f} +/- {report.std_reward:.2f}")
+        print(f"Mean Length:   {report.mean_length:.1f} steps")
+        print(f"Success Rate:  {report.success_rate * 100:.1f}%")
+
+    def train(self, episodes: int = 100) -> None:
+        """Run agent training loop."""
+        trainer = Trainer(episodes=episodes)
+        trainer.run()
+
+
+def main() -> int:
+    """Run CLI dispatch."""
+    fire.Fire(AgentsCLI)
+
+
+if __name__ == "__main__":
+    main()

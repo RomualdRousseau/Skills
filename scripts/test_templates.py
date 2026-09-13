@@ -68,14 +68,17 @@ def test_template(template_name: str, verbose: bool = False) -> bool:
             dest / "pyproject.toml",
             dest / "justfile",
             dest / "README.md",
-            dest / "tests",
-            dest / "src",
         ]
+        if (dest / "packages").exists():
+            required_files.extend([dest / "packages", dest / "assets"])
+        else:
+            required_files.extend([dest / "tests", dest / "src"])
+
         for req in required_files:
             if not req.exists():
                 print(f"❌ Missing required file or directory: {req.name}")
                 return False
-        print("✅ Structural validation passed (AGENTS.md, pyproject.toml, justfile, tests/)")
+        print("✅ Structural validation passed")
 
         # 3. Run Pytest
         print("--> Running test suite (`uv run --no-env-file pytest`)...")

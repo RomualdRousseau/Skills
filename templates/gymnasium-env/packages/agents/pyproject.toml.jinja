@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "{{ package_name }}-agents"
+version = "0.1.0"
+description = "RL algorithms and evaluation for {{ project_name }}"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "{{ package_name }}-env",
+    "gymnasium>=0.29.0",
+    "numpy>=1.26.0",
+    "fire>=0.6.0",
+    "optuna>=4.0.0",
+]
+
+[tool.uv.sources]
+{{ package_name }}-env = { workspace = true }
+
+[project.scripts]
+{{ package_name }}-agents = "{{ package_name }}_agents.cli:main"

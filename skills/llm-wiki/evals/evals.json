@@ -1,0 +1,30 @@
+{
+  "skill_name": "llm-wiki",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Ingest raw source document raw/auth-spec.md into the wiki, update related entities, glossary, and index.",
+      "expected_output": "Summary page in wiki/sources/auth-spec.md with YAML frontmatter, updated wiki/index.md, updated wiki/glossary.md, and an append entry in wiki/log.md.",
+      "files": [],
+      "assertions": [
+        "Does not modify the source document in raw/",
+        "Creates a source summary page in wiki/sources/ with YAML frontmatter (title, type, created, updated, sources, tags)",
+        "Uses [[wikilink]] internal cross-referencing format",
+        "Updates wiki/index.md and wiki/glossary.md",
+        "Appends an activity entry to wiki/log.md"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Run a lint inspection on the wiki to check for contradictions, orphan pages, and broken references.",
+      "expected_output": "A structured lint report detailing broken links, orphan pages, terminology conflicts, and proposed fixes.",
+      "files": [],
+      "assertions": [
+        "Reports orphan pages with no inbound links",
+        "Checks for terminology consistency against wiki/glossary.md",
+        "Flags broken or missing [[wikilink]] cross-references",
+        "Proposes concrete fixes before applying changes"
+      ]
+    }
+  ]
+}

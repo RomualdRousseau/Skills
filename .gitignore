@@ -4,3 +4,6 @@
 .venv
 .env
 .ruff_cache
+__pycache__/
+*.py[cod]
+.pytest_cache/

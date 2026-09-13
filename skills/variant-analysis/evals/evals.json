@@ -1,0 +1,29 @@
+{
+  "skill_name": "variant-analysis",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Start a new genomic variant analysis session for gs://my-bucket/samples/patient1.vcf.gz with Firebase auth.",
+      "expected_output": "Instructions or script generating the Firebase Bearer token and issuing a POST request to /run with the VCF GCS path.",
+      "files": [],
+      "assertions": [
+        "Retrieves Firebase auth token dynamically via get_firebase_token.py rather than static file lookup",
+        "Includes Authorization Bearer header in API request",
+        "Sends POST request to /run with the target GCS VCF path",
+        "Tracks the returned session_id for subsequent queries"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Check the status of the long-running VEP analysis session analysis-123 and retrieve the clinical assessment report.",
+      "expected_output": "API query against the status and report endpoints with proper session_id headers and error handling.",
+      "files": [],
+      "assertions": [
+        "Includes session_id (analysis-123) in status check request",
+        "Distinguishes between VEP analysis phase and report generation phase",
+        "Parses clinical pathogenicity assessment and population frequency fields from response",
+        "Handles waiting/polling gracefully without busy loops"
+      ]
+    }
+  ]
+}

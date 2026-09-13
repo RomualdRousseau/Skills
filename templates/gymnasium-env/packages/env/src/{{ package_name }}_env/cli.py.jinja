@@ -1,0 +1,58 @@
+"""CLI interface for simulation environment verification and interactive play."""
+
+import time
+
+import fire
+import pyray as pr
+from gymnasium.utils.env_checker import check_env
+
+from {{ package_name }}_env.env.gym_env import CustomEnv
+
+
+class EnvironmentCLI:
+    """CLI commands for simulation environment verification and interactive play."""
+
+    def test_env(self) -> None:
+        """Run standard Farama Gymnasium environment API conformance check."""
+        print("Checking environment conformance with Farama Gymnasium API...")
+        env = CustomEnv()
+        check_env(env.unwrapped)
+        print("✅ Environment passed all Farama check_env assertions!")
+
+    def play(self) -> None:
+        """Run interactive human gameplay with Raylib visualization."""
+        print("Launching interactive play mode...")
+        print("Controls: Left Arrow (Accelerate Left), Right Arrow (Accelerate Right), None (Idle)")
+
+        env = CustomEnv(render_mode="human")
+        obs, _ = env.reset()
+
+        try:
+            while True:
+                # Capture keyboard input
+                action = 1  # idle
+                if pr.is_key_down(pr.KeyboardKey.KEY_LEFT):
+                    action = 0
+                elif pr.is_key_down(pr.KeyboardKey.KEY_RIGHT):
+                    action = 2
+
+                obs, reward, terminated, truncated, _ = env.step(action)
+
+                if terminated or truncated:
+                    print("Episode finished. Resetting...")
+                    obs, _ = env.reset()
+
+                time.sleep(0.05)
+        except KeyboardInterrupt:
+            print("\nExiting play mode.")
+        finally:
+            env.close()
+
+
+def main() -> int:
+    """Run CLI dispatch."""
+    fire.Fire(EnvironmentCLI)
+
+
+if __name__ == "__main__":
+    main()
