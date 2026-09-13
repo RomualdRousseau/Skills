@@ -1,11 +1,17 @@
 {
   "version": 1,
   "skills": {
-    "shared-project-owner-github": {
+    "backlog-github": {
       "source": "romualdrousseau/Skills",
       "sourceType": "github",
-      "skillPath": "skills/shared/shared-project-owner-github/SKILL.md",
-      "computedHash": "718f3786dedd6d2adea4c64f7ab4a4d03d8d7ec9aa422491eda49c893f1c176e"
+      "skillPath": "skills/backlog-github/SKILL.md",
+      "computedHash": "2206880a8f950de491501197f8ceddf323366edc0c91267a516403cb131303f8"
+    },
+    "product-owner": {
+      "source": "romualdrousseau/Skills",
+      "sourceType": "github",
+      "skillPath": "skills/product-owner/SKILL.md",
+      "computedHash": "9d89bcee84952660fc215a7071fecb332b3e1ad04acf74f8b519531e179d323f"
     }
   }
 }

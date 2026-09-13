@@ -1,61 +1,64 @@
 # Agent Guidance: Using the Skills Repository
 
-This document provides instructions for AI agents on how to load, activate, and follow the skills defined in this repository.
+This document provides instructions for AI agents on how to load, activate, and compose the skills defined in this repository.
 
 ## What This Repository Is
 
-This is a **skill library** — a collection of specialized domain instructions, architectural standards, and workflows. Each skill is a self-contained set of rules and best practices for a specific engineering role (e.g., `python-app-developer`, `shared-ai-architect`, `science-data-scientist`).
+This is a **modular skill library** — a collection of specialized domain instructions, architectural standards, and workflows. Skills are organized in a flat structure (`skills/<skill-name>/`) and designed to be composed together using explicit dependencies (`depends_on:`) and discoverable tags (`tags:`).
 
 ## How to Load and Activate Skills
 
 ### 1. Direct File Loading
 
-Skills are located in `skills/<domain>/<role-name>/SKILL.md`. To activate a skill:
+Skills are located in `skills/<skill-name>/SKILL.md`. To activate a skill:
 
 1. **Read** the `SKILL.md` file for the skill you need.
-2. **Adopt** the role, rules, and workflows described in that file.
-3. **Follow** the standards for the duration of the current task.
+2. **Read dependencies**: If the skill specifies parent skills in `depends_on:`, load and enforce those as well.
+3. **Adopt** the role, rules, and workflows described in those files.
+4. **Follow** the standards for the duration of the current task.
 
-Example: To act as a high-integrity Python developer, read `skills/python-app/python-app-developer/SKILL.md` and enforce its "Power of 10" rules and hexagonal architecture.
+Example: To act as a Gymnasium RL developer, load `skills/python-developer/SKILL.md` and `skills/gymnasium-env/SKILL.md` (and `skills/python-raylib/SKILL.md` if visualization is required).
 
-### 2. Skill Inheritance
+### 2. Composable Skill Recipes
 
-Some skills **extend** others. For example:
-- `skills/gymnasium-env/gymnasium-env-developer/` inherits all rules from `skills/python-app/python-app-developer/` and adds RL-specific standards.
-
-When operating in a domain that extends another, you must enforce **both** the base skill and the specialized skill.
+| Goal / Role | Skills to Activate |
+|---|---|
+| **Gymnasium RL Developer** | `python-developer` + `gymnasium-env` (+ `python-raylib` if visual) |
+| **Python Game Developer** | `python-developer` + `python-raylib` |
+| **Backend / Web App Developer** | `python-developer` + `python-hexagonal` |
+| **Data Engineer (Pipelines & Medallion)** | `python-developer` + `data-engineer` |
+| **Data Scientist (Notebooks & EDA)** | `python-developer` + `data-scientist` |
+| **RL Data Scientist (MDP & Sweeps)** | `python-developer` + `gymnasium-env` + `rl-data-scientist` |
+| **Game Designer (with GitHub Backlog)** | `game-designer` + `product-owner` + `backlog-github` |
+| **Game Designer (with TODO Backlog)** | `game-designer` + `product-owner` + `backlog-todo` |
+| **Project Owner (GitHub Issues)** | `product-owner` + `backlog-github` |
+| **Project Owner (GitLab Issues)** | `product-owner` + `backlog-gitlab` |
+| **Project Owner (Local TODO.md)** | `product-owner` + `backlog-todo` |
 
 ### 3. Activation by Natural Language Trigger
 
-Each `SKILL.md` includes a **Project Interaction** section with natural language triggers. If the user's request matches one of these triggers, you should load the corresponding skill.
-
-Examples:
-- **"Implement the domain model for User"** → Load `skills/python-app/python-app-developer/`
-- **"Draft an ADR for using Redis"** → Load `skills/shared/shared-technical-writer/`
-- **"Design a RAG pipeline"** → Load `skills/shared/shared-ai-architect/`
-- **"Start a new project"** → Load `skills/python-app/python-app-project-owner-todo/` or `skills/gymnasium-env/gymnasium-env-designer-todo/`
+Each `SKILL.md` includes a **Project Interaction** section with natural language triggers:
+- **"Implement the domain model for User"** → Load `python-developer` + `python-hexagonal`
+- **"Draft an ADR for using Redis"** → Load `technical-writer`
+- **"Design a RAG pipeline"** → Load `ai-architect`
+- **"Manage project backlog or user stories"** → Load `product-owner` + `backlog-github` (or `backlog-todo`)
+- **"Build an RL environment for drone simulation"** → Load `python-developer` + `gymnasium-env`
+- **"Develop an idempotent ETL pipeline"** → Load `python-developer` + `data-engineer`
 
 ### 4. Activation by Command Prefix
 
-If your framework supports command-based skill activation, use the skill name as defined in the frontmatter of each `SKILL.md`:
-
-```yaml
----
-name: python-app-developer
-description: ...
----
+If your framework supports command-based skill activation, use the skill name as defined in the frontmatter:
 ```
-
-Activation examples (syntax depends on your framework):
-```
-/python-app-developer
-/shared-ai-architect
-/science-data-scientist
+/python-developer
+/python-hexagonal
+/gymnasium-env
+/product-owner
+/backlog-github
 ```
 
 ## Standard Development Lifecycle
 
-All skills follow this lifecycle unless overridden by a specific skill:
+All skills follow this lifecycle:
 
 ### 1. Research
 - Map the codebase and validate all assumptions.
@@ -64,17 +67,15 @@ All skills follow this lifecycle unless overridden by a specific skill:
 
 ### 2. Strategy
 - Propose a grounded plan based on your research.
-- For significant architectural changes, draft an ADR (Architecture Decision Record) using `skills/shared/shared-technical-writer/references/adr-template.md`.
+- For significant architectural changes, draft an ADR using `skills/technical-writer/references/adr-template.md`.
 - Seek approval before proceeding if the change is major.
 
 ### 3. Execution
 - Implement the plan using the iterative **Plan → Act → Validate** cycle.
-- Follow the rules and constraints of the active skill.
+- Follow the rules and constraints of all active skills.
 - Commit changes semantically and frequently.
 
 ## Shared Engineering Standards
-
-These standards apply across all skills unless explicitly overridden:
 
 ### The "Power of 10" Safety Rules
 1. **No Recursion:** Use iterative stacks.
@@ -90,77 +91,63 @@ These standards apply across all skills unless explicitly overridden:
 
 ### Architecture Decision Records (ADR)
 - Significant technical decisions are recorded in `docs/adr/`.
-- Use the standard ADR template: `skills/shared/shared-technical-writer/references/adr-template.md`.
-- Store decisions for long-term project context.
+- Use the standard ADR template: `skills/technical-writer/references/adr-template.md`.
 
-### Documentation Standards
-- Use **Mermaid.js** for diagrams within Markdown.
-- Explain **why**, not **what**, in code comments.
-- Use consistent docstring formats (Google or Sphinx).
+## Complete Skill Catalog
 
-## Skill Reference
+| Skill | Location | Dependencies | Tags |
+|---|---|---|---|
+| `python-developer` | `skills/python-developer/` | - | `python`, `development`, `tdd`, `power-of-10`, `clean-code` |
+| `python-hexagonal` | `skills/python-hexagonal/` | `python-developer` | `python`, `architecture`, `hexagonal`, `ddd`, `ports-and-adapters` |
+| `python-raylib` | `skills/python-raylib/` | `python-developer` | `python`, `game`, `raylib`, `graphics`, `simulation` |
+| `gymnasium-env` | `skills/gymnasium-env/` | `python-developer` | `rl`, `gymnasium`, `simulation`, `python`, `environment` |
+| `data-engineer` | `skills/data-engineer/` | `python-developer` | `data-engineering`, `medallion`, `polars`, `duckdb`, `pydantic`, `pipeline`, `python` |
+| `data-scientist` | `skills/data-scientist/` | `python-developer` | `data-science`, `jupyter`, `exploration`, `analysis`, `machine-learning`, `python` |
+| `rl-data-scientist` | `skills/rl-data-scientist/` | `python-developer`, `gymnasium-env` | `rl`, `mdp`, `data-science`, `evaluation`, `optuna`, `python` |
+| `game-designer` | `skills/game-designer/` | - | `game-design`, `mechanics`, `fun-factor`, `ux` |
+| `product-owner` | `skills/product-owner/` | - | `agile`, `product-management`, `user-stories`, `backlog`, `requirements` |
+| `backlog-todo` | `skills/backlog-todo/` | `product-owner` | `backlog`, `todo`, `markdown`, `kanban`, `tracking` |
+| `backlog-github` | `skills/backlog-github/` | `product-owner` | `github`, `cli`, `issues`, `projects`, `backlog`, `tracking` |
+| `backlog-gitlab` | `skills/backlog-gitlab/` | `product-owner` | `gitlab`, `cli`, `issues`, `backlog`, `tracking` |
+| `variant-analysis` | `skills/variant-analysis/` | `python-developer`, `data-scientist` | `genomics`, `bioinformatics`, `vep`, `vcf`, `science`, `python` |
+| `devops-gcp` | `skills/devops-gcp/` | - | `devops`, `gcp`, `terraform`, `gitlab-ci`, `infrastructure` |
+| `security-audit` | `skills/security-audit/` | - | `security`, `sast`, `dast`, `owasp`, `audit` |
+| `observability` | `skills/observability/` | - | `observability`, `opentelemetry`, `logging`, `metrics`, `tracing`, `reliability` |
+| `technical-writer` | `skills/technical-writer/` | - | `documentation`, `technical-writing`, `adr`, `mermaid`, `architecture` |
+| `presentation-html` | `skills/presentation-html/` | - | `presentation`, `html`, `tailwind`, `slides`, `pdf` |
+| `presentation-svg` | `skills/presentation-svg/` | - | `presentation`, `svg`, `pptx`, `slides`, `vector` |
+| `ai-architect` | `skills/ai-architect/` | - | `ai`, `llm`, `rag`, `prompt-engineering`, `evaluation` |
+| `llm-wiki` | `skills/llm-wiki/` | - | `knowledge-base`, `wiki`, `documentation`, `llm`, `markdown` |
 
-### Core Python Development
-| Skill | Location | Purpose |
-|-------|----------|---------|
-| `python-app-developer` | `skills/python-app/python-app-developer/` | High-integrity Python, Power of 10, Hexagonal Architecture |
-| `python-app-project-owner-todo` | `skills/python-app/python-app-project-owner-todo/` | Backlog, user stories, acceptance criteria |
-| `python-app-project-owner-glab` | `skills/python-app/python-app-project-owner-glab/` | GitLab backlog, issues, glab CLI integration |
-| `python-app-devops` | `skills/python-app/python-app-devops/` | GCP, Terraform, GitLab CI/CD |
+## Discovery Tooling
 
-### Gymnasium & RL Environments
-| Skill | Location | Purpose |
-|-------|----------|---------|
-| `gymnasium-env-developer` | `skills/gymnasium-env/gymnasium-env-developer/` | Raylib, Gymnasium, Scene Pattern |
-| `gymnasium-env-designer-todo` | `skills/gymnasium-env/gymnasium-env-designer-todo/` | Game design, local TODO backlog, fun factor |
-| `gymnasium-env-designer-github` | `skills/gymnasium-env/gymnasium-env-designer-github/` | Game design, GitHub Issues backlog, fun factor |
-| `gymnasium-env-data-scientist` | `skills/gymnasium-env/gymnasium-env-data-scientist/` | MDP design, experiments, evaluation |
+Use `scripts/catalog_skills.py` to search and inspect skills:
+```bash
+# List all skills with dependencies and tags
+python scripts/catalog_skills.py
 
-### Data Engineering
-| Skill | Location | Purpose |
-|-------|----------|---------|
-| `data-pipeline-data-engineer` | `skills/data-pipeline/data-pipeline-data-engineer/` | Polars, Pydantic, Medallion Architecture |
+# Filter skills by tag
+python scripts/catalog_skills.py --tag rl
+python scripts/catalog_skills.py --tag python
 
-### Science & Exploration
-| Skill | Location | Purpose |
-|-------|----------|---------|
-| `science-data-scientist` | `skills/science/science-data-scientist/` | Jupyter, uv, exploration |
-| `science-variant-analysis` | `skills/science/science-variant-analysis/` | Genomic VEP analysis |
-
-### Shared Cross-Cutting Skills
-| Skill | Location | Purpose |
-|-------|----------|---------|
-| `shared-ai-architect` | `skills/shared/shared-ai-architect/` | RAG, prompt engineering, evaluation |
-| `shared-llm-wiki` | `skills/shared/shared-llm-wiki/` | Knowledge management for LLM docs |
-| `shared-security-audit` | `skills/shared/shared-security-audit/` | SAST/DAST, OWASP |
-| `shared-observability` | `skills/shared/shared-observability/` | JSON logging, OpenTelemetry |
-| `shared-technical-writer` | `skills/shared/shared-technical-writer/` | ADRs, Mermaid diagrams, docs |
-| `shared-presentation-generator` | `skills/shared/shared-presentation-generator/` | Technical slides, PDFs |
-| `shared-html-prez` | `skills/shared/shared-html-prez/` | HTML5/Tailwind widescreen slides |
-| `shared-svg-prez` | `skills/shared/shared-svg-prez/` | SVG vector widescreen slides |
-| `shared-project-owner-github` | `skills/shared/shared-project-owner-github/` | Backlog & User Story management via GitHub Issues |
+# Show full details and dependency tree for a skill
+python scripts/catalog_skills.py --skill rl-data-scientist
+```
 
 ## File Conventions
 
-- **SKILL.md**: The primary skill definition. Contains role description, rules, and workflows.
-- **references/**: Supporting documents, standards, and templates referenced by the skill.
-- **scripts/**: Automation scripts that the skill may instruct you to run.
-- **assets/**: Boilerplate files (e.g., `.gitignore`, `pre-commit-config.yaml`, `justfile`).
-- **templates/**: Starter templates for new projects or documentation.
-
-### Skill Naming & Folder Constraints
-
-To prevent collisions when skills are imported, cached, or flattened (for instance, via `npx skills`), all skills must adhere to a strict prefixed naming convention:
-- **Prefix Requirement**: Prepend the parent folder (app type or category, e.g., `python-app`, `python-game`, `shared`, `science`, `gymnasium-env`) to both the nested directory name and the `name:` attribute in the YAML frontmatter.
-- **Example**: `skills/python-game/developer` with frontmatter `name: developer` must be structured and named as `skills/python-game/python-game-developer` with frontmatter `name: python-game-developer`.
+- **SKILL.md**: The primary skill definition with YAML frontmatter (`name`, `description`, `tags`, `depends_on`).
+- **references/**: Supporting documents, standards, and templates.
+- **scripts/**: Automation and helper scripts.
+- **assets/**: Reusable boilerplate files (`.gitignore`, `pre-commit-config.yaml`, `justfile`).
 
 ## Agent Rules
 
 1. **Always load the skill** before executing a task that matches the skill's domain.
 2. **Enforce the skill's rules** throughout the task. Do not silently drop constraints.
 3. **Read references** when a skill points to them. They contain critical standards and templates.
-4. **Draft ADRs** for significant architectural decisions using the `shared-technical-writer` skill.
+4. **Draft ADRs** for significant architectural decisions using the `technical-writer` skill.
 5. **Stay in role** until the task is complete or the user explicitly asks you to switch roles.
-6. **Use the `python-app-project-owner-todo` or `gymnasium-env-designer-todo` skill** when starting new projects or managing backlogs.
+6. **Use the `product-owner` skill** in conjunction with `backlog-github` or `backlog-todo` when starting new projects or managing backlogs.
 7. **Create User Stories on GitHub**: Before making any code modification or file edit, you must create a corresponding User Story as an issue on GitHub using the `gh` CLI (`gh issue create`). The story must have clear Acceptance Criteria.
 8. **Mark Stories as Done**: Once the changes are fully implemented and verified (passing `just lint`), you must immediately close the issue representing that story using `gh issue close <id>`.

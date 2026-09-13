@@ -1,3 +1,6 @@
 .antigravity
 .antigravitycli/
 .opencode/
+.venv
+.env
+.ruff_cache
