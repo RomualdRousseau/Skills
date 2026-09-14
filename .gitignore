@@ -25,3 +25,4 @@ Thumbs.db
 
 # Evaluation Workspaces
 evals-workspace/
+.hypothesis
