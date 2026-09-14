@@ -1,9 +1,27 @@
+# Python & Environments
+.venv/
+.env
+*.env
+
+# Python Caches & Build Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
+# IDEs & OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# AI & Developer Tooling
 .antigravity
 .antigravitycli/
 .opencode/
-.venv
-.env
-.ruff_cache
-__pycache__/
-*.py[cod]
-.pytest_cache/
+
+# Evaluation Workspaces
+evals-workspace/
