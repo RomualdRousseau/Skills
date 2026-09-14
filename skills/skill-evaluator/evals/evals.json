@@ -1,0 +1,29 @@
+{
+  "skill_name": "skill-evaluator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Execute an empirical A/B benchmark evaluation for the python-developer skill using the skill-evaluator protocol.",
+      "expected_output": "An evaluation benchmark workspace with isolated with_skill and without_skill runs, honest grading.json files, and an aggregated uplift report.",
+      "files": [],
+      "assertions": [
+        "Schema validation is performed prior to benchmark execution",
+        "Subagent executions use isolated workspace directories outside repository root",
+        "Grading output includes per-assertion pass/fail determinations with code evidence",
+        "Benchmark aggregates pass rates, timing, and token metrics into benchmark.json",
+        "Qualitative review notes are recorded in feedback.json"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Scaffold and validate a new evaluation suite for a data pipeline skill.",
+      "expected_output": "A compliant evals.json file with positive integer IDs, realistic prompts, expected outputs, and falsifiable assertions.",
+      "files": [],
+      "assertions": [
+        "The generated evals.json passes agentskills.io schema validation",
+        "All test case IDs are unique positive integers",
+        "Assertions define specific, falsifiable criteria rather than subjective impressions"
+      ]
+    }
+  ]
+}
