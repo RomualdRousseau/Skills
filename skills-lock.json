@@ -12,6 +12,12 @@
       "sourceType": "github",
       "skillPath": "skills/product-owner/SKILL.md",
       "computedHash": "9d89bcee84952660fc215a7071fecb332b3e1ad04acf74f8b519531e179d323f"
+    },
+    "skill-evaluator": {
+      "source": "RomualdRousseau/Skills",
+      "sourceType": "github",
+      "skillPath": "skills/skill-evaluator/SKILL.md",
+      "computedHash": "da88b00da353fb5ca2c8d9b885e6cea871ff89a1989e4160fdd99d3cc93aa14b"
     }
   }
 }
