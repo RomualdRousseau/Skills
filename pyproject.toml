@@ -30,8 +30,24 @@ ignore = []
 [dependency-groups]
 dev = [
     "pytest>=8.0.0",
+    "ty>=0.0.1",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["."]
+pythonpath = [".", "skills/skill-evaluator/scripts"]
+
+[tool.pyright]
+extraPaths = ["skills/skill-evaluator/scripts"]
+exclude = ["evals-workspace", "skills/*/scripts", "skills/*/assets", ".venv", "templates"]
+
+[tool.ty.environment]
+extra-paths = ["skills/skill-evaluator/scripts"]
+
+[tool.ty.src]
+exclude = [
+    "evals-workspace",
+    "skills/*/scripts",
+    "skills/*/assets",
+    "templates",
+]

@@ -28,10 +28,15 @@ benchmark-evals dir:
 report-evals dir:
     uv run python skills/skill-evaluator/scripts/eval_skill.py report --iteration-dir {{dir}}
 
+# Run type checking using Astral ty
+type-check:
+    uvx --no-env-file ty check
+
 # Lint and check formatting of Python files locally
 lint-code:
     uvx --no-env-file ruff check .
     uvx --no-env-file ruff format --check .
+    uvx --no-env-file ty check
 
 # Test all project templates by instantiating and verifying them
 test-templates:

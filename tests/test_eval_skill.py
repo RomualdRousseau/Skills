@@ -1,17 +1,11 @@
 """Unit tests for agentskills.io skill evaluation toolkit."""
 
 import json
-import sys
 from pathlib import Path
 
+import eval_skill as eval_module
 import pytest
-
-SYS_PATH_SKILL_SCRIPTS = str(Path(__file__).resolve().parent.parent / "skills" / "skill-evaluator" / "scripts")
-if SYS_PATH_SKILL_SCRIPTS not in sys.path:
-    sys.path.insert(0, SYS_PATH_SKILL_SCRIPTS)
-
-import eval_skill as eval_module  # noqa: E402
-from eval_skill import (  # noqa: E402
+from eval_skill import (
     calculate_statistics,
     cmd_benchmark,
     cmd_grade,
@@ -46,7 +40,7 @@ def test_calculate_statistics_multiple() -> None:
 def test_validate_eval_file_valid(tmp_path: Path) -> None:
     """Valid evals.json returns valid ValidationResult."""
     eval_file = tmp_path / "evals.json"
-    eval_file.write_text(
+    _ = eval_file.write_text(
         json.dumps(
             {
                 "skill_name": "test-skill",
