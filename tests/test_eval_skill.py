@@ -1,11 +1,17 @@
 """Unit tests for agentskills.io skill evaluation toolkit."""
 
 import json
+import sys
 from pathlib import Path
 
 import pytest
 
-from scripts.eval_skill import (
+SYS_PATH_SKILL_SCRIPTS = str(Path(__file__).resolve().parent.parent / "skills" / "skill-evaluator" / "scripts")
+if SYS_PATH_SKILL_SCRIPTS not in sys.path:
+    sys.path.insert(0, SYS_PATH_SKILL_SCRIPTS)
+
+import eval_skill as eval_module  # noqa: E402
+from eval_skill import (  # noqa: E402
     calculate_statistics,
     cmd_benchmark,
     cmd_grade,
@@ -108,8 +114,6 @@ def test_cmd_grade_and_benchmark(tmp_path: Path) -> None:
 
 def test_cmd_validate_and_scaffold(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """Verify scaffold and validate commands with temporary skills root."""
-    import scripts.eval_skill as eval_module
-
     fake_skills = tmp_path / "skills"
     fake_skills.mkdir()
     (fake_skills / "dummy-skill").mkdir()

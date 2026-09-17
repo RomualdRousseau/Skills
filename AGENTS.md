@@ -166,6 +166,7 @@ Skills in this repository support automated evaluation based on the open [agents
 - **Validation:** Run `just lint-evals` to validate all evaluation suites against the specification.
 - **Scaffolding:** Run `just scaffold-evals <skill-name>` to generate starter test cases.
 - **Benchmarking & Uplift:** Run `just benchmark-evals <dir>` and `just report-evals <dir>` to calculate empirical uplifts (`pass_rate`, execution time, tokens).
+- **Benchmark Report:** After evaluating a skill, `BENCHMARK.md` must be updated with the evaluation summary and metrics.
 - See [`docs/skill-evaluation.md`](file:///home/romuald/Projects/Perso/Skills/docs/skill-evaluation.md) for complete guidelines.
 
 ## Agent Rules
@@ -178,3 +179,4 @@ Skills in this repository support automated evaluation based on the open [agents
 6. **Use the `product-owner` skill** in conjunction with `backlog-github` or `backlog-todo` when starting new projects or managing backlogs.
 7. **Create User Stories on GitHub**: Before making any code modification or file edit, you must create a corresponding User Story as an issue on GitHub using the `gh` CLI (`gh issue create`). The story must have clear Acceptance Criteria.
 8. **Mark Stories as Done**: Once the changes are fully implemented and verified (passing `just lint`), you must immediately close the issue representing that story using `gh issue close <id>`.
+9. **Update BENCHMARK.md**: After evaluating any skill, you must update `BENCHMARK.md` with the evaluation summary, baseline/skill pass rates, and uplift metrics.

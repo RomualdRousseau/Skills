@@ -9,7 +9,7 @@ This reference describes the step-by-step procedure for executing an empirical s
 Before running any benchmark, verify that `skills/<skill-name>/evals/evals.json` exists and is valid:
 
 ```bash
-uv run python scripts/eval_skill.py validate <skill-name>
+uv run python skills/skill-evaluator/scripts/eval_skill.py validate <skill-name>
 # Or validate all skills:
 just lint-evals
 ```
@@ -118,3 +118,11 @@ For each variant (`with_skill` and `without_skill`):
   ]
 }
 ```
+
+---
+
+## 6. BENCHMARK.md Update
+
+After completing the evaluation and generating reports, update `BENCHMARK.md` at the repository root to include:
+- The skill's row in the Executive Summary comparison table (Baseline Pass Rate, With Skill Pass Rate, Delta, Time Delta, Token Delta, Status).
+- A detailed evaluation summary section for the skill describing what the skill added and baseline omissions.

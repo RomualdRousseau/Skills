@@ -24,6 +24,7 @@ Evaluating an AI skill follows a strict 5-step lifecycle:
    - **`without_skill`**: Subagent receives identical prompt with generic professional guidance only.
 4. **Honest Assertion Grading**: Inspect generated outputs and evaluate each assertion objectively (recording PASS/FAIL and explicit code evidence in `grading.json`).
 5. **Aggregation & Reporting**: Aggregate metrics into `benchmark.json` (`just benchmark-evals <dir>`), render the Markdown uplift report (`just report-evals <dir>`), and record qualitative feedback in `feedback.json`.
+6. **Benchmark Record Update**: Update `BENCHMARK.md` at the repository root with the evaluation summary, baseline/skill pass rates, and uplift metrics.
 
 ## 2. Workspace & Artifact Conventions
 

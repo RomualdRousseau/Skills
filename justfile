@@ -14,19 +14,19 @@ lint-skills:
 
 # Validate skill evaluations against agentskills.io schema
 lint-evals:
-    uv run python scripts/eval_skill.py validate --all
+    uv run python skills/skill-evaluator/scripts/eval_skill.py validate --all
 
 # Scaffold starter evals.json for a skill
 scaffold-evals skill:
-    uv run python scripts/eval_skill.py scaffold {{skill}}
+    uv run python skills/skill-evaluator/scripts/eval_skill.py scaffold {{skill}}
 
 # Benchmark an evaluation iteration directory
 benchmark-evals dir:
-    uv run python scripts/eval_skill.py benchmark --iteration-dir {{dir}}
+    uv run python skills/skill-evaluator/scripts/eval_skill.py benchmark --iteration-dir {{dir}}
 
 # Render a benchmark uplift report table
 report-evals dir:
-    uv run python scripts/eval_skill.py report --iteration-dir {{dir}}
+    uv run python skills/skill-evaluator/scripts/eval_skill.py report --iteration-dir {{dir}}
 
 # Lint and check formatting of Python files locally
 lint-code:

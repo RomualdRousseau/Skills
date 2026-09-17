@@ -146,6 +146,9 @@ def lint_skills(skills_root: str = "skills") -> bool:
         # Check evals/evals.json if present
         evals_json_path = os.path.join(skill_path, "evals", "evals.json")
         if os.path.isfile(evals_json_path):
+            eval_script_dir = str(Path(__file__).resolve().parent.parent / "skills" / "skill-evaluator" / "scripts")
+            if eval_script_dir not in sys.path:
+                sys.path.insert(0, eval_script_dir)
             from eval_skill import validate_eval_file
 
             res = validate_eval_file(Path(evals_json_path), expected_skill=skill_name)

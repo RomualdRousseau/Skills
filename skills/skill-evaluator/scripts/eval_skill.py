@@ -5,11 +5,11 @@ Provides validation, scaffolding, grading, benchmark aggregation, and reporting
 for AI agent skills.
 
 Usage:
-    python scripts/eval_skill.py validate [--all | <skill-name>]
-    python scripts/eval_skill.py scaffold <skill-name>
-    python scripts/eval_skill.py grade --eval-dir <path>
-    python scripts/eval_skill.py benchmark --iteration-dir <path>
-    python scripts/eval_skill.py report --iteration-dir <path>
+    python skills/skill-evaluator/scripts/eval_skill.py validate [--all | <skill-name>]
+    python skills/skill-evaluator/scripts/eval_skill.py scaffold <skill-name>
+    python skills/skill-evaluator/scripts/eval_skill.py grade --eval-dir <path>
+    python skills/skill-evaluator/scripts/eval_skill.py benchmark --iteration-dir <path>
+    python skills/skill-evaluator/scripts/eval_skill.py report --iteration-dir <path>
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parents[3]
 SKILLS_DIR = REPO_ROOT / "skills"
 
 
